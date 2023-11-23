@@ -6,6 +6,7 @@ Differentiable drum synthesizer plugin
 Clone project and pull submodules. Includes JUCE and RTNeural.
 ```
 git clone --recurse-submodules https://github.com/jorshi/torchdrum-plugin.git
+cd torchdrum-plugin
 ```
 
 Build with cmake
