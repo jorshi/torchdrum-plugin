@@ -1,7 +1,7 @@
 # torchdrum-plugin
 Differentiable drum synthesizer plugin
 
-## Installation
+## Building
 
 Clone project and pull submodules. Includes JUCE and RTNeural.
 ```
