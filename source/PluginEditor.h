@@ -2,14 +2,14 @@
 
 #include "PluginProcessor.h"
 
-class NewPluginTemplateAudioProcessorEditor : public juce::AudioProcessorEditor
+class TorchDrumEditor : public juce::AudioProcessorEditor
 {
 public:
-    explicit NewPluginTemplateAudioProcessorEditor(NewPluginTemplateAudioProcessor&);
+    explicit TorchDrumEditor(TorchDrumProcessor&);
 
 private:
     void paint(juce::Graphics&) override;
     void resized() override;
 
-    juce::GenericAudioProcessorEditor editor {processor};
+    juce::GenericAudioProcessorEditor editor { processor };
 };

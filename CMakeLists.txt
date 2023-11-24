@@ -19,9 +19,6 @@ if(UNIX AND NOT APPLE)
     list(APPEND JUCE_FORMATS LV2)
 endif()
 
-# Adding source code
-#add_subdirectory(source)
-
 set(BaseTargetName TorchDrum)
 
 juce_add_plugin("${BaseTargetName}"
@@ -43,9 +40,8 @@ juce_add_plugin("${BaseTargetName}"
 # create JUCE header
 juce_generate_juce_header(${BaseTargetName})
 
-target_sources(${BaseTargetName} PRIVATE
-        Source/PluginProcessor.cpp
-        Source/PluginEditor.cpp)
+# Adding source code
+add_subdirectory(source)
 
 target_compile_definitions(${BaseTargetName}
         PUBLIC
