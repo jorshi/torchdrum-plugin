@@ -58,3 +58,8 @@ target_link_libraries(${BaseTargetName} PRIVATE
         juce_recommended_warning_flags)
 
 target_link_libraries(${BaseTargetName} LINK_PUBLIC RTNeural)
+
+# Option to build dynamic library
+if (BUILD_TORCHDRUM_LIB)
+    add_library(${BaseTargetName}Lib SHARED source/TorchDrumLib.cpp)
+endif()
