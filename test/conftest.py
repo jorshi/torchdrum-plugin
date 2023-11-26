@@ -8,6 +8,8 @@ import re
 import cppyy
 import pytest
 
+CONFIG = os.getenv('CONFIG', 'Debug')
+
 def __get_juce_defs(defs_path: str) -> str:
     """
     From https://github.com/kunitoki/popsicle
