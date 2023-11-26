@@ -10,7 +10,6 @@
 
 #include "Biquad.h"
 #include "EnvelopeFollower.h"
-#include <juce_audio_processors/juce_audio_processors.h>
 
 class OnsetDetection
 {
@@ -26,7 +25,7 @@ public:
     void updateParameters(float onThresh, float offThresh, int wait);
 
     // Destructor
-    ~OnsetDetection() {};
+    ~OnsetDetection() {}
 
 private:
     double sampleRate;

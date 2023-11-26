@@ -6,13 +6,13 @@ OnsetDetection::OnsetDetection() : sampleRate(44100.0)
     // Default internal state
     justTriggered = false;
     debounce = 0;
-    prevValue = 0.0;
+    prevValue = 0.0f;
 
     // Default parameters
-    onThreshold = 16.0;
-    offThreshold = 4.66;
+    onThreshold = 16.0f;
+    offThreshold = 4.66f;
     waitSamples = 1000;
-    minAmplitude = -55.0;
+    minAmplitude = -55.0f;
 }
 
 void OnsetDetection::prepare(double sr)
@@ -37,7 +37,7 @@ void OnsetDetection::prepare(double sr)
     // Reset internal state variables
     justTriggered = false;
     debounce = 0;
-    prevValue = 0.0;
+    prevValue = 0.0f;
 }
 
 bool OnsetDetection::process(float x)
@@ -66,11 +66,11 @@ bool OnsetDetection::process(float x)
 float OnsetDetection::onsetSignal(float x)
 {
     // Apply highpass filter
-    x = hipass.process(x);
+    x = static_cast<float>(hipass.process(x));
 
     // Rectify, convert to dB, and set minimum value
     x = std::abs(x);
-    x = 20.0 * log10f(x);
+    x = 20.0f * log10f(x);
     x = std::fmax(x, minAmplitude);
 
     // Apply envelope followers
