@@ -67,7 +67,7 @@ if (BUILD_TORCHDRUM_LIB)
     target_compile_definitions(${BaseTargetLibName} 
         PRIVATE
             # Required flags for DLL build
-            JUCE_DLL_BUILD=1
+            # JUCE_DLL_BUILD=1
             JUCE_STANDALONE_APPLICATION=1
             # Other feature flags
             JUCE_WEB_BROWSER=0 
