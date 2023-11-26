@@ -37,7 +37,7 @@ jobs:
         - name: Configure
           shell: bash
           working-directory: ${{github.workspace}}
-          run: cmake -Bbuild -DCMAKE_BUILD_TYPE=Release =DBUILD_TORCHDRUM_LIB=ON
+          run: cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -DBUILD_TORCHDRUM_LIB=ON
 
         - name: Build
           shell: bash
@@ -57,4 +57,4 @@ jobs:
 
         - name: Test with pytest
           run: |
-            pytest
+            CONFIG=Release pytest

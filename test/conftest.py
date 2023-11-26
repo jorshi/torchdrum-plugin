@@ -1,6 +1,7 @@
 """
 Define a pytest fixture to load the TorchDrumLib library.
 """
+import os
 from itertools import zip_longest
 import re
 
@@ -22,8 +23,8 @@ def __get_juce_defs(defs_path: str) -> str:
 @pytest.fixture
 def torchdrum():
     cppyy.add_include_path("modules/JUCE/modules/")
-    cppyy.load_library("build/TorchDrumLib_artefacts/Debug/libTorchDrumLib")
-    defines = __get_juce_defs("build/TorchDrumLib_artefacts/JuceLibraryCode/Debug/Defs.txt")
+    cppyy.load_library(f"build/TorchDrumLib_artefacts/{CONFIG}/libTorchDrumLib")
+    defines = __get_juce_defs(f"build/TorchDrumLib_artefacts/JuceLibraryCode/{CONFIG}/Defs.txt")
     cppyy.cppdef(defines)
     cppyy.include("source/TorchDrumLib.h")
     return cppyy.gbl
