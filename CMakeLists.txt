@@ -38,14 +38,11 @@ juce_add_plugin("${BaseTargetName}"
         PRODUCT_NAME "TorchDrum"
         LV2URI https://github.com/jorshi/torchdrum-plugin)
 
-# create JUCE header
-juce_generate_juce_header(${BaseTargetName})
-
 # Adding source code
 add_subdirectory(source)
 
 target_compile_definitions(${BaseTargetName}
-        PUBLIC
+    PUBLIC
         JUCE_WEB_BROWSER=0
         JUCE_USE_CURL=0
         JUCE_VST3_CAN_REPLACE_VST2=0
@@ -62,5 +59,28 @@ target_link_libraries(${BaseTargetName} LINK_PUBLIC RTNeural)
 
 # Option to build dynamic library
 if (BUILD_TORCHDRUM_LIB)
-    add_library(${BaseTargetName}Lib SHARED source/TorchDrumLib.cpp)
+    set(BaseTargetLibName ${BaseTargetName}Lib)
+
+    add_library(${BaseTargetLibName} SHARED source/TorchDrumLib.cpp)
+    set_target_properties(${BaseTargetLibName} PROPERTIES JUCE_TARGET_KIND_STRING "App")
+
+    target_compile_definitions(${BaseTargetLibName} 
+        PRIVATE
+            # Required flags for DLL build
+            JUCE_DLL_BUILD=1
+            JUCE_STANDALONE_APPLICATION=1
+            # Other feature flags
+            JUCE_WEB_BROWSER=0 
+            JUCE_USE_CURL=0)
+    
+    target_link_libraries(${BaseTargetLibName} 
+        PRIVATE
+            juce::juce_audio_utils
+            juce::juce_dsp
+        PUBLIC
+            juce_recommended_config_flags
+            juce_recommended_lto_flags
+            juce_recommended_warning_flags)
+
+    _juce_initialise_target(${BaseTargetLibName}  VERSION 1.0.0)
 endif()

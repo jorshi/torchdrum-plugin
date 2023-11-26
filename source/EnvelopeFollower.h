@@ -11,10 +11,11 @@ public:
     // Constructor
     EnvelopeFollower() : y0(0.0), up(1.0), down(1.0) {};
 
-    void prepare(float upTimeSamples, float downTimeSamples)
+    void prepare(float upTimeSamples, float downTimeSamples, float initialValue = 0.0)
     {
         up = 1.0 / upTimeSamples;
         down = 1.0 / downTimeSamples;
+        y0 = initialValue;
     }
 
     float process(float x)

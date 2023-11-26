@@ -10,6 +10,7 @@
 
 #include "Biquad.h"
 #include "EnvelopeFollower.h"
+#include <juce_audio_processors/juce_audio_processors.h>
 
 class OnsetDetection
 {
@@ -41,4 +42,5 @@ private:
     float onThreshold;
     float offThreshold;
     int waitSamples;
+    float minAmplitude;
 };
