@@ -1,4 +1,3 @@
-import cppyy
 import numpy as np
 
 def test_onset_detection_init(torchdrum):
