@@ -35,7 +35,8 @@ juce_add_plugin("${BaseTargetName}"
         PLUGIN_MANUFACTURER_CODE C4dM
         PLUGIN_CODE c4td
         FORMATS ${JUCE_FORMATS}
-        PRODUCT_NAME "TorchDrum")
+        PRODUCT_NAME "TorchDrum"
+        LV2URI https://github.com/jorshi/torchdrum-plugin)
 
 # create JUCE header
 juce_generate_juce_header(${BaseTargetName})
