@@ -13,22 +13,27 @@ Simple Drum Synth Class
 DrumSynth::DrumSynth()
 {
     // Create all the parameter callbacks
+    parameters.addCallback(0, [this](float value)
+                           { tonal.setDecay(value); });
+    parameters.addCallback(1, [this](float value)
+                           { tonal.setTuning(value); });
 }
 
 // Prepare the synth for playback
 void DrumSynth::prepare(double sampleRate, int samplesPerBlock)
 {
     juce::ignoreUnused(samplesPerBlock);
-    juce::ignoreUnused(sampleRate);
+    tonal.prepare(sampleRate);
 }
 
 // Get the next sample from the synth
 float DrumSynth::process()
 {
-    return 0.0f;
+    return tonal.process();
 }
 
 // Trigger the drum
 void DrumSynth::trigger()
 {
+    tonal.trigger();
 }

@@ -12,6 +12,7 @@ TorchDrumProcessor::TorchDrumProcessor() : synthController(drumSynth)
 
 void TorchDrumProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
+    drumSynth.prepare(sampleRate, samplesPerBlock);
     synthController.prepare(sampleRate, samplesPerBlock);
     juce::ignoreUnused(samplesPerBlock);
 }
@@ -38,6 +39,14 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
         // Process the controller
         synthController.process(inputSample);
+
+        // Process the synthesizer
+        float synthSample = drumSynth.process();
+        for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
+        {
+            auto* channelData = buffer.getWritePointer(channel);
+            channelData[sample] = synthSample;
+        }
     }
 }
 
