@@ -9,12 +9,13 @@ class EnvelopeFollower
 {
 public:
     // Constructor
-    EnvelopeFollower() : y0(0.0), up(1.0), down(1.0) {};
+    EnvelopeFollower() : y0(0.0), up(1.0), down(1.0) {}
 
-    void prepare(float upTimeSamples, float downTimeSamples)
+    void prepare(float upTimeSamples, float downTimeSamples, float initialValue = 0.0)
     {
-        up = 1.0 / upTimeSamples;
-        down = 1.0 / downTimeSamples;
+        up = 1.0f / upTimeSamples;
+        down = 1.0f / downTimeSamples;
+        y0 = initialValue;
     }
 
     float process(float x)
@@ -33,7 +34,7 @@ public:
     }
 
     // Destructor
-    ~EnvelopeFollower() {};
+    ~EnvelopeFollower() {}
 
 private:
     float y0;

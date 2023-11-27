@@ -6,6 +6,7 @@ TorchDrumProcessor::TorchDrumProcessor() { parameters.add(*this); }
 void TorchDrumProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     onsetDetection.prepare(sampleRate);
+    synthController.prepare(sampleRate, samplesPerBlock);
     juce::ignoreUnused(samplesPerBlock);
 }
 
@@ -34,6 +35,9 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
         inputSample /= static_cast<float>(buffer.getNumChannels());
         bool trigger = onsetDetection.process(inputSample);
+
+        // Process the controller
+        synthController.process(inputSample);
     }
 }
 

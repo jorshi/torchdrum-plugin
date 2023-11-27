@@ -2,6 +2,8 @@
 
 #include "OnsetDetection.h"
 #include "Parameters.h"
+#include "SynthController.h"
+#include <shared_plugin_helpers/shared_plugin_helpers.h>
 
 class TorchDrumProcessor : public PluginHelpers::ProcessorBase
 {
@@ -19,4 +21,5 @@ public:
 private:
     Parameters parameters;
     OnsetDetection onsetDetection;
+    SynthController synthController;
 };

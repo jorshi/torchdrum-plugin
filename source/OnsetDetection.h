@@ -25,7 +25,7 @@ public:
     void updateParameters(float onThresh, float offThresh, int wait);
 
     // Destructor
-    ~OnsetDetection() {};
+    ~OnsetDetection() {}
 
 private:
     double sampleRate;
@@ -41,4 +41,5 @@ private:
     float onThreshold;
     float offThreshold;
     int waitSamples;
+    float minAmplitude;
 };

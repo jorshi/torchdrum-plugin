@@ -1,16 +1,27 @@
 #include "OnsetDetection.h"
 #include <cmath>
 
-OnsetDetection::OnsetDetection()
-    : justTriggered(false), debounce(0), prevValue(0.0) {}
+OnsetDetection::OnsetDetection() : sampleRate(44100.0)
+{
+    // Default internal state
+    justTriggered = false;
+    debounce = 0;
+    prevValue = 0.0f;
+
+    // Default parameters
+    onThreshold = 16.0f;
+    offThreshold = 4.66f;
+    waitSamples = 1000;
+    minAmplitude = -55.0f;
+}
 
 void OnsetDetection::prepare(double sr)
 {
     sampleRate = sr;
 
     // Setting for fast and slow envelope followers
-    fastEnv.prepare(3.0, 383.0);
-    slowEnv.prepare(2205.0, 2205.0);
+    fastEnv.prepare(3.0, 383.0, minAmplitude);
+    slowEnv.prepare(2205.0, 2205.0, minAmplitude);
 
     // Setup filter
     BiquadCoeff::Settings settings;
@@ -21,6 +32,12 @@ void OnsetDetection::prepare(double sr)
     settings.peakGainDb = 0.0;
 
     hipass.setup(settings);
+    hipass.clean();
+
+    // Reset internal state variables
+    justTriggered = false;
+    debounce = 0;
+    prevValue = 0.0f;
 }
 
 bool OnsetDetection::process(float x)
@@ -49,13 +66,14 @@ bool OnsetDetection::process(float x)
 float OnsetDetection::onsetSignal(float x)
 {
     // Apply highpass filter
-    x = hipass.process(x);
+    x = static_cast<float>(hipass.process(x));
 
     // Rectify, convert to dB, and set minimum value
     x = std::abs(x);
-    x = 20.0 * log10f(x);
-    x = std::fmax(x, -55.0);
+    x = 20.0f * log10f(x);
+    x = std::fmax(x, minAmplitude);
 
+    // Apply envelope followers
     float fast = fastEnv.process(x);
     float slow = slowEnv.process(x);
     float diff = fast - slow;
