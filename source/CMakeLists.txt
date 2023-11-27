@@ -4,4 +4,5 @@ target_sources(${BaseTargetName} PRIVATE
         Biquad.cpp
         FeatureExtraction.cpp
         OnsetDetection.cpp
-        SynthController.cpp)
+        SynthController.cpp
+        DrumSynth.cpp)

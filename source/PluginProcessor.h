@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OnsetDetection.h"
+#include "DrumSynth.h"
 #include "Parameters.h"
 #include "SynthController.h"
 #include <shared_plugin_helpers/shared_plugin_helpers.h>
@@ -20,6 +20,6 @@ public:
 
 private:
     Parameters parameters;
-    OnsetDetection onsetDetection;
+    DrumSynth drumSynth;
     SynthController synthController;
 };

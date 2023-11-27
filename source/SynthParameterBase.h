@@ -47,6 +47,14 @@ struct SynthParameterBase
         callbacks[index] = callback;
     }
 
+    // Free parameters -- this is here to support unit testing.
+    // Parameters will be owned by the AudioProcessor in the application.
+    void freeParameters()
+    {
+        for (auto* param : parameters)
+            delete param;
+    }
+
     std::vector<juce::RangedAudioParameter*> parameters;
     std::vector<std::function<void(float)>> callbacks;
 };

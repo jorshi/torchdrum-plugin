@@ -33,11 +33,11 @@ public:
 // Base class for synthesizers that have parameters, which are derived from
 // SynthParameterBase
 template <typename Parameters>
-class DrumSynthParameterBase : public SynthBase
+class SynthWithParameterBase : public SynthBase
 {
 public:
-    DrumSynthParameterBase() = default;
-    ~DrumSynthParameterBase() = default;
+    SynthWithParameterBase() = default;
+    ~SynthWithParameterBase() = default;
 
     // Get parameters
     SynthParameterBase& getParameters() override { return parameters; }

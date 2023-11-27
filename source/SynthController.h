@@ -6,6 +6,7 @@
 
 #include "FeatureExtraction.h"
 #include "OnsetDetection.h"
+#include "SynthBase.h"
 #include <juce_audio_utils/juce_audio_utils.h>
 
 // Buffer size for the circular audio buffer
@@ -15,7 +16,8 @@ const int ONSET_WINDOW_SIZE = 256;
 class SynthController
 {
 public:
-    SynthController();
+    SynthController() = delete;
+    SynthController(SynthBase& synth);
     ~SynthController() {}
 
     // Prepare the contoller with sample rate and block size
@@ -34,6 +36,7 @@ private:
     void addSampleToBuffer(float x);
 
     double sampleRate;
+    SynthBase& synth;
 
     OnsetDetection onsetDetection;
     bool isOnset = false;

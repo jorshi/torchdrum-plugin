@@ -1,6 +1,6 @@
 #include "SynthController.h"
 
-SynthController::SynthController()
+SynthController::SynthController(SynthBase& synth) : synth(synth)
 {
 }
 
