@@ -37,8 +37,12 @@ void SynthController::process(float x)
     if (isOnset && elapsedSamples++ > ONSET_WINDOW_SIZE)
     {
         isOnset = false;
+
+        // TODO: Create a featureBuffer to transfer the create number of samples to
+        // from the cicular buffer and pass that to featureExtraction.process()
         featureExtraction.process(buffer, featureExtractionResults);
-        // TODO: Extract audio features, calculate synth parameters, and trigger synth
+
+        // TODO: calculate synth parameters, and trigger synth
     }
 }
 

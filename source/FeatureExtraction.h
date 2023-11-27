@@ -21,6 +21,8 @@ public:
 
     // Prepare the feature extraction with sample rate
     void prepare(double sr);
+
+    // Process a buffer of audio samples and store the results
     void process(const juce::AudioBuffer<float>& buffer, FeatureExtractionResults& results);
 
 private:
