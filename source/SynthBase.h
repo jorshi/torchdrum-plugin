@@ -30,7 +30,8 @@ public:
     virtual SynthParameterBase& getParameters() = 0;
 };
 
-// Base class for drum synths that use a parameter class derived from ParameterBase
+// Base class for synthesizers that have parameters, which are derived from
+// SynthParameterBase
 template <typename Parameters>
 class DrumSynthParameterBase : public SynthBase
 {
