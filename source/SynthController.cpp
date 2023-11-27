@@ -37,6 +37,7 @@ void SynthController::process(float x)
     if (isOnset && elapsedSamples++ > ONSET_WINDOW_SIZE)
     {
         isOnset = false;
+        featureExtraction.process(buffer, featureExtractionResults);
         // TODO: Extract audio features, calculate synth parameters, and trigger synth
     }
 }

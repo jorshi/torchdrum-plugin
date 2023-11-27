@@ -4,6 +4,7 @@
 */
 #pragma once
 
+#include "FeatureExtraction.h"
 #include "OnsetDetection.h"
 #include <juce_audio_utils/juce_audio_utils.h>
 
@@ -41,4 +42,7 @@ private:
     // Circular audio buffer to store incoming audio
     juce::AudioBuffer<float> buffer;
     int currentSample = 0;
+
+    FeatureExtraction featureExtraction;
+    FeatureExtractionResults featureExtractionResults;
 };
