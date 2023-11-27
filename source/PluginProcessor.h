@@ -1,12 +1,16 @@
 #pragma once
 
+#include "OnsetDetection.h"
 #include "Parameters.h"
+#include "SynthController.h"
+#include <shared_plugin_helpers/shared_plugin_helpers.h>
 
-class NewPluginTemplateAudioProcessor : public PluginHelpers::ProcessorBase
+class TorchDrumProcessor : public PluginHelpers::ProcessorBase
 {
 public:
-    NewPluginTemplateAudioProcessor();
+    TorchDrumProcessor();
 
+    void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
     juce::AudioProcessorEditor* createEditor() override;
@@ -15,6 +19,7 @@ public:
     void setStateInformation(const void* data, int sizeInBytes) override;
 
 private:
-
     Parameters parameters;
+    OnsetDetection onsetDetection;
+    SynthController synthController;
 };
