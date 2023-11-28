@@ -11,7 +11,7 @@ Simple Drum Synth Class
 
 #include "DrumSynthParameters.h"
 #include "SynthBase.h"
-#include "Tonal.h"
+#include "modules/Tonal.h"
 
 class DrumSynth : public SynthWithParameterBase<DrumSynthParameters>
 {

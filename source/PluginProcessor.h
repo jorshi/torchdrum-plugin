@@ -1,7 +1,7 @@
 #pragma once
 
-#include "DrumSynth.h"
 #include "Parameters.h"
+#include "Synth/DrumSynth.h"
 #include "SynthController.h"
 #include <shared_plugin_helpers/shared_plugin_helpers.h>
 

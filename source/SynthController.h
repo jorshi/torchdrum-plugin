@@ -6,7 +6,7 @@
 
 #include "FeatureExtraction.h"
 #include "OnsetDetection.h"
-#include "SynthBase.h"
+#include "Synth/SynthBase.h"
 #include <juce_audio_utils/juce_audio_utils.h>
 
 // Buffer size for the circular audio buffer
