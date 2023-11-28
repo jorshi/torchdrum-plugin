@@ -17,3 +17,4 @@ Files to include in dynamic library
 #include "Tonal.h"
 #include "synth/modules/ExpDecayEnvelope.h"
 #include "synth/modules/SinusoidalOscillator.h"
+#include "synth/modules/Tanh.h"
