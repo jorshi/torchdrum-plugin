@@ -9,6 +9,7 @@ Files to include in dynamic library
 #include "DrumSynthParameters.h"
 #include "Envelope.h"
 #include "EnvelopeFollower.h"
+#include "ExpDecayEnvelope.h"
 #include "FeatureExtraction.h"
 #include "OnsetDetection.h"
 #include "SynthBase.h"

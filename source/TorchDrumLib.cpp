@@ -3,6 +3,7 @@
 #include "Biquad.cpp"
 #include "DrumSynth.cpp"
 #include "Envelope.cpp"
+#include "ExpDecayEnvelope.cpp"
 #include "FeatureExtraction.cpp"
 #include "OnsetDetection.cpp"
 #include "SynthController.cpp"
