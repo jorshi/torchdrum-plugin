@@ -8,3 +8,4 @@
 #include "SynthController.cpp"
 #include "Tonal.cpp"
 #include "synth/modules/ExpDecayEnvelope.cpp"
+#include "synth/modules/SinusoidalOscillator.cpp"
