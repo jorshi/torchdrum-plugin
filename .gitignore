@@ -43,3 +43,6 @@ build/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Notebooks used for development
+notebooks/
