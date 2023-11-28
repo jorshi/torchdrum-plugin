@@ -15,12 +15,12 @@ void SinusoidalOscillator::prepare(double sr)
     sampleRate = sr;
 
     // Reset internal state
-    phase = 0.0f;
+    phase = 0.0;
 }
 
 float SinusoidalOscillator::process()
 {
-    float out = sin(phase);
+    float out = sin(static_cast<float>(phase));
     phase += phaseIncr;
     return out;
 }

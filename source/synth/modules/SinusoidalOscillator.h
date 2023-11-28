@@ -24,6 +24,6 @@ private:
     double sampleRate;
     float frequency;
     float modAmount;
-    float phase;
+    double phase;
     float phaseIncr;
 };
