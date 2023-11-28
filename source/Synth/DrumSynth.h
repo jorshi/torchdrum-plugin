@@ -12,8 +12,9 @@ Simple Drum Synth Class
 #include "DrumSynthParameters.h"
 #include "Modules/ExpDecayEnvelope.h"
 #include "Modules/Gain.h"
+#include "Modules/Noise.h"
 #include "Modules/SinusoidalOscillator.h"
-#include "Modules/Tonal.h"
+#include "Modules/Tanh.h"
 #include "SynthBase.h"
 
 class DrumSynth : public SynthWithParameterBase<DrumSynthParameters>
@@ -31,12 +32,15 @@ public:
     // Trigger the drum
     void trigger() override;
 
-    // Parameter setters
-
 private:
-    Tonal tonal;
     ExpDecayEnvelope ampEnv;
     ExpDecayEnvelope freqEnv;
+    ExpDecayEnvelope noiseEnv;
+
     SinusoidalOscillator osc;
+    WhiteNoise noise;
+
+    Tanh waveshaper;
+    Gain noiseGain;
     Gain gain;
 };

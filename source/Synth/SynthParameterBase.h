@@ -31,7 +31,7 @@ struct SynthParameterBase
         callbacks.push_back([](float) {});
     }
 
-    void updateAllParmaters()
+    void updateAllParameters()
     {
         for (int i = 0; i < parameters.size(); ++i)
         {
