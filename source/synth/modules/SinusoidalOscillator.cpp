@@ -18,10 +18,11 @@ void SinusoidalOscillator::prepare(double sr)
     phase = 0.0;
 }
 
-float SinusoidalOscillator::process()
+float SinusoidalOscillator::process(float modulation)
 {
     float out = sin(static_cast<float>(phase));
-    phase += phaseIncr;
+    double mod = phaseIncr * modulation * modAmount;
+    phase += phaseIncr + mod;
     return out;
 }
 
@@ -33,5 +34,5 @@ void SinusoidalOscillator::setFrequencyHz(float newValue)
 
 void SinusoidalOscillator::setModAmount(float newValue)
 {
-    // modAmount = newValue;
+    modAmount = newValue;
 }

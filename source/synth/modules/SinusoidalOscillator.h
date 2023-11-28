@@ -12,7 +12,7 @@ public:
     SinusoidalOscillator();
 
     void prepare(double sr);
-    float process();
+    float process(float modulation = 0.0f);
 
     void setFrequencyHz(float newValue);
     void setModAmount(float newValue);
