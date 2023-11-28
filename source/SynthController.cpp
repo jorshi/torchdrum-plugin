@@ -1,6 +1,6 @@
 #include "SynthController.h"
 
-SynthController::SynthController()
+SynthController::SynthController(SynthBase& synth) : synth(synth)
 {
 }
 
@@ -43,6 +43,8 @@ void SynthController::process(float x)
         featureExtraction.process(buffer, featureExtractionResults);
 
         // TODO: calculate synth parameters, and trigger synth
+        synth.getParameters().updateAllParameters();
+        synth.trigger();
     }
 }
 

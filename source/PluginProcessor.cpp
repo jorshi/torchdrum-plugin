@@ -1,11 +1,18 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-TorchDrumProcessor::TorchDrumProcessor() { parameters.add(*this); }
+TorchDrumProcessor::TorchDrumProcessor() : synthController(drumSynth)
+{
+    // Add synthesizer parameters
+    drumSynth.getParameters().add(*this);
+
+    // Add controller parameters
+    parameters.add(*this);
+}
 
 void TorchDrumProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    onsetDetection.prepare(sampleRate);
+    drumSynth.prepare(sampleRate, samplesPerBlock);
     synthController.prepare(sampleRate, samplesPerBlock);
     juce::ignoreUnused(samplesPerBlock);
 }
@@ -15,11 +22,6 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
 {
     juce::ignoreUnused(midiMessages);
-
-    if (parameters.enable->get())
-        buffer.applyGain(parameters.gain->get());
-    else
-        buffer.clear();
 
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
@@ -34,10 +36,17 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
         }
 
         inputSample /= static_cast<float>(buffer.getNumChannels());
-        bool trigger = onsetDetection.process(inputSample);
 
         // Process the controller
         synthController.process(inputSample);
+
+        // Process the synthesizer
+        float synthSample = drumSynth.process();
+        for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
+        {
+            auto* channelData = buffer.getWritePointer(channel);
+            channelData[sample] = synthSample;
+        }
     }
 }
 
