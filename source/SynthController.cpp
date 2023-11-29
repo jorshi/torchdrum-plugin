@@ -48,18 +48,15 @@ void SynthController::process(float x)
         // from the cicular buffer and pass that to featureExtraction.process()
         featureExtraction.process(buffer, featureExtractionResults);
 
-        // TODO: calculate synth parameters, and trigger synth
-        synth.getParameters().updateAllParameters();
-        synth.trigger();
-    }
-
-    if (elapsedSamples % (int) sampleRate == 0)
-    {
+        // TODO: map features to neural network input -- for now, just use random values
         for (int i = 0; i < neuralInput.size(); ++i)
-        {
             neuralInput[i] = random.nextFloat();
-        }
+
         neuralMapper.process(neuralInput, neuralOutput);
+
+        // TODO: calculate synth parameters, and trigger synth
+        synth.getParameters().updateAllParametersWithModulation(neuralOutput);
+        synth.trigger();
     }
 }
 

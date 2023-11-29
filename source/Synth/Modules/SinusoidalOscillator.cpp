@@ -23,6 +23,8 @@ float SinusoidalOscillator::process(float modulation)
     float out = sin(static_cast<float>(phase));
     double mod = phaseIncr * modulation * modAmount;
     phase += phaseIncr + mod;
+    if (phase > 2.0 * M_PI)
+        phase -= 2.0 * M_PI;
     return out;
 }
 
