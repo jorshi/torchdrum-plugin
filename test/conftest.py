@@ -41,9 +41,14 @@ def torchdrum():
     """
     Load the TorchDrumLib library and return the global namespace.
     """
+    # Add TorchLib
+    # for path in torch.utils.cpp_extension.include_paths():
+    #     print(path)
+    #     if path.endswith("TH") or path.endswith("THC"):
+    #         continue
+    #     cppyy.add_include_path(path)
+
     cppyy.add_include_path("modules/JUCE/modules/")
-    cppyy.add_include_path("modules/libtorch/include")
-    cppyy.add_include_path("modules/libtorch/include/torch/csrc/api/include")
     cppyy.load_library(f"build/TorchDrumLib_artefacts/{CONFIG}/libTorchDrumLib")
     defines = __get_juce_defs(
         f"build/TorchDrumLib_artefacts/JuceLibraryCode/{CONFIG}/Defs.txt"
