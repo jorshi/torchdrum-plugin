@@ -27,9 +27,11 @@ def __get_juce_defs(defs_path: str) -> str:
         defs = [iter(re.split("\x1f|\x1e|\\s", f.read()))] * 2
         defs = zip_longest(*defs, fillvalue=None)
         defs = list(filter(lambda v: v[0] == "MODULE_DEFINITIONS", defs))[0]
-        defs = list(
-            map(lambda d: "#define {} {}".format(*d.split("=")), defs[1].split(";"))
-        )
+
+        defs = list(defs[1].split(";"))
+        defs = list(filter(lambda d: "=" in d, defs))
+
+        defs = list(map(lambda d: "#define {} {}".format(*d.split("=")), defs))
 
     return "\n".join(defs)
 
@@ -40,8 +42,8 @@ def torchdrum():
     Load the TorchDrumLib library and return the global namespace.
     """
     cppyy.add_include_path("modules/JUCE/modules/")
-    cppyy.add_include_path("modules/RTNeural/")
-    cppyy.add_include_path("modules/RTNeural/modules/Eigen")
+    cppyy.add_include_path("modules/libtorch/include")
+    cppyy.add_include_path("modules/libtorch/include/torch/csrc/api/include")
     cppyy.load_library(f"build/TorchDrumLib_artefacts/{CONFIG}/libTorchDrumLib")
     defines = __get_juce_defs(
         f"build/TorchDrumLib_artefacts/JuceLibraryCode/{CONFIG}/Defs.txt"

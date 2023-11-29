@@ -60,7 +60,6 @@ target_link_libraries(${BaseTargetName} PRIVATE
         juce_recommended_lto_flags
         juce_recommended_warning_flags)
 
-target_link_libraries(${BaseTargetName} LINK_PUBLIC RTNeural)
 target_link_libraries(${BaseTargetName} PUBLIC "${TORCH_LIBRARIES}")
 
 # Option to build dynamic library
@@ -83,7 +82,7 @@ if (BUILD_TORCHDRUM_LIB)
         PRIVATE
             juce::juce_audio_utils
             juce::juce_dsp
-            RTNeural
+            "${TORCH_LIBRARIES}"
         PUBLIC
             juce_recommended_config_flags
             juce_recommended_lto_flags
