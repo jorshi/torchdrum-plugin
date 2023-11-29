@@ -5,7 +5,11 @@
 #pragma once
 
 #include "FeatureExtraction.h"
+#if TORCHDRUMLIB_BUILD
+#include "Utils/NeuralNetworkMock.h"
+#else
 #include "NeuralNetwork.h"
+#endif
 #include "OnsetDetection.h"
 #include "Synth/SynthBase.h"
 #include <juce_audio_utils/juce_audio_utils.h>

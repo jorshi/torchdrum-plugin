@@ -19,3 +19,5 @@ Files to include in dynamic library
 #include "Synth/Modules/Tonal.h"
 #include "Synth/SynthBase.h"
 #include "Synth/SynthParameterBase.h"
+#include "SynthController.h"
+#include "Utils/NeuralNetworkMock.h"

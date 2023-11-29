@@ -8,3 +8,5 @@
 #include "Synth/Modules/ExpDecayEnvelope.cpp"
 #include "Synth/Modules/SinusoidalOscillator.cpp"
 #include "Synth/Modules/Tonal.cpp"
+#include "SynthController.cpp"
+#include "Utils/NeuralNetworkMock.cpp"
