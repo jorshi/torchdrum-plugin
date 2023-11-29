@@ -2,6 +2,7 @@
 
 #include "Biquad.cpp"
 #include "FeatureExtraction.cpp"
+#include "NeuralNetwork.cpp"
 #include "OnsetDetection.cpp"
 #include "Synth/DrumSynth.cpp"
 #include "Synth/Modules/Envelope.cpp"

@@ -40,6 +40,8 @@ def torchdrum():
     Load the TorchDrumLib library and return the global namespace.
     """
     cppyy.add_include_path("modules/JUCE/modules/")
+    cppyy.add_include_path("modules/RTNeural/")
+    cppyy.add_include_path("modules/RTNeural/modules/Eigen")
     cppyy.load_library(f"build/TorchDrumLib_artefacts/{CONFIG}/libTorchDrumLib")
     defines = __get_juce_defs(
         f"build/TorchDrumLib_artefacts/JuceLibraryCode/{CONFIG}/Defs.txt"

@@ -7,6 +7,7 @@ Files to include in dynamic library
 #include "Biquad.h"
 #include "EnvelopeFollower.h"
 #include "FeatureExtraction.h"
+#include "NeuralNetwork.h"
 #include "OnsetDetection.h"
 #include "Synth/DrumSynth.h"
 #include "Synth/DrumSynthParameters.h"
