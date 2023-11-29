@@ -5,6 +5,7 @@
 #pragma once
 
 #include "FeatureExtraction.h"
+#include "NeuralNetwork.h"
 #include "OnsetDetection.h"
 #include "Synth/SynthBase.h"
 #include <juce_audio_utils/juce_audio_utils.h>
@@ -48,4 +49,10 @@ private:
 
     FeatureExtraction featureExtraction;
     FeatureExtractionResults featureExtractionResults;
+
+    // Neural network for mapping features to synthesizer parameters
+    NeuralNetwork neuralMapper;
+    std::vector<double> neuralInput;
+    std::vector<double> neuralOutput;
+    juce::Random random;
 };
