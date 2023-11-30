@@ -16,8 +16,17 @@ public:
 
     void loadModel(const std::string& path);
     void process(const std::vector<double>& input, std::vector<double>& output);
+    void getCurrentPatch(std::vector<juce::RangedAudioParameter*> parameters) {}
+
+    void setInOutFeatures(int in, int out)
+    {
+        inputFeatures = in;
+        outputFeatures = out;
+    }
 
 private:
     void _loadModel(const std::string& path);
     std::atomic<bool> modelLoaded = false;
+    int inputFeatures = 0;
+    int outputFeatures = 0;
 };

@@ -2,8 +2,6 @@
 
 SynthController::SynthController(SynthBase& synth) : synth(synth)
 {
-    // Load the neural network model
-    neuralMapper.loadModel("/Users/jordanm/development/academic/torchdrum/nbs/drum_mapper_1.pt");
 }
 
 void SynthController::prepare(double sr, int samplesPerBlock)
@@ -23,6 +21,14 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     // Prepare input and output features for NN
     neuralInput.resize(3);
     neuralOutput.resize(8);
+
+    // Load the neural network model
+    neuralMapper.setInOutFeatures(3, synth.getParameters().parameters.size());
+    neuralMapper.loadModel("/Users/jordanm/development/academic/torchdrum/nbs/random_mapper_1.pt");
+
+    // Update synth parameters with the current patch
+    neuralMapper.getCurrentPatch(synth.getParameters().parameters);
+    synth.getParameters().updateAllParameters();
 }
 
 void SynthController::process(float x)
