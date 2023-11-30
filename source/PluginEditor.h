@@ -12,4 +12,6 @@ private:
     void resized() override;
 
     juce::GenericAudioProcessorEditor editor { processor };
+    juce::TextButton loadModelButton { "Load Model" };
+    std::unique_ptr<juce::FileChooser> fileChooser;
 };
