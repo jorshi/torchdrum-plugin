@@ -28,6 +28,11 @@ jobs:
         - name: Get latest CMake
           uses: lukka/get-cmake@latest
 
+        - name: Checkout code
+          uses: actions/checkout@v2
+          with:
+            submodules: recursive
+
         - name: Set up Python 3.10 # Required for torch and unit tests
           uses: actions/setup-python@v4
           with:
@@ -39,15 +44,12 @@ jobs:
             python -m pip install --upgrade pip
             pip install -r requirements.txt
 
-        - name: Checkout code
-          uses: actions/checkout@v2
-          with:
-            submodules: recursive
-
         - name: Configure
           shell: bash
           working-directory: ${{github.workspace}}
-          run: cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=`python3 -c 'import torch;print(torch.utils.cmake_prefix_path)'` -DBUILD_TORCHDRUM_LIB=ON
+          run: |
+            export TORCHLIB_PATH=`python3 -c 'import torch;print(torch.utils.cmake_prefix_path)'`
+            cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$TORCHLIB_PATH -DBUILD_TORCHDRUM_LIB=ON
 
         - name: Build
           shell: bash
