@@ -15,7 +15,7 @@ create a new virtual environment or anaconda environment to do this.
 python -m venv venv
 source venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install torch==2.1.1
+python -m pip install numpy torch==2.1.1 --index-url https://download.pytorch.org/whl/cpu
 ```
 
 Save the TORCHLIB_PATH from Python
