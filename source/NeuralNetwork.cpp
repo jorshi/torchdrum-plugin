@@ -69,6 +69,7 @@ void NeuralNetwork::_loadModel(const std::string& path)
     {
         juce::Logger::outputDebugString("Error loading the model");
     }
+    juce::Logger::outputDebugString("Successfully loaded model");
 }
 
 void NeuralNetwork::_testModel()
@@ -111,4 +112,5 @@ void NeuralNetwork::_testModel()
         // Reset the model
         modelLoaded = false;
     }
+    juce::Logger::outputDebugString("Successfully tested model");
 }
