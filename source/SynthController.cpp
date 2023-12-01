@@ -69,6 +69,8 @@ void SynthController::process(float x)
 void SynthController::updateModel(const std::string& path)
 {
     neuralMapper.loadModel(path);
+    neuralMapper.getCurrentPatch(synth.getParameters().parameters);
+    synth.getParameters().updateAllParameters();
 }
 
 void SynthController::addSampleToBuffer(float x)
