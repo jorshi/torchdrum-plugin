@@ -33,5 +33,5 @@ void FeatureExtraction::process(const juce::AudioBuffer<float>& buffer, FeatureE
     rms = std::max(rms, -80.0);
 
     // Update the results
-    results.rmsMean = rms;
+    results.rmsMean.set(rms, true);
 }

@@ -37,6 +37,9 @@ public:
         maxValue = newMaxValue;
     }
 
+    // Get the raw value
+    T getRawValue() const { return value; }
+
     // Get the normalized value
     T getNormalized() const
     {

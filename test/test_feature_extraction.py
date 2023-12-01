@@ -40,11 +40,11 @@ def test_feature_extraction_process(torchdrum, controller):
         buffer.setSample(0, i, 0.0)
 
     extractor.process(buffer, results)
-    assert results.rmsMean == -80.0
+    assert results.rmsMean.getRawValue() == -80.0
 
     # Set the buffer to all ones
     for i in range(buffer.getNumSamples()):
         buffer.setSample(0, i, 1.0)
 
     extractor.process(buffer, results)
-    assert np.isclose(results.rmsMean, -0.0, atol=1e-6)
+    assert np.isclose(results.rmsMean.getRawValue(), -0.0, atol=1e-6)

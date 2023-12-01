@@ -24,11 +24,12 @@
 
 #pragma once
 
+#include "FeatureValue.h"
 #include <juce_audio_utils/juce_audio_utils.h>
 
 struct FeatureExtractionResults
 {
-    double rmsMean;
+    FeatureValue<float> rmsMean;
 };
 
 class FeatureExtraction

@@ -45,6 +45,7 @@ public:
 private:
     // Add a sample to the circular audio buffer
     void addSampleToBuffer(float x);
+    void copySamplesToFeatureBuffer();
 
     double sampleRate;
     SynthBase& synth;
@@ -58,7 +59,7 @@ private:
     int currentSample = 0;
 
     FeatureExtraction featureExtraction;
-    FeatureExtractionResults featureExtractionResults;
+    FeatureExtractionResults features;
     juce::AudioBuffer<float> featureBuffer;
 
     // Neural network for mapping features to synthesizer parameters
