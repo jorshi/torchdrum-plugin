@@ -18,6 +18,9 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     isOnset = false;
     elapsedSamples = 0;
 
+    // Prepare feature extraction
+    featureExtraction.prepare(sampleRate, ONSET_WINDOW_SIZE, ONSET_WINDOW_SIZE / 4);
+
     // Prepare input and output features for NN
     size_t numSynthParams = synth.getParameters().parameters.size();
     neuralInput.resize(3);

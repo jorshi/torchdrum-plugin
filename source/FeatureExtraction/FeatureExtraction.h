@@ -29,7 +29,6 @@
 struct FeatureExtractionResults
 {
     double rmsMean;
-    double rmsDiff;
 };
 
 class FeatureExtraction
@@ -39,11 +38,18 @@ public:
     ~FeatureExtraction() {}
 
     // Prepare the feature extraction with sample rate
-    void prepare(double sr);
+    void prepare(double sr, int frameSize, int hopSize);
 
     // Process a buffer of audio samples and store the results
     void process(const juce::AudioBuffer<float>& buffer, FeatureExtractionResults& results);
 
+    // Getters
+    double getSampleRate() const { return sampleRate; }
+    int getFrameSize() const { return frameSize; }
+    int getHopSize() const { return hopSize; }
+
 private:
     double sampleRate;
+    int frameSize;
+    int hopSize;
 };
