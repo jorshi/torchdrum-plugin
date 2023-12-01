@@ -5,5 +5,6 @@ target_sources(${BaseTargetName} PRIVATE
         PluginEditor.cpp
         Biquad.cpp
         FeatureExtraction.cpp
+        NeuralNetwork.cpp
         OnsetDetection.cpp
         SynthController.cpp)

@@ -5,6 +5,11 @@
 #pragma once
 
 #include "FeatureExtraction.h"
+#if TORCHDRUMLIB_BUILD
+#include "Utils/NeuralNetworkMock.h"
+#else
+#include "NeuralNetwork.h"
+#endif
 #include "OnsetDetection.h"
 #include "Synth/SynthBase.h"
 #include <juce_audio_utils/juce_audio_utils.h>
@@ -26,9 +31,14 @@ public:
     // Process the next audio sample
     void process(float x);
 
+    // Update the neural network model
+    void updateModel(const std::string& path);
+
     // Get the audio buffer
     const juce::AudioBuffer<float>& getBuffer() const { return buffer; }
 
+    // Indicate whether we're in the period after an detected onset but
+    // before triggering the synthesizer
     bool getIsOnset() const { return isOnset; }
 
 private:
@@ -48,4 +58,10 @@ private:
 
     FeatureExtraction featureExtraction;
     FeatureExtractionResults featureExtractionResults;
+
+    // Neural network for mapping features to synthesizer parameters
+    NeuralNetwork neuralMapper;
+    std::vector<double> neuralInput;
+    std::vector<double> neuralOutput;
+    juce::Random random;
 };

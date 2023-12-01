@@ -17,6 +17,18 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     onsetDetection.prepare(sampleRate);
     isOnset = false;
     elapsedSamples = 0;
+
+    // Prepare input and output features for NN
+    size_t numSynthParams = synth.getParameters().parameters.size();
+    neuralInput.resize(3);
+    neuralOutput.resize(numSynthParams);
+
+    // Load the neural network model
+    neuralMapper.setInOutFeatures(3, numSynthParams);
+
+    // Update synth parameters with the current patch
+    neuralMapper.getCurrentPatch(synth.getParameters().parameters);
+    synth.getParameters().updateAllParameters();
 }
 
 void SynthController::process(float x)
@@ -42,10 +54,21 @@ void SynthController::process(float x)
         // from the cicular buffer and pass that to featureExtraction.process()
         featureExtraction.process(buffer, featureExtractionResults);
 
+        // TODO: map features to neural network input -- for now, just use random values
+        for (int i = 0; i < neuralInput.size(); ++i)
+            neuralInput[i] = random.nextFloat();
+
+        neuralMapper.process(neuralInput, neuralOutput);
+
         // TODO: calculate synth parameters, and trigger synth
-        synth.getParameters().updateAllParameters();
+        synth.getParameters().updateAllParametersWithModulation(neuralOutput);
         synth.trigger();
     }
+}
+
+void SynthController::updateModel(const std::string& path)
+{
+    neuralMapper.loadModel(path);
 }
 
 void SynthController::addSampleToBuffer(float x)

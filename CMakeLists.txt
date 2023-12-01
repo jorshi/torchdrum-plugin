@@ -6,6 +6,10 @@ project(TorchDrum VERSION 0.0.1)
 # Adding submodules
 add_subdirectory(modules)
 
+# Adding LibTorch
+find_package(Torch REQUIRED)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
+
 # Application formats to build
 if(IOS)
     set(JUCE_FORMATS Standalone AUv3)
@@ -55,7 +59,7 @@ target_link_libraries(${BaseTargetName} PRIVATE
         juce_recommended_lto_flags
         juce_recommended_warning_flags)
 
-target_link_libraries(${BaseTargetName} LINK_PUBLIC RTNeural)
+target_link_libraries(${BaseTargetName} PUBLIC "${TORCH_LIBRARIES}")
 
 # Option to build dynamic library
 if (BUILD_TORCHDRUM_LIB)
@@ -64,23 +68,26 @@ if (BUILD_TORCHDRUM_LIB)
     add_library(${BaseTargetLibName} SHARED source/TorchDrumLib.cpp)
     set_target_properties(${BaseTargetLibName} PROPERTIES JUCE_TARGET_KIND_STRING "App")
 
-    target_compile_definitions(${BaseTargetLibName} 
+    target_compile_definitions(${BaseTargetLibName}
         PRIVATE
-            # Required flags for DLL build
-            # JUCE_DLL_BUILD=1
             JUCE_STANDALONE_APPLICATION=1
-            # Other feature flags
-            JUCE_WEB_BROWSER=0 
-            JUCE_USE_CURL=0)
-    
-    target_link_libraries(${BaseTargetLibName} 
+            JUCE_WEB_BROWSER=0
+            JUCE_USE_CURL=0
+            TORCHDRUMLIB_BUILD=1)
+
+    target_link_libraries(${BaseTargetLibName}
         PRIVATE
             juce::juce_audio_utils
             juce::juce_dsp
+            "${TORCH_LIBRARIES}"
         PUBLIC
             juce_recommended_config_flags
             juce_recommended_lto_flags
             juce_recommended_warning_flags)
+
+    target_include_directories(${BaseTargetLibName}
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/modules/RTNeural)
 
     _juce_initialise_target(${BaseTargetLibName}  VERSION 1.0.0)
 endif()
