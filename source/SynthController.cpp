@@ -19,12 +19,12 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     elapsedSamples = 0;
 
     // Prepare input and output features for NN
+    size_t numSynthParams = synth.getParameters().parameters.size();
     neuralInput.resize(3);
-    neuralOutput.resize(8);
+    neuralOutput.resize(numSynthParams);
 
     // Load the neural network model
-    neuralMapper.setInOutFeatures(3, synth.getParameters().parameters.size());
-    neuralMapper.loadModel("/Users/jordanm/development/academic/torchdrum/nbs/random_mapper_1.pt");
+    neuralMapper.setInOutFeatures(3, numSynthParams);
 
     // Update synth parameters with the current patch
     neuralMapper.getCurrentPatch(synth.getParameters().parameters);
@@ -64,6 +64,11 @@ void SynthController::process(float x)
         synth.getParameters().updateAllParametersWithModulation(neuralOutput);
         synth.trigger();
     }
+}
+
+void SynthController::updateModel(const std::string& path)
+{
+    neuralMapper.loadModel(path);
 }
 
 void SynthController::addSampleToBuffer(float x)

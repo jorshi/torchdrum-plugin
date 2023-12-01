@@ -31,9 +31,14 @@ public:
     // Process the next audio sample
     void process(float x);
 
+    // Update the neural network model
+    void updateModel(const std::string& path);
+
     // Get the audio buffer
     const juce::AudioBuffer<float>& getBuffer() const { return buffer; }
 
+    // Indicate whether we're in the period after an detected onset but
+    // before triggering the synthesizer
     bool getIsOnset() const { return isOnset; }
 
 private:
