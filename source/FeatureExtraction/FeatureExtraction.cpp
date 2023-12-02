@@ -13,7 +13,6 @@ void FeatureExtraction::prepare(double sr, int fs, int hs)
 
 void FeatureExtraction::process(const juce::AudioBuffer<float>& buffer, FeatureExtractionResults& results)
 {
-    juce::ignoreUnused(results);
     jassert(buffer.getNumChannels() == 1 && buffer.getNumSamples() == frameSize);
 
     // Calculate RMS
