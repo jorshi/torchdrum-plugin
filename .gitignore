@@ -52,3 +52,8 @@ modules/libtorch/
 
 # OS X
 .DS_Store
+
+# Files related to release packaging
+Presets/
+prepare_plugin_release.sh
+SignedPlugins/
