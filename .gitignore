@@ -49,3 +49,6 @@ notebooks/
 
 # libtorch module
 modules/libtorch/
+
+# OS X
+.DS_Store
