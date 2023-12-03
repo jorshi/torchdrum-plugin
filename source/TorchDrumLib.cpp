@@ -1,7 +1,7 @@
 #include "TorchDrumLib.h"
 
 #include "Biquad.cpp"
-#include "FeatureExtraction.cpp"
+#include "FeatureExtraction/FeatureExtraction.cpp"
 #include "OnsetDetection.cpp"
 #include "Synth/DrumSynth.cpp"
 #include "Synth/Modules/Envelope.cpp"

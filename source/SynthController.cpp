@@ -18,6 +18,11 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     isOnset = false;
     elapsedSamples = 0;
 
+    // Prepare feature extraction
+    featureExtraction.prepare(sampleRate, ONSET_WINDOW_SIZE, ONSET_WINDOW_SIZE / 4);
+    featureBuffer.clear();
+    featureBuffer.setSize(1, ONSET_WINDOW_SIZE);
+
     // Prepare input and output features for NN
     size_t numSynthParams = synth.getParameters().parameters.size();
     neuralInput.resize(3);
@@ -52,11 +57,12 @@ void SynthController::process(float x)
 
         // TODO: Create a featureBuffer to transfer the create number of samples to
         // from the cicular buffer and pass that to featureExtraction.process()
-        featureExtraction.process(buffer, featureExtractionResults);
+        copySamplesToFeatureBuffer();
+        featureExtraction.process(featureBuffer, features);
 
         // TODO: map features to neural network input -- for now, just use random values
         for (int i = 0; i < neuralInput.size(); ++i)
-            neuralInput[i] = random.nextFloat();
+            neuralInput[i] = features.rmsMean.getNormalized();
 
         neuralMapper.process(neuralInput, neuralOutput);
 
@@ -78,4 +84,18 @@ void SynthController::addSampleToBuffer(float x)
     buffer.setSample(0, currentSample, x);
     currentSample = (currentSample + 1) % buffer.getNumSamples();
     jassert(currentSample < buffer.getNumSamples());
+}
+
+void SynthController::copySamplesToFeatureBuffer()
+{
+    int samplePtr = currentSample - ONSET_WINDOW_SIZE;
+    if (samplePtr < 0)
+        samplePtr += buffer.getNumSamples();
+
+    for (int i = 0; i < ONSET_WINDOW_SIZE; ++i)
+    {
+        featureBuffer.setSample(0, i, buffer.getSample(0, samplePtr++));
+        if (samplePtr >= buffer.getNumSamples())
+            samplePtr = 0;
+    }
 }

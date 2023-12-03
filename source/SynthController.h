@@ -4,7 +4,7 @@
 */
 #pragma once
 
-#include "FeatureExtraction.h"
+#include "FeatureExtraction/FeatureExtraction.h"
 #if TORCHDRUMLIB_BUILD
 #include "Utils/NeuralNetworkMock.h"
 #else
@@ -34,8 +34,9 @@ public:
     // Update the neural network model
     void updateModel(const std::string& path);
 
-    // Get the audio buffer
+    // Getters for audio buffers
     const juce::AudioBuffer<float>& getBuffer() const { return buffer; }
+    const juce::AudioBuffer<float>& getFeatureBuffer() const { return featureBuffer; }
 
     // Indicate whether we're in the period after an detected onset but
     // before triggering the synthesizer
@@ -44,6 +45,7 @@ public:
 private:
     // Add a sample to the circular audio buffer
     void addSampleToBuffer(float x);
+    void copySamplesToFeatureBuffer();
 
     double sampleRate;
     SynthBase& synth;
@@ -57,7 +59,8 @@ private:
     int currentSample = 0;
 
     FeatureExtraction featureExtraction;
-    FeatureExtractionResults featureExtractionResults;
+    FeatureExtractionResults features;
+    juce::AudioBuffer<float> featureBuffer;
 
     // Neural network for mapping features to synthesizer parameters
     NeuralNetwork neuralMapper;

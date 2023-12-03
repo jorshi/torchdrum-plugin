@@ -25,6 +25,8 @@ endif()
 
 set(BaseTargetName TorchDrum)
 
+option(COPY_PLUGIN_AFTER_BUILD "Copy plugin to build directory after building" ON)
+
 juce_add_plugin("${BaseTargetName}"
         # VERSION ...                               # Set this if the plugin version is different to the project version
         # ICON_BIG ...                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
@@ -35,7 +37,7 @@ juce_add_plugin("${BaseTargetName}"
         NEEDS_MIDI_OUTPUT FALSE
         IS_MIDI_EFFECT FALSE
         EDITOR_WANTS_KEYBOARD_FOCUS TRUE
-        COPY_PLUGIN_AFTER_BUILD TRUE
+        COPY_PLUGIN_AFTER_BUILD ${COPY_PLUGIN_AFTER_BUILD}
         PLUGIN_MANUFACTURER_CODE C4dM
         PLUGIN_CODE c4td
         FORMATS ${JUCE_FORMATS}
