@@ -4,10 +4,9 @@
 TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     : AudioProcessorEditor(&p), processor(p)
 {
-    // Setup the file browser
     fileChooser = std::make_unique<juce::FileChooser>(
         "File Browser",
-        juce::File(),
+        getPresetFolder(),
         "*.pt");
 
     addAndMakeVisible(editor);
@@ -48,4 +47,17 @@ void TorchDrumEditor::resized()
     editor.setBounds(area);
 
     loadModelButton.setBounds(25, 20, 100, 50);
+}
+
+juce::File TorchDrumEditor::getPresetFolder()
+{
+    auto appDir = juce::File::commonApplicationDataDirectory;
+    juce::String presetFolder = juce::File::getSpecialLocation(appDir).getFullPathName();
+
+    presetFolder += juce::File::getSeparatorString() + SupportFolder;
+    presetFolder += juce::File::getSeparatorString() + AppFolder;
+    presetFolder += juce::File::getSeparatorString() + PresetFolder;
+    presetFolder += juce::File::getSeparatorString() + FactoryFolder;
+
+    return juce::File(presetFolder);
 }
