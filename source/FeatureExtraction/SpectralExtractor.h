@@ -43,6 +43,37 @@ public:
 
         // Perform FFT
         fft->performFrequencyOnlyForwardTransform(fftBuffer.data());
+
+        // Calculate spectral centroid
+        jassert(results.size() >= 1);
+        results[0] = computeSpectralCentroid();
+    }
+
+    float computeSpectralCentroid()
+    {
+        // Calculate spectral centroid based on current frequency magnitude buffer
+        float weightedSum = 0.0;
+        float norm = 0.0;
+        int realSize = (fftSize / 2) + 1;
+        for (int n = 0; n < realSize; n++)
+        {
+            jassert(fftBuffer[n] >= 0.0f);
+            weightedSum += n * fftBuffer[n];
+            norm += fftBuffer[n];
+        }
+
+        if (norm == 0.0)
+            return 0.0;
+
+        float centroid = weightedSum / norm;
+
+        // Convert to Hz
+        centroid = centroid * sampleRate / (float) fftSize;
+
+        // Convert to semitones
+        centroid = 12.0f * std::log2(centroid / 440.0f) + 69.0f;
+
+        return centroid;
     }
 
     // Getters

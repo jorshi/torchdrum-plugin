@@ -31,6 +31,7 @@
 struct FeatureExtractionResults
 {
     FeatureValue<float> rmsMean;
+    FeatureValue<float> spectralCentroidMean;
 };
 
 class FeatureExtraction
@@ -57,4 +58,5 @@ private:
 
     // Spectral features
     SpectralExtractor spectralExtractor;
+    std::vector<float> spectralResults;
 };

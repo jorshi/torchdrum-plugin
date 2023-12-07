@@ -1,3 +1,5 @@
+import math
+
 import cppyy
 import pytest
 import torch
@@ -60,6 +62,7 @@ def test_spectral_extractor_process_fft(torchdrum, controller):
         buffer.setSample(0, i, x[i])
 
     results = cppyy.gbl.std.vector[float]()
+    results.resize(1)
     extractor.process(buffer, results)
 
     fftBuffer = extractor.getFFTBuffer()
@@ -72,3 +75,31 @@ def test_spectral_extractor_process_fft(torchdrum, controller):
 
     nyquist = fft_size // 2 + 1
     assert torch.allclose(results[:nyquist], expected[:nyquist], atol=1e-4)
+
+
+def test_spectral_extractor_process_centroid(torchdrum, controller):
+    extractor = torchdrum.SpectralExtractor()
+
+    fft_size = 256
+    extractor.prepare(SR, fft_size)
+
+    buffer = controller.getFeatureBuffer()
+    buffer.setSize(1, fft_size)
+
+    # Create a test sinusoid
+    bin_freq = SR / fft_size
+    f0 = bin_freq * 10.0
+    w0 = 2 * torch.pi * f0 / SR
+
+    phase = torch.ones(fft_size) * w0
+    x = torch.sin(torch.cumsum(phase, dim=0))
+
+    for i in range(buffer.getNumSamples()):
+        buffer.setSample(0, i, x[i])
+
+    results = cppyy.gbl.std.vector[float]()
+    results.resize(1)
+    extractor.process(buffer, results)
+
+    expected = 12 * math.log2(f0 / 440.0) + 69.0
+    assert results[0] == pytest.approx(expected, rel=1e-3)
