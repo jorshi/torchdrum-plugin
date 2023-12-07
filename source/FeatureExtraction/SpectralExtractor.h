@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <juce_audio_utils/juce_audio_utils.h>
 #include <juce_dsp/juce_dsp.h>
 
 class SpectralExtractor
@@ -13,9 +14,10 @@ public:
     SpectralExtractor() = default;
     ~SpectralExtractor() = default;
 
-    void prepare(double sr, int fftSize)
+    void prepare(double sr, int size)
     {
         sampleRate = sr;
+        fftSize = size;
 
         // Initialize FFT
         int fftOrder = std::log2(fftSize);
@@ -31,6 +33,18 @@ public:
             false);
     }
 
+    void process(const juce::AudioBuffer<float>& buffer)
+    {
+        jassert(buffer.getNumChannels() == 1 && buffer.getNumSamples() == fftSize);
+
+        // Apply window function and copy to FFT buffer
+        for (int i = 0; i < fftSize; ++i)
+            fftBuffer[i] = buffer.getSample(0, i) * fftWindow[i];
+
+        // Perform FFT
+        fft->performFrequencyOnlyForwardTransform(fftBuffer.data());
+    }
+
     // Getters
     double getSampleRate() const { return sampleRate; }
     const juce::dsp::FFT& getFFT() const { return *fft; }
@@ -39,6 +53,7 @@ public:
 
 private:
     double sampleRate;
+    int fftSize;
 
     // FFT
     std::unique_ptr<juce::dsp::FFT> fft;
