@@ -32,6 +32,12 @@ struct FeatureExtractionResults
 {
     FeatureValue<float> rmsMean;
     FeatureValue<float> spectralCentroidMean;
+
+    void reset()
+    {
+        rmsMean.reset();
+        spectralCentroidMean.reset();
+    }
 };
 
 class FeatureExtraction

@@ -42,6 +42,9 @@ public:
     // before triggering the synthesizer
     bool getIsOnset() const { return isOnset; }
 
+    // Reset the feature normalizers to their initial state
+    void resetFeatureNormalizers() { features.reset(); }
+
 private:
     // Add a sample to the circular audio buffer
     void addSampleToBuffer(float x);
