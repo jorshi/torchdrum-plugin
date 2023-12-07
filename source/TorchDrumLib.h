@@ -8,6 +8,7 @@ Files to include in dynamic library
 #include "EnvelopeFollower.h"
 #include "FeatureExtraction/FeatureExtraction.h"
 #include "FeatureExtraction/FeatureValue.h"
+#include "FeatureExtraction/SpectralExtractor.h"
 #include "OnsetDetection.h"
 #include "Synth/DrumSynth.h"
 #include "Synth/DrumSynthParameters.h"

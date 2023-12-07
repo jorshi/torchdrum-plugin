@@ -25,6 +25,7 @@
 #pragma once
 
 #include "FeatureValue.h"
+#include "SpectralExtractor.h"
 #include <juce_audio_utils/juce_audio_utils.h>
 
 struct FeatureExtractionResults
@@ -53,4 +54,7 @@ private:
     double sampleRate;
     int frameSize;
     int hopSize;
+
+    // Spectral features
+    SpectralExtractor spectralExtractor;
 };
