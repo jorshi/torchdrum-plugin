@@ -1,3 +1,4 @@
+import cppyy
 import pytest
 import torch
 
@@ -58,7 +59,8 @@ def test_spectral_extractor_process_fft(torchdrum, controller):
     for i in range(buffer.getNumSamples()):
         buffer.setSample(0, i, x[i])
 
-    extractor.process(buffer)
+    results = cppyy.gbl.std.vector[float]()
+    extractor.process(buffer, results)
 
     fftBuffer = extractor.getFFTBuffer()
     assert fftBuffer.size() == fft_size

@@ -33,7 +33,7 @@ public:
             false);
     }
 
-    void process(const juce::AudioBuffer<float>& buffer)
+    void process(const juce::AudioBuffer<float>& buffer, std::vector<float>& results)
     {
         jassert(buffer.getNumChannels() == 1 && buffer.getNumSamples() == fftSize);
 
