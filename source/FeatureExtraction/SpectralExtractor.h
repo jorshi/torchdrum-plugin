@@ -16,6 +16,7 @@ public:
 
     void prepare(double sr, int size)
     {
+        isPrepared = false;
         sampleRate = sr;
         fftSize = size;
 
@@ -31,11 +32,17 @@ public:
             fftSize,
             juce::dsp::WindowingFunction<float>::hann,
             false);
+
+        isPrepared = true;
     }
 
     void process(const juce::AudioBuffer<float>& buffer, std::vector<float>& results)
     {
         jassert(buffer.getNumChannels() == 1 && buffer.getNumSamples() == fftSize);
+
+        // Don't do anything if the FFT is not initialized
+        if (fft == nullptr || ! isPrepared)
+            return;
 
         // Apply window function and copy to FFT buffer
         for (int i = 0; i < fftSize; ++i)
@@ -90,4 +97,6 @@ private:
     std::unique_ptr<juce::dsp::FFT> fft;
     std::vector<float> fftBuffer;
     std::vector<float> fftWindow;
+
+    std::atomic<bool> isPrepared { false };
 };

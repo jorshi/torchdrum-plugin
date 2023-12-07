@@ -25,11 +25,11 @@ void SynthController::prepare(double sr, int samplesPerBlock)
 
     // Prepare input and output features for NN
     size_t numSynthParams = synth.getParameters().parameters.size();
-    neuralInput.resize(12);
+    neuralInput.resize(2);
     neuralOutput.resize(numSynthParams);
 
     // Load the neural network model
-    neuralMapper.setInOutFeatures(12, numSynthParams);
+    neuralMapper.setInOutFeatures(2, numSynthParams);
 
     // Update synth parameters with the current patch
     neuralMapper.getCurrentPatch(synth.getParameters().parameters);
@@ -60,13 +60,14 @@ void SynthController::process(float x)
         copySamplesToFeatureBuffer();
         featureExtraction.process(featureBuffer, features);
 
-        // TODO: map features to neural network input -- for now, just use random values
-        for (int i = 0; i < neuralInput.size(); ++i)
-            neuralInput[i] = features.rmsMean.getNormalized();
+        // Input features to the neural network
+        neuralInput[0] = features.rmsMean.getNormalized();
+        neuralInput[1] = features.spectralCentroidMean.getNormalized();
 
+        // Process the neural network
         neuralMapper.process(neuralInput, neuralOutput);
 
-        // TODO: calculate synth parameters, and trigger synth
+        // Calculate synth parameters, and trigger synth
         synth.getParameters().updateAllParametersWithModulation(neuralOutput);
         synth.trigger();
     }

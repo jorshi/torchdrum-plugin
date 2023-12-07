@@ -41,6 +41,7 @@ private:
     WhiteNoise noise;
 
     Tanh waveshaper;
+    Gain tonalGain;
     Gain noiseGain;
     Gain gain;
 };

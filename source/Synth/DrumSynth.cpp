@@ -28,6 +28,8 @@ DrumSynth::DrumSynth()
     parameters.addCallback(6, [this](float value)
                            { noiseEnv.setDecayMs(value); });
     parameters.addCallback(7, [this](float value)
+                           { tonalGain.setGainDecibels(value); });
+    parameters.addCallback(8, [this](float value)
                            { noiseGain.setGainDecibels(value); });
 }
 
@@ -47,6 +49,7 @@ float DrumSynth::process()
     // Sinusoidal signal
     float y = osc.process(freqEnv.process());
     y = y * ampEnv.process();
+    y = tonalGain.process(y);
 
     // Noise signal
     float n = noise.process() * noiseEnv.process();

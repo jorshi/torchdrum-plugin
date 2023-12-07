@@ -13,6 +13,7 @@ void FeatureExtraction::prepare(double sr, int fs, int hs)
     // Prepare spectral extractor
     spectralExtractor.prepare(sr, fs);
     spectralResults.resize(1);
+    spectralResults.assign(1, 0.0);
 }
 
 void FeatureExtraction::process(const juce::AudioBuffer<float>& buffer, FeatureExtractionResults& results)
