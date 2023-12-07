@@ -11,5 +11,5 @@ struct Parameters
 
     //Raw pointers. They will be owned by either the processor or the APVTS (if you use it)
     juce::AudioParameterFloat* sensitivity =
-        new juce::AudioParameterFloat({ "sensitivity", 1 }, "Sensitivity", 0.f, 1.f, 0.5f);
+        new juce::AudioParameterFloat({ "sensitivity", 1 }, "Sensitivity", 0.f, 4.f, 1.0f);
 };

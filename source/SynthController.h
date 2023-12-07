@@ -11,6 +11,7 @@
 #include "NeuralNetwork.h"
 #endif
 #include "OnsetDetection.h"
+#include "Parameters.h"
 #include "Synth/SynthBase.h"
 #include <juce_audio_utils/juce_audio_utils.h>
 
@@ -22,7 +23,7 @@ class SynthController
 {
 public:
     SynthController() = delete;
-    SynthController(SynthBase& synth);
+    SynthController(SynthBase& synth, Parameters& parameters);
     ~SynthController() {}
 
     // Prepare the contoller with sample rate and block size
@@ -52,6 +53,7 @@ private:
 
     double sampleRate;
     SynthBase& synth;
+    Parameters& parameters;
 
     OnsetDetection onsetDetection;
     bool isOnset = false;

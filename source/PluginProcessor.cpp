@@ -1,7 +1,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-TorchDrumProcessor::TorchDrumProcessor() : synthController(drumSynth)
+TorchDrumProcessor::TorchDrumProcessor() : synthController(drumSynth, parameters)
 {
     // Add synthesizer parameters
     drumSynth.getParameters().add(*this);

@@ -1,6 +1,7 @@
 #include "SynthController.h"
 
-SynthController::SynthController(SynthBase& synth) : synth(synth)
+SynthController::SynthController(SynthBase& synth, Parameters& params)
+    : synth(synth), parameters(params)
 {
 }
 
@@ -68,7 +69,7 @@ void SynthController::process(float x)
         neuralMapper.process(neuralInput, neuralOutput);
 
         // Calculate synth parameters, and trigger synth
-        synth.getParameters().updateAllParametersWithModulation(neuralOutput);
+        synth.getParameters().updateAllParametersWithModulation(neuralOutput, parameters.sensitivity->get());
         synth.trigger();
     }
 }
