@@ -16,6 +16,9 @@ public:
 
     void prepare(double sr, int size)
     {
+        // Obtain the write lock - this will block until the lock is acquired
+        const juce::ScopedWriteLock writeLock(fftLock);
+
         isPrepared = false;
         sampleRate = sr;
         fftSize = size;
@@ -40,8 +43,9 @@ public:
     {
         jassert(buffer.getNumChannels() == 1 && buffer.getNumSamples() == fftSize);
 
-        // Don't do anything if the FFT is not initialized
-        if (fft == nullptr || ! isPrepared)
+        // Don't do anything if the FFT is not initialized or updating
+        const juce::ScopedTryReadLock readLock(fftLock);
+        if (! isPrepared || ! readLock.isLocked())
             return;
 
         // Apply window function and copy to FFT buffer
@@ -98,5 +102,6 @@ private:
     std::vector<float> fftBuffer;
     std::vector<float> fftWindow;
 
+    juce::ReadWriteLock fftLock;
     std::atomic<bool> isPrepared { false };
 };
