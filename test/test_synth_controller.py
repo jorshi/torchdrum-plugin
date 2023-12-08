@@ -5,9 +5,12 @@ import pytest
 @pytest.fixture
 def controller(torchdrum):
     synth = torchdrum.DrumSynth()
-    sc = torchdrum.SynthController(synth)
+    parameters = torchdrum.Parameters()
+    sc = torchdrum.SynthController(synth, parameters)
     yield sc
     synth.getParameters().freeParameters()
+    parameters.freeParameters()
+    sc.__destruct__()
 
 
 def test_synth_controller_init(controller, torchdrum):

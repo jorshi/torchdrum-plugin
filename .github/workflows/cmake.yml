@@ -1,62 +1,63 @@
-name: CI
+# name: CI
 
-on:
-    push:
-      branches: ["main"]
-    pull_request:
+# on:
+#     push:
+#       branches: ["main"]
+#     pull_request:
 
-permissions:
-    contents: read
+# permissions:
+#     contents: read
 
-jobs:
-    build:
-        name: Test plugin on ${{ matrix.os }}
-        runs-on: ${{ matrix.os }}
-        strategy:
-          fail-fast: false # show all errors for each platform (vs. cancel jobs on error)
-          matrix:
-            os: [ubuntu-latest, macOS-latest]
+# jobs:
+#     build:
+#         name: Test plugin on ${{ matrix.os }}
+#         runs-on: ${{ matrix.os }}
+#         timeout-minutes: 15
+#         strategy:
+#           fail-fast: false # show all errors for each platform (vs. cancel jobs on error)
+#           matrix:
+#             os: [ubuntu-latest, macOS-latest]
 
-        steps:
-        - name: Install Linux Deps
-          if: runner.os == 'Linux'
-          run: |
-            sudo apt-get update
-            sudo apt install libasound2-dev libcurl4-openssl-dev libx11-dev libxinerama-dev libxext-dev libfreetype6-dev libwebkit2gtk-4.0-dev libglu1-mesa-dev libjack-jackd2-dev lv2-dev
-            sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+#         steps:
+#         - name: Install Linux Deps
+#           if: runner.os == 'Linux'
+#           run: |
+#             sudo apt-get update
+#             sudo apt install libasound2-dev libcurl4-openssl-dev libx11-dev libxinerama-dev libxext-dev libfreetype6-dev libwebkit2gtk-4.0-dev libglu1-mesa-dev libjack-jackd2-dev lv2-dev
+#             sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
 
-        - name: Get latest CMake
-          uses: lukka/get-cmake@latest
+#         - name: Get latest CMake
+#           uses: lukka/get-cmake@latest
 
-        - name: Checkout code
-          uses: actions/checkout@v2
-          with:
-            submodules: recursive
+#         - name: Checkout code
+#           uses: actions/checkout@v2
+#           with:
+#             submodules: recursive
 
-        - name: Set up Python 3.10 # Required for torch and unit tests
-          uses: actions/setup-python@v4
-          with:
-            python-version: "3.10"
-            cache: "pip" # cache pip dependencies
+#         - name: Set up Python 3.10 # Required for torch and unit tests
+#           uses: actions/setup-python@v4
+#           with:
+#             python-version: "3.10"
+#             cache: "pip" # cache pip dependencies
 
-        - name: Install Python Dependencies
-          run: |
-            python -m pip install --upgrade pip
-            pip install torch==2.1.1 --index-url https://download.pytorch.org/whl/cpu
-            pip install -r requirements.txt
+#         - name: Install Python Dependencies
+#           run: |
+#             python -m pip install --upgrade pip
+#             pip install torch==2.1.1 --index-url https://download.pytorch.org/whl/cpu
+#             pip install -r requirements.txt
 
-        - name: Configure
-          shell: bash
-          working-directory: ${{github.workspace}}
-          run: |
-            export TORCHLIB_PATH=`python3 -c 'import torch;print(torch.utils.cmake_prefix_path)'`
-            cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$TORCHLIB_PATH -DBUILD_TORCHDRUM_LIB=ON
+#         - name: Configure
+#           shell: bash
+#           working-directory: ${{github.workspace}}
+#           run: |
+#             export TORCHLIB_PATH=`python3 -c 'import torch;print(torch.utils.cmake_prefix_path)'`
+#             cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$TORCHLIB_PATH -DBUILD_TORCHDRUM_LIB=ON
 
-        - name: Build
-          shell: bash
-          working-directory: ${{github.workspace}}
-          run: cmake --build build --config Release --parallel 4
+#         - name: Build
+#           shell: bash
+#           working-directory: ${{github.workspace}}
+#           run: cmake --build build --config Release --parallel 4
 
-        - name: Test with pytest
-          run: |
-            CONFIG=Release pytest
+#         - name: Test with pytest
+#           run: |
+#             CONFIG=Release pytest

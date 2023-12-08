@@ -49,3 +49,12 @@ notebooks/
 
 # libtorch module
 modules/libtorch/
+
+# OS X
+.DS_Store
+
+# Files related to release packaging
+Presets/
+prepare_plugin_release.sh
+remove_library_presets.sh
+SignedPlugins/
