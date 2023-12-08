@@ -55,4 +55,18 @@ def torchdrum():
     )
     cppyy.cppdef(defines)
     cppyy.include("source/TorchDrumLib.h")
-    return cppyy.gbl
+
+    instance = cppyy.gbl.juce.MessageManager.getInstance()
+    yield cppyy.gbl
+    cppyy.gbl.juce.MessageManager.deleteInstance(instance)
+
+
+@pytest.fixture
+def controller(torchdrum):
+    synth = torchdrum.DrumSynth()
+    parameters = torchdrum.Parameters()
+    sc = torchdrum.SynthController(synth, parameters)
+    yield sc
+    synth.getParameters().freeParameters()
+    parameters.freeParameters()
+    sc.__destruct__()

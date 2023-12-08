@@ -1,15 +1,4 @@
 import numpy as np
-import pytest
-
-
-@pytest.fixture
-def controller(torchdrum):
-    synth = torchdrum.DrumSynth()
-    parameters = torchdrum.Parameters()
-    sc = torchdrum.SynthController(synth, parameters)
-    yield sc
-    synth.getParameters().freeParameters()
-    parameters.freeParameters()
 
 
 SR = 48000

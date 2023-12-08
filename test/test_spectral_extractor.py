@@ -9,16 +9,6 @@ import torch
 SR = 48000
 
 
-@pytest.fixture
-def controller(torchdrum):
-    synth = torchdrum.DrumSynth()
-    parameters = torchdrum.Parameters()
-    sc = torchdrum.SynthController(synth, parameters)
-    yield sc
-    synth.getParameters().freeParameters()
-    parameters.freeParameters()
-
-
 def test_spectral_extractor_init(torchdrum):
     extractor = torchdrum.SpectralExtractor()
     assert isinstance(extractor, torchdrum.SpectralExtractor)

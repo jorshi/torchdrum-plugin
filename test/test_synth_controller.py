@@ -10,6 +10,7 @@ def controller(torchdrum):
     yield sc
     synth.getParameters().freeParameters()
     parameters.freeParameters()
+    sc.__destruct__()
 
 
 def test_synth_controller_init(controller, torchdrum):
