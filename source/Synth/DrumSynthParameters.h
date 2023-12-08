@@ -23,6 +23,7 @@ struct DrumSynthParameters : public SynthParameterBase
         addParameter(tanhGain);
         addParameter(outGain);
         addParameter(noiseEnvDecay);
+        addParameter(tonalGain);
         addParameter(noiseGain);
     }
 
@@ -46,6 +47,9 @@ struct DrumSynthParameters : public SynthParameterBase
 
     juce::AudioParameterFloat* noiseEnvDecay =
         new juce::AudioParameterFloat({ "noise_env_decay", 1 }, "Noise Env Decay", 10.f, 2000.f, 500.f);
+
+    juce::AudioParameterFloat* tonalGain =
+        new juce::AudioParameterFloat({ "tonal_gain", 1 }, "Tonal Gain", -60.0f, 6.0f, 0.f);
 
     juce::AudioParameterFloat* noiseGain =
         new juce::AudioParameterFloat({ "noise_gain", 1 }, "Noise Gain", -60.0f, 6.0f, 0.f);

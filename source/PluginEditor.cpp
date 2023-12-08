@@ -11,6 +11,7 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
 
     addAndMakeVisible(editor);
     addAndMakeVisible(loadModelButton);
+    addAndMakeVisible(resetNormButton);
 
     // Setup the load model button
     int flags = juce::FileBrowserComponent::openMode;
@@ -22,6 +23,12 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
                                  {
                                      chooserCallback(chooser);
                                  });
+    };
+
+    // Setup the reset normalizer button
+    resetNormButton.onClick = [this]
+    {
+        processor.getSynthController().resetFeatureNormalizers();
     };
 
     setSize(400, 500);
@@ -47,6 +54,7 @@ void TorchDrumEditor::resized()
     editor.setBounds(area);
 
     loadModelButton.setBounds(25, 20, 100, 50);
+    resetNormButton.setBounds(150, 20, 150, 50);
 }
 
 juce::File TorchDrumEditor::getPresetFolder()

@@ -12,6 +12,7 @@ jobs:
     build:
         name: Test plugin on ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
+        timeout-minutes: 15
         strategy:
           fail-fast: false # show all errors for each platform (vs. cancel jobs on error)
           matrix:

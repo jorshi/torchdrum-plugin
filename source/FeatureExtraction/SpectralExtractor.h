@@ -16,13 +16,17 @@ public:
 
     void prepare(double sr, int size)
     {
+        // Obtain the write lock - this will block until the lock is acquired
+        const juce::ScopedWriteLock writeLock(fftLock);
+
+        isPrepared = false;
         sampleRate = sr;
         fftSize = size;
 
         // Initialize FFT
         int fftOrder = std::log2(fftSize);
         fft = std::make_unique<juce::dsp::FFT>(fftOrder);
-        fftBuffer.resize(fftSize);
+        fftBuffer.resize(fftSize * 2);
         fftWindow.resize(fftSize);
 
         // Initialize window function
@@ -31,18 +35,25 @@ public:
             fftSize,
             juce::dsp::WindowingFunction<float>::hann,
             false);
+
+        isPrepared = true;
     }
 
     void process(const juce::AudioBuffer<float>& buffer, std::vector<float>& results)
     {
         jassert(buffer.getNumChannels() == 1 && buffer.getNumSamples() == fftSize);
 
+        // Don't do anything if the FFT is not initialized or updating
+        const juce::ScopedTryReadLock readLock(fftLock);
+        if (! isPrepared || ! readLock.isLocked())
+            return;
+
         // Apply window function and copy to FFT buffer
         for (int i = 0; i < fftSize; ++i)
             fftBuffer[i] = buffer.getSample(0, i) * fftWindow[i];
 
         // Perform FFT
-        fft->performFrequencyOnlyForwardTransform(fftBuffer.data());
+        fft->performFrequencyOnlyForwardTransform(fftBuffer.data(), true);
 
         // Calculate spectral centroid
         jassert(results.size() >= 1);
@@ -90,4 +101,7 @@ private:
     std::unique_ptr<juce::dsp::FFT> fft;
     std::vector<float> fftBuffer;
     std::vector<float> fftWindow;
+
+    juce::ReadWriteLock fftLock;
+    std::atomic<bool> isPrepared { false };
 };

@@ -27,5 +27,6 @@ private:
     TorchDrumProcessor& processor;
     juce::GenericAudioProcessorEditor editor { processor };
     juce::TextButton loadModelButton { "Load Model" };
+    juce::TextButton resetNormButton { "Reset Normalizer" };
     std::unique_ptr<juce::FileChooser> fileChooser;
 };

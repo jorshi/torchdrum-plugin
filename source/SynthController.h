@@ -11,6 +11,7 @@
 #include "NeuralNetwork.h"
 #endif
 #include "OnsetDetection.h"
+#include "Parameters.h"
 #include "Synth/SynthBase.h"
 #include <juce_audio_utils/juce_audio_utils.h>
 
@@ -22,7 +23,7 @@ class SynthController
 {
 public:
     SynthController() = delete;
-    SynthController(SynthBase& synth);
+    SynthController(SynthBase& synth, Parameters& parameters);
     ~SynthController() {}
 
     // Prepare the contoller with sample rate and block size
@@ -42,6 +43,9 @@ public:
     // before triggering the synthesizer
     bool getIsOnset() const { return isOnset; }
 
+    // Reset the feature normalizers to their initial state
+    void resetFeatureNormalizers() { features.reset(); }
+
 private:
     // Add a sample to the circular audio buffer
     void addSampleToBuffer(float x);
@@ -49,6 +53,7 @@ private:
 
     double sampleRate;
     SynthBase& synth;
+    Parameters& parameters;
 
     OnsetDetection onsetDetection;
     bool isOnset = false;

@@ -41,14 +41,15 @@ struct SynthParameterBase
         }
     }
 
-    void updateAllParametersWithModulation(const std::vector<double>& modulation)
+    void updateAllParametersWithModulation(const std::vector<double>& modulation, float sensitivity = 1.0f)
     {
         jassert(modulation.size() == parameters.size());
         for (int i = 0; i < parameters.size(); ++i)
         {
             auto* param = parameters[i];
             auto& callback = callbacks[i];
-            float value = juce::jlimit(0.0f, 1.0f, param->getValue() + (float) modulation[i]);
+            float modAmount = (float) modulation[i] * sensitivity;
+            float value = juce::jlimit(0.0f, 1.0f, param->getValue() + modAmount);
             callback(param->convertFrom0to1(value));
         }
     }
