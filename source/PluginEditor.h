@@ -2,7 +2,7 @@
 
 #include "PluginProcessor.h"
 
-class TorchDrumEditor : public juce::AudioProcessorEditor
+class TorchDrumEditor : public juce::AudioProcessorEditor, juce::ActionListener
 {
 public:
     explicit TorchDrumEditor(TorchDrumProcessor&);
@@ -17,6 +17,9 @@ public:
     const juce::String AppFolder = "TorchDrum";
     const juce::String PresetFolder = "Presets";
     const juce::String FactoryFolder = "Factory";
+
+    // Callback for action listener
+    void actionListenerCallback(const juce::String& message) override;
 
 private:
     void paint(juce::Graphics&) override;

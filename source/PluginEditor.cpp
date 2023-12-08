@@ -31,7 +31,10 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
         processor.getSynthController().resetFeatureNormalizers();
     };
 
-    setSize(400, 500);
+    // Add the action listener to the SynthController
+    processor.getSynthController().getBroadcaster().addActionListener(this);
+
+    setSize(400, 555);
 }
 
 void TorchDrumEditor::chooserCallback(const juce::FileChooser& chooser)
@@ -45,12 +48,25 @@ void TorchDrumEditor::paint(juce::Graphics& g)
 {
     g.fillAll(
         getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+
+    auto& results = processor.getSynthController().getFeatures();
+    float rms = results.rmsMean.getNormalized();
+    float sc = results.spectralCentroidMean.getNormalized();
+    juce::String rmsString = juce::String(rms, 2);
+    juce::String scString = juce::String(sc, 2);
+
+    g.setFont(20.0f);
+    g.setColour(juce::Colours::white);
+
+    int width = getWidth();
+    g.drawText("RMS: " + rmsString, 25, 70, width, 50, juce::Justification::left, true);
+    g.drawText("Spectral Centroid: " + scString, 25, 100, width, 50, juce::Justification::left, true);
 }
 
 void TorchDrumEditor::resized()
 {
     auto area = getLocalBounds();
-    area = area.withTrimmedTop(90);
+    area = area.withTrimmedTop(145);
     editor.setBounds(area);
 
     loadModelButton.setBounds(25, 20, 100, 50);
@@ -68,4 +84,12 @@ juce::File TorchDrumEditor::getPresetFolder()
     presetFolder += juce::File::getSeparatorString() + FactoryFolder;
 
     return juce::File(presetFolder);
+}
+
+void TorchDrumEditor::actionListenerCallback(const juce::String& message)
+{
+    if (message == "trigger")
+    {
+        this->repaint();
+    }
 }

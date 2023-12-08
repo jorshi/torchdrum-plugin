@@ -46,6 +46,12 @@ public:
     // Reset the feature normalizers to their initial state
     void resetFeatureNormalizers() { features.reset(); }
 
+    // Get the feature extraction results object
+    const FeatureExtractionResults& getFeatures() const { return features; }
+
+    // Get the action broadcaster
+    juce::ActionBroadcaster& getBroadcaster() { return broadcaster; }
+
 private:
     // Add a sample to the circular audio buffer
     void addSampleToBuffer(float x);
@@ -72,4 +78,7 @@ private:
     std::vector<double> neuralInput;
     std::vector<double> neuralOutput;
     juce::Random random;
+
+    // ActionBroadcaster for sending messages to the GUI
+    juce::ActionBroadcaster broadcaster;
 };

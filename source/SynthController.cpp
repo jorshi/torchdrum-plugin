@@ -71,6 +71,9 @@ void SynthController::process(float x)
         // Calculate synth parameters, and trigger synth
         synth.getParameters().updateAllParametersWithModulation(neuralOutput, parameters.sensitivity->get());
         synth.trigger();
+
+        // Notify listeners that an onset was detected
+        broadcaster.sendActionMessage("trigger");
     }
 }
 
