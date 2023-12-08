@@ -12,9 +12,11 @@ SR = 48000
 @pytest.fixture
 def controller(torchdrum):
     synth = torchdrum.DrumSynth()
-    sc = torchdrum.SynthController(synth)
+    parameters = torchdrum.Parameters()
+    sc = torchdrum.SynthController(synth, parameters)
     yield sc
     synth.getParameters().freeParameters()
+    parameters.freeParameters()
 
 
 def test_spectral_extractor_init(torchdrum):
@@ -32,7 +34,7 @@ def test_spectral_extractor_prepare(torchdrum):
 
     fft = extractor.getFFT()
     assert fft.getSize() == fft_size
-    assert extractor.getFFTBuffer().size() == fft_size
+    assert extractor.getFFTBuffer().size() == fft_size * 2
 
     # Confirm the window function is set
     window = extractor.getFFTWindow()
@@ -66,7 +68,7 @@ def test_spectral_extractor_process_fft(torchdrum, controller):
     extractor.process(buffer, results)
 
     fftBuffer = extractor.getFFTBuffer()
-    assert fftBuffer.size() == fft_size
+    assert fftBuffer.size() == fft_size * 2
     results = torch.tensor(fftBuffer)
 
     # Compare to the expected FFT from torch

@@ -26,7 +26,7 @@ public:
         // Initialize FFT
         int fftOrder = std::log2(fftSize);
         fft = std::make_unique<juce::dsp::FFT>(fftOrder);
-        fftBuffer.resize(fftSize);
+        fftBuffer.resize(fftSize * 2);
         fftWindow.resize(fftSize);
 
         // Initialize window function
@@ -53,7 +53,7 @@ public:
             fftBuffer[i] = buffer.getSample(0, i) * fftWindow[i];
 
         // Perform FFT
-        fft->performFrequencyOnlyForwardTransform(fftBuffer.data());
+        fft->performFrequencyOnlyForwardTransform(fftBuffer.data(), true);
 
         // Calculate spectral centroid
         jassert(results.size() >= 1);
