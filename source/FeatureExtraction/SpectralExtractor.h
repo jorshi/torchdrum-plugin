@@ -55,9 +55,10 @@ public:
         // Perform FFT
         fft->performFrequencyOnlyForwardTransform(fftBuffer.data(), true);
 
-        // Calculate spectral centroid
-        jassert(results.size() >= 1);
+        // Calculate spectral centroid and flatness
+        jassert(results.size() >= 2);
         results[0] = computeSpectralCentroid();
+        results[1] = computeSpectralFlatness();
     }
 
     float computeSpectralCentroid()
@@ -85,6 +86,28 @@ public:
         centroid = 12.0f * std::log2(centroid / 440.0f) + 69.0f;
 
         return centroid;
+    }
+
+    float computeSpectralFlatness()
+    {
+        float geometricMean = 0.0;
+        float arithmeticMean = 0.0;
+        int realSize = (fftSize / 2) + 1;
+        for (int n = 0; n < realSize; n++)
+        {
+            float power = std::max(fftBuffer[n] * fftBuffer[n], 1e-10f);
+            geometricMean += std::log(power);
+            arithmeticMean += power;
+        }
+
+        geometricMean /= (float) realSize;
+        geometricMean = std::exp(geometricMean);
+
+        arithmeticMean /= (float) realSize;
+
+        float flatness = geometricMean / arithmeticMean;
+        flatness = 20.0 * std::log10(flatness);
+        return flatness;
     }
 
     // Getters
