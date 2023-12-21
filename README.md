@@ -5,7 +5,7 @@ Differentiable drum synthesizer plugin
 
 Clone project and pull submodules. Includes JUCE.
 ```
-git clone --recurse-submodules https://github.com/jorshi/torchdrum-plugin.git
+git clone --recurse-submodules git@github.com:jorshi/torchdrum-plugin.git
 cd torchdrum-plugin
 ```
 
