@@ -32,9 +32,15 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     };
 
     // Add the action listener to the SynthController
+    // TODO: This is probably causing the segfault!!
     processor.getSynthController().getBroadcaster().addActionListener(this);
 
     setSize(400, 600);
+}
+
+TorchDrumEditor::~TorchDrumEditor()
+{
+    processor.getSynthController().getBroadcaster().removeActionListener(this);
 }
 
 void TorchDrumEditor::chooserCallback(const juce::FileChooser& chooser)

@@ -6,6 +6,7 @@ class TorchDrumEditor : public juce::AudioProcessorEditor, juce::ActionListener
 {
 public:
     explicit TorchDrumEditor(TorchDrumProcessor&);
+    ~TorchDrumEditor() override;
 
     // Handle the file chooser callback
     // Send the returned file path to the SynthController
