@@ -14,6 +14,7 @@ TorchDrumProcessor::TorchDrumProcessor() : synthController(snare808, parameters)
 void TorchDrumProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     //drumSynth.prepare(sampleRate, samplesPerBlock);
+    snare808.prepare(sampleRate, samplesPerBlock);
     synthController.prepare(sampleRate, samplesPerBlock);
     juce::ignoreUnused(samplesPerBlock);
 }

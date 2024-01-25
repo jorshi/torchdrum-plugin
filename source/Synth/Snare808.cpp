@@ -70,12 +70,40 @@ void Snare808::prepare(double sr, int samplesPerBlock)
 // Get the next sample from the synth
 float Snare808::process()
 {
-    return 0.f;
+    // Frequency envelope for both oscillators
+    float freq = freqEnv.process();
+
+    // Calculate both oscillators
+    float y1 = osc1.process(freq);
+    y1 = y1 * osc1Env.process();
+    y1 = osc1Gain.process(y1);
+
+    float y2 = osc2.process(freq);
+    y2 = y2 * osc2Env.process();
+    y2 = osc2Gain.process(y2);
+
+    // Noise Signal
+    float n = noise.process();
+    n = noiseFilter.process(n);
+    n = n * noiseEnv.process();
+    n = noiseGain.process(n);
+
+    // Combine the signals
+    float y = y1 + y2 + n;
+
+    // Apply waveshaping
+    y = waveshaper.process(y);
+
+    return y;
 }
 
 // Trigger the drum
 void Snare808::trigger()
 {
+    osc1Env.trigger();
+    osc2Env.trigger();
+    freqEnv.trigger();
+    noiseEnv.trigger();
 }
 
 // Update the filter frequency
