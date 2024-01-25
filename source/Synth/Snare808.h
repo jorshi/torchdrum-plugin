@@ -25,7 +25,7 @@ public:
     ~Snare808() = default;
 
     // Prepare the synth for playback
-    void prepare(double sampleRate, int samplesPerBlock) override;
+    void prepare(double sr, int samplesPerBlock) override;
 
     // Get the next sample from the synth
     float process() override;
@@ -34,6 +34,8 @@ public:
     void trigger() override;
 
 private:
+    double sampleRate = 0.0;
+
     // Sound sources
     SinusoidalOscillator osc1;
     SinusoidalOscillator osc2;
@@ -47,10 +49,15 @@ private:
 
     // Filters
     Biquad noiseFilter;
+    Biquad::Settings noiseFilterSettings;
 
     // Mixing and Waveshaping
     Gain osc1Gain;
     Gain osc2Gain;
     Gain noiseGain;
     Tanh waveshaper;
+
+    // Parameter Update Functions
+    void updateFilterFreq(float value);
+    void updateFilterQ(float value);
 };
