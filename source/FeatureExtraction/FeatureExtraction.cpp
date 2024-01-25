@@ -12,8 +12,9 @@ void FeatureExtraction::prepare(double sr, int fs, int hs)
 
     // Prepare spectral extractor
     spectralExtractor.prepare(sr, fs);
-    spectralResults.resize(1);
+    spectralResults.resize(2);
     spectralResults.assign(1, 0.0);
+    spectralResults.assign(2, 0.0);
 }
 
 void FeatureExtraction::process(const juce::AudioBuffer<float>& buffer, FeatureExtractionResults& results)
@@ -39,7 +40,8 @@ void FeatureExtraction::process(const juce::AudioBuffer<float>& buffer, FeatureE
     // Update the results
     results.rmsMean.set(rms, true);
 
-    // Calculate spectral centroid
+    // Calculate spectral features
     spectralExtractor.process(buffer, spectralResults);
     results.spectralCentroidMean.set(spectralResults[0], true);
+    results.spectralFlatnessMean.set(spectralResults[1], true);
 }

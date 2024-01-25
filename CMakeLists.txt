@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment target")
 set(CMAKE_CXX_STANDARD 17)
-project(TorchDrum VERSION 0.0.2)
+project(TorchDrum VERSION 0.0.4)
 
 # Adding submodules
 add_subdirectory(modules)
@@ -60,6 +60,14 @@ target_link_libraries(${BaseTargetName} PRIVATE
         juce_recommended_warning_flags)
 
 target_link_libraries(${BaseTargetName} PUBLIC "${TORCH_LIBRARIES}")
+
+# we need these flags for notarization on MacOS
+option(MACOS_RELEASE "Set build flags for MacOS Release" OFF)
+if(MACOS_RELEASE)
+    message(STATUS "Setting MacOS release flags...")
+    set_target_properties(${BaseTargetName}_Standalone PROPERTIES
+        XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME YES)
+endif()
 
 # Option to build dynamic library
 if (BUILD_TORCHDRUM_LIB)

@@ -32,9 +32,15 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     };
 
     // Add the action listener to the SynthController
+    // TODO: This is probably causing the segfault!!
     processor.getSynthController().getBroadcaster().addActionListener(this);
 
-    setSize(400, 555);
+    setSize(400, 600);
+}
+
+TorchDrumEditor::~TorchDrumEditor()
+{
+    processor.getSynthController().getBroadcaster().removeActionListener(this);
 }
 
 void TorchDrumEditor::chooserCallback(const juce::FileChooser& chooser)
@@ -52,21 +58,24 @@ void TorchDrumEditor::paint(juce::Graphics& g)
     auto& results = processor.getSynthController().getFeatures();
     float rms = results.rmsMean.getNormalized();
     float sc = results.spectralCentroidMean.getNormalized();
+    float sf = results.spectralFlatnessMean.getNormalized();
     juce::String rmsString = juce::String(rms, 2);
     juce::String scString = juce::String(sc, 2);
+    juce::String sfString = juce::String(sf, 2);
 
-    g.setFont(20.0f);
+    g.setFont(15.0f);
     g.setColour(juce::Colours::white);
 
     int width = getWidth();
     g.drawText("RMS: " + rmsString, 25, 70, width, 50, juce::Justification::left, true);
     g.drawText("Spectral Centroid: " + scString, 25, 100, width, 50, juce::Justification::left, true);
+    g.drawText("Spectral Flatness: " + sfString, 25, 130, width, 50, juce::Justification::left, true);
 }
 
 void TorchDrumEditor::resized()
 {
     auto area = getLocalBounds();
-    area = area.withTrimmedTop(145);
+    area = area.withTrimmedTop(180);
     editor.setBounds(area);
 
     loadModelButton.setBounds(25, 20, 100, 50);
