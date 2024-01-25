@@ -14,7 +14,7 @@ Class to hold the parameters for the drum synth
 
 struct Snare808Parameters : public SynthParameterBase
 {
-    DrumSynthParameters()
+    Snare808Parameters()
     {
         addParameter(osc1Freq);
         addParameter(osc1Mod);

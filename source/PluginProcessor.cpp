@@ -1,10 +1,11 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-TorchDrumProcessor::TorchDrumProcessor() : synthController(drumSynth, parameters)
+TorchDrumProcessor::TorchDrumProcessor() : synthController(snare808, parameters)
 {
     // Add synthesizer parameters
-    drumSynth.getParameters().add(*this);
+    //drumSynth.getParameters().add(*this);
+    snare808.getParameters().add(*this);
 
     // Add controller parameters
     parameters.add(*this);
@@ -12,7 +13,7 @@ TorchDrumProcessor::TorchDrumProcessor() : synthController(drumSynth, parameters
 
 void TorchDrumProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    drumSynth.prepare(sampleRate, samplesPerBlock);
+    //drumSynth.prepare(sampleRate, samplesPerBlock);
     synthController.prepare(sampleRate, samplesPerBlock);
     juce::ignoreUnused(samplesPerBlock);
 }
@@ -41,7 +42,7 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
         synthController.process(inputSample);
 
         // Process the synthesizer
-        float synthSample = drumSynth.process();
+        float synthSample = snare808.process();
         for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
         {
             auto* channelData = buffer.getWritePointer(channel);
