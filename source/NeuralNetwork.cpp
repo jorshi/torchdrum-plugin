@@ -26,7 +26,7 @@ void NeuralNetwork::process(const std::vector<double>& input, std::vector<double
 
     // Run prediction with model
     auto& inputTensor = inputs[0].toTensor();
-    for (int i = 0; i < input.size(); ++i)
+    for (int64_t i = 0; i < static_cast<int64_t>(input.size()); ++i)
     {
         inputTensor[0][i] = input[i];
     }
@@ -35,7 +35,7 @@ void NeuralNetwork::process(const std::vector<double>& input, std::vector<double
     jassert(outputTensor.sizes().size() == 2);
     jassert(outputTensor.sizes()[1] == output.size());
 
-    for (int i = 0; i < output.size(); ++i)
+    for (int i = 0; i < static_cast<int>(output.size()); ++i)
     {
         output[i] = outputTensor[0][i].item<double>();
     }
@@ -51,7 +51,7 @@ void NeuralNetwork::getCurrentPatch(std::vector<juce::RangedAudioParameter*> par
     }
 
     jassert(currentPatch.size() == parameters.size());
-    for (int i = 0; i < parameters.size(); ++i)
+    for (size_t i = 0; i <  static_cast<int>(parameters.size()); ++i)
     {
         parameters[i]->setValueNotifyingHost(currentPatch[i]);
     }
