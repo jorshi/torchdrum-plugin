@@ -41,7 +41,7 @@ private:
     int outputFeatures = 0;
     std::vector<torch::jit::IValue> inputs;
 
-    std::vector<double> currentPatch;
+    std::vector<float> currentPatch;
 
     // Lock for when we are loading the model
     juce::ReadWriteLock modelLock;

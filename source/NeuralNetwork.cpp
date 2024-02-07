@@ -93,9 +93,9 @@ void NeuralNetwork::_testModel()
         // Update the current patch from network output
         currentPatch.clear();
         currentPatch.resize(outputFeatures);
-        for (int i = 0; i < outputFeatures; ++i)
+        for (size_t i = 0; i < static_cast<size_t>(outputFeatures); ++i)
         {
-            currentPatch[i] = output[1][i].item<double>();
+            currentPatch[i] = static_cast<float>(output[1][i].item<double>());
         }
     }
     catch (const c10::Error& e)
