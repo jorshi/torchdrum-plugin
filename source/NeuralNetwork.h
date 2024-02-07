@@ -9,6 +9,9 @@
 #include <juce_core/juce_core.h>
 #include <torch/script.h>
 
+#include <vector>
+
+
 class NeuralNetwork
 {
 public:
