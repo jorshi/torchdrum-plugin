@@ -50,6 +50,10 @@ notebooks/
 # libtorch module
 modules/libtorch/
 
+
+# venv
+venv/*
+
 # OS X
 .DS_Store
 
