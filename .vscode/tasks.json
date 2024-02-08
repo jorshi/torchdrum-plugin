@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "cmake -Bbuild -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_PREFIX_PATH=/Users/jordanm/anaconda3/envs/torchdrum/lib/python3.10/site-packages/torch/share/cmake -DBUILD_TORCHDRUM_LIB=ON && cmake --build build --config Debug",
+            "problemMatcher": []
+        },
+        {
+            "label": "build-debug",
+            "type": "shell",
+            "command": "cmake -Bbuild -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_PREFIX_PATH=/Users/jordanm/anaconda3/envs/torchdrum/lib/python3.10/site-packages/torch/share/cmake && cmake --build build --config Debug",
+            "problemMatcher": []
+        },
+        {
+            "label": "build-release",
+            "type": "shell",
+            "command": "cmake -Bbuild -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_PREFIX_PATH=/Users/jordanm/anaconda3/envs/torchdrum/lib/python3.10/site-packages/torch/share/cmake && cmake --build build --config Release"
+        },
+        {
+            "label": "build-release-for-signing",
+            "type": "shell",
+            "command": "cmake -Bbuild -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_PREFIX_PATH=/Users/jordanm/anaconda3/envs/torchdrum/lib/python3.10/site-packages/torch/share/cmake -DCOPY_PLUGIN_AFTER_BUILD=0 && cmake --build build --config Release -j12"
+        }
+    ]
+
+}
