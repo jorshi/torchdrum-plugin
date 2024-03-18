@@ -2,6 +2,7 @@
 
 #include "Parameters.h"
 #include "Synth/DrumSynth.h"
+#include "Synth/Snare808.h"
 #include "SynthController.h"
 #include <shared_plugin_helpers/shared_plugin_helpers.h>
 
@@ -22,6 +23,7 @@ public:
 
 private:
     Parameters parameters;
-    DrumSynth drumSynth;
+    //DrumSynth drumSynth;
+    Snare808 snare808;
     SynthController synthController;
 };
