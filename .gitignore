@@ -55,6 +55,5 @@ modules/libtorch/
 
 # Files related to release packaging
 Presets/
-prepare_plugin_release.sh
 remove_library_presets.sh
 SignedPlugins/
