@@ -25,6 +25,13 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 {
     juce::ignoreUnused(midiMessages);
 
+    // Parameters to update once per block
+    auto& onsetDetection = synthController.getOnsetDetection();
+    onsetDetection.updateParameters(
+        parameters.onThreshold->get(),
+        parameters.offThreshold->get(),
+        parameters.waitSamples->get());
+
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
         // Process input audio for the controller -- mix to mono
