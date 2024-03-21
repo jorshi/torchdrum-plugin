@@ -52,6 +52,9 @@ public:
     // Get the action broadcaster
     juce::ActionBroadcaster& getBroadcaster() { return broadcaster; }
 
+    // Get the onset detection object
+    OnsetDetection& getOnsetDetection() { return onsetDetection; }
+
 private:
     // Add a sample to the circular audio buffer
     void addSampleToBuffer(float x);
