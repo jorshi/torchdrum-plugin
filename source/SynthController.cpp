@@ -30,10 +30,6 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     featureExtraction.prepare(sampleRate, ONSET_WINDOW_SIZE, ONSET_WINDOW_SIZE / 4);
     featureBuffer.clear();
     featureBuffer.setSize(1, ONSET_WINDOW_SIZE);
-
-    // Update synth parameters with the current patch
-    neuralMapper.getCurrentPatch(synth.getParameters().parameters);
-    synth.getParameters().updateAllParameters();
 }
 
 void SynthController::process(float x)
@@ -77,15 +73,18 @@ void SynthController::process(float x)
     }
 }
 
-void SynthController::updateModel(const std::string& path)
+void SynthController::updateModel(const std::string& path, bool updateParameters)
 {
     if (neuralMapper.loadModel(path))
     {
         modelPath = path;
 
-        // Update synth parameters with the current patch
-        neuralMapper.getCurrentPatch(synth.getParameters().parameters);
-        synth.getParameters().updateAllParameters();
+        // Update synth parameters with the preset stored in the model file
+        if (updateParameters)
+        {
+            neuralMapper.getCurrentPatch(synth.getParameters().parameters);
+            synth.getParameters().updateAllParameters();
+        }
     }
 }
 

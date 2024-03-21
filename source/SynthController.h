@@ -33,7 +33,7 @@ public:
     void process(float x);
 
     // Update the neural network model
-    void updateModel(const std::string& path);
+    void updateModel(const std::string& path, bool updateParameters = true);
 
     // Getters for audio buffers
     const juce::AudioBuffer<float>& getBuffer() const { return buffer; }

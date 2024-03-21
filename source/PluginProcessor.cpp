@@ -113,8 +113,9 @@ void TorchDrumProcessor::setStateInformation(const void* data,
         auto modelPath = preset.getChildWithName("ModelPath");
         if (modelPath.isValid())
         {
+            // Load the model, but don't overwrite the parameters
             std::string path = modelPath["Path"].toString().toStdString();
-            synthController.updateModel(path);
+            synthController.updateModel(path, false);
         }
     }
 }
