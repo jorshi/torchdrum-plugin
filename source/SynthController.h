@@ -55,6 +55,8 @@ public:
     // Get the onset detection object
     OnsetDetection& getOnsetDetection() { return onsetDetection; }
 
+    std::string& getModelPath() { return modelPath; }
+
 private:
     // Add a sample to the circular audio buffer
     void addSampleToBuffer(float x);
@@ -80,6 +82,7 @@ private:
     NeuralNetwork neuralMapper;
     std::vector<double> neuralInput;
     std::vector<double> neuralOutput;
+    std::string modelPath;
     juce::Random random;
 
     // ActionBroadcaster for sending messages to the GUI

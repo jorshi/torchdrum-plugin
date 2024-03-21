@@ -1,8 +1,15 @@
 #include "SynthController.h"
 
 SynthController::SynthController(SynthBase& synth, Parameters& params)
-    : synth(synth), parameters(params)
+    : synth(synth), parameters(params), modelPath("")
 {
+    // Prepare input and output features for NN
+    size_t numSynthParams = synth.getParameters().parameters.size();
+    neuralInput.resize(3);
+    neuralOutput.resize(numSynthParams);
+
+    // Update input and output features for the neural network
+    neuralMapper.setInOutFeatures(3, numSynthParams);
 }
 
 void SynthController::prepare(double sr, int samplesPerBlock)
@@ -23,14 +30,6 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     featureExtraction.prepare(sampleRate, ONSET_WINDOW_SIZE, ONSET_WINDOW_SIZE / 4);
     featureBuffer.clear();
     featureBuffer.setSize(1, ONSET_WINDOW_SIZE);
-
-    // Prepare input and output features for NN
-    size_t numSynthParams = synth.getParameters().parameters.size();
-    neuralInput.resize(3);
-    neuralOutput.resize(numSynthParams);
-
-    // Load the neural network model
-    neuralMapper.setInOutFeatures(3, numSynthParams);
 
     // Update synth parameters with the current patch
     neuralMapper.getCurrentPatch(synth.getParameters().parameters);
@@ -80,9 +79,14 @@ void SynthController::process(float x)
 
 void SynthController::updateModel(const std::string& path)
 {
-    neuralMapper.loadModel(path);
-    neuralMapper.getCurrentPatch(synth.getParameters().parameters);
-    synth.getParameters().updateAllParameters();
+    if (neuralMapper.loadModel(path))
+    {
+        modelPath = path;
+
+        // Update synth parameters with the current patch
+        neuralMapper.getCurrentPatch(synth.getParameters().parameters);
+        synth.getParameters().updateAllParameters();
+    }
 }
 
 void SynthController::addSampleToBuffer(float x)

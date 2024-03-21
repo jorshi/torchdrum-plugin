@@ -1,6 +1,6 @@
 #include "NeuralNetwork.h"
 
-void NeuralNetwork::loadModel(const std::string& path)
+bool NeuralNetwork::loadModel(const std::string& path)
 {
     // Obtain the write lock - this will block until the lock is acquired
     const juce::ScopedWriteLock writeLock(modelLock);
@@ -12,6 +12,9 @@ void NeuralNetwork::loadModel(const std::string& path)
     {
         _testModel();
     }
+
+    // Return the model loaded status
+    return modelLoaded;
 }
 
 void NeuralNetwork::process(const std::vector<double>& input, std::vector<double>& output)
