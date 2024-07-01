@@ -1,8 +1,4 @@
 {
     "cmake.configureOnOpen": true,
-    "cmake.cmakePath": "/opt/homebrew/bin/cmake",
-    "files.associations": {
-        "*.m": "matlab",
-        "iosfwd": "cpp"
-    }
+    "cmake.cmakePath": "/opt/homebrew/bin/cmake"
 }
