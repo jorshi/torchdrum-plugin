@@ -79,7 +79,11 @@ void TorchDrumProcessor::getStateInformation(juce::MemoryBlock& destData)
 
     juce::ValueTree pluginPreset("TorchDrum");
     pluginPreset.appendChild(params, nullptr);
-    // This a good place to add any non-parameters to your preset
+
+    // Save model path and feature normalizers
+    juce::ValueTree modelPath("ModelPath");
+    modelPath.setProperty("Path", juce::String(synthController.getModelPath()), nullptr);
+    pluginPreset.appendChild(modelPath, nullptr);
 
     copyXmlToBinary(*pluginPreset.createXml(), destData);
 }
@@ -106,6 +110,13 @@ void TorchDrumProcessor::setStateInformation(const void* data,
         }
 
         // Load your non-parameter data now
+        auto modelPath = preset.getChildWithName("ModelPath");
+        if (modelPath.isValid())
+        {
+            // Load the model, but don't overwrite the parameters
+            std::string path = modelPath["Path"].toString().toStdString();
+            synthController.updateModel(path, false);
+        }
     }
 }
 

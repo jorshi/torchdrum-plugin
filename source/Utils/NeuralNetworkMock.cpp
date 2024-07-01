@@ -1,8 +1,9 @@
 #include "NeuralNetworkMock.h"
 
-void NeuralNetwork::loadModel(const std::string& path)
+bool NeuralNetwork::loadModel(const std::string& path)
 {
     modelLoaded = true;
+    return modelLoaded;
 }
 
 void NeuralNetwork::process(const std::vector<double>& input, std::vector<double>& output)
