@@ -24,15 +24,15 @@ public:
         fftSize = size;
 
         // Initialize FFT
-        int fftOrder = std::log2(fftSize);
+        int fftOrder = (int) std::log2(fftSize);
         fft = std::make_unique<juce::dsp::FFT>(fftOrder);
-        fftBuffer.resize(fftSize * 2);
-        fftWindow.resize(fftSize);
+        fftBuffer.resize((size_t) fftSize * 2);
+        fftWindow.resize((size_t) fftSize);
 
         // Initialize window function
         juce::dsp::WindowingFunction<float>::fillWindowingTables(
             fftWindow.data(),
-            fftSize,
+            (size_t) fftSize,
             juce::dsp::WindowingFunction<float>::hann,
             false);
 
@@ -49,8 +49,8 @@ public:
             return;
 
         // Apply window function and copy to FFT buffer
-        for (int i = 0; i < fftSize; ++i)
-            fftBuffer[i] = buffer.getSample(0, i) * fftWindow[i];
+        for (size_t i = 0; i < (size_t) fftSize; ++i)
+            fftBuffer[i] = buffer.getSample(0, (int) i) * fftWindow[i];
 
         // Perform FFT
         fft->performFrequencyOnlyForwardTransform(fftBuffer.data(), true);
@@ -66,8 +66,8 @@ public:
         // Calculate spectral centroid based on current frequency magnitude buffer
         float weightedSum = 0.0;
         float norm = 0.0;
-        int realSize = (fftSize / 2) + 1;
-        for (int n = 0; n < realSize; n++)
+        size_t realSize = (size_t) (fftSize / 2) + 1;
+        for (size_t n = 0; n < realSize; n++)
         {
             jassert(fftBuffer[n] >= 0.0f);
             weightedSum += n * fftBuffer[n];
@@ -80,7 +80,7 @@ public:
         float centroid = weightedSum / norm;
 
         // Convert to Hz
-        centroid = centroid * sampleRate / (float) fftSize;
+        centroid = centroid * (float) sampleRate / fftSize;
 
         // Convert to semitones
         centroid = 12.0f * std::log2(centroid / 440.0f) + 69.0f;
@@ -92,8 +92,8 @@ public:
     {
         float geometricMean = 0.0;
         float arithmeticMean = 0.0;
-        int realSize = (fftSize / 2) + 1;
-        for (int n = 0; n < realSize; n++)
+        size_t realSize = (size_t) (fftSize / 2) + 1;
+        for (size_t n = 0; n < realSize; n++)
         {
             float power = std::max(fftBuffer[n] * fftBuffer[n], 1e-10f);
             geometricMean += std::log(power);
@@ -106,7 +106,7 @@ public:
         arithmeticMean /= (float) realSize;
 
         float flatness = geometricMean / arithmeticMean;
-        flatness = 20.0 * std::log10(flatness);
+        flatness = 20.0f * std::log10(flatness);
         return flatness;
     }
 

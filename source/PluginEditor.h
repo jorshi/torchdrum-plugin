@@ -28,8 +28,8 @@ private:
 
     juce::File getPresetFolder();
 
-    TorchDrumProcessor& processor;
-    juce::GenericAudioProcessorEditor editor { processor };
+    TorchDrumProcessor& drumProcessor;
+    juce::GenericAudioProcessorEditor editor { drumProcessor };
     juce::TextButton loadModelButton { "Load Model" };
     juce::TextButton resetNormButton { "Reset Normalizer" };
     std::unique_ptr<juce::FileChooser> fileChooser;

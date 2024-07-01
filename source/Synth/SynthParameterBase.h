@@ -33,7 +33,7 @@ struct SynthParameterBase
 
     void updateAllParameters()
     {
-        for (int i = 0; i < parameters.size(); ++i)
+        for (size_t i = 0; i < parameters.size(); ++i)
         {
             auto* param = parameters[i];
             auto& callback = callbacks[i];
@@ -44,7 +44,7 @@ struct SynthParameterBase
     void updateAllParametersWithModulation(const std::vector<double>& modulation, float sensitivity = 1.0f)
     {
         jassert(modulation.size() == parameters.size());
-        for (int i = 0; i < parameters.size(); ++i)
+        for (size_t i = 0; i < parameters.size(); ++i)
         {
             auto* param = parameters[i];
             auto& callback = callbacks[i];
@@ -54,7 +54,7 @@ struct SynthParameterBase
         }
     }
 
-    void addCallback(int index, std::function<void(float)> callback)
+    void addCallback(size_t index, std::function<void(float)> callback)
     {
         jassert(index < callbacks.size());
         callbacks[index] = callback;

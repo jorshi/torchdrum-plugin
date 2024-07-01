@@ -20,7 +20,7 @@ public:
     void setTuning(float newValue);
 
     // Destructor
-    ~Tonal() {};
+    ~Tonal() {}
 
 private:
     double sampleRate;

@@ -54,32 +54,32 @@ public:
     int setup(const Settings& settings)
     {
         type = settings.type;
-        Fs = settings.fs;
-        Fc = settings.cutoff / Fs;
-        Q = settings.q;
-        peakGain = settings.peakGainDb;
+        Fs = (sample_t) settings.fs;
+        Fc = (sample_t) settings.cutoff / Fs;
+        Q = (sample_t) settings.q;
+        peakGain = (sample_t) settings.peakGainDb;
         calc();
         return 0;
     }
 
-    void setType(Type type)
+    void setType(Type newValue)
     {
-        this->type = type;
+        this->type = newValue;
         calc();
     }
-    void setQ(sample_t Q)
+    void setQ(sample_t newValue)
     {
-        this->Q = Q;
+        this->Q = newValue;
         calc();
     }
-    void setFc(sample_t Fc)
+    void setFc(sample_t newValue)
     {
-        this->Fc = Fc / this->Fs;
+        this->Fc = newValue / this->Fs;
         calc();
     }
-    void setPeakGain(sample_t peakGainDB)
+    void setPeakGain(sample_t newValue)
     {
-        this->peakGain = peakGainDB;
+        this->peakGain = newValue;
         calc();
     }
 
@@ -105,7 +105,7 @@ private:
 class Biquad : public BiquadCoeffT<double>
 {
 public:
-    Biquad() {};
+    Biquad() {}
     Biquad(const Settings& s) { setup(s); }
     /**
    * Process one input sample and return one output sample.

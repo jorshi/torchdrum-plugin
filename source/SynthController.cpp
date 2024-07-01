@@ -1,7 +1,7 @@
 #include "SynthController.h"
 
-SynthController::SynthController(SynthBase& synth, Parameters& params)
-    : synth(synth), parameters(params), modelPath("")
+SynthController::SynthController(SynthBase& synthesizer, Parameters& params)
+    : synth(synthesizer), parameters(params), modelPath("")
 {
     // Prepare input and output features for NN
     size_t numSynthParams = synth.getParameters().parameters.size();
@@ -9,7 +9,7 @@ SynthController::SynthController(SynthBase& synth, Parameters& params)
     neuralOutput.resize(numSynthParams);
 
     // Update input and output features for the neural network
-    neuralMapper.setInOutFeatures(3, numSynthParams);
+    neuralMapper.setInOutFeatures(3, (int) numSynthParams);
 }
 
 void SynthController::prepare(double sr, int samplesPerBlock)

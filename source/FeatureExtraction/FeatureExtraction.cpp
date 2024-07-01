@@ -22,7 +22,7 @@ void FeatureExtraction::process(const juce::AudioBuffer<float>& buffer, FeatureE
     jassert(buffer.getNumChannels() == 1 && buffer.getNumSamples() == frameSize);
 
     // Calculate RMS
-    double rms = 0.0;
+    float rms = 0.0;
     auto* audio = buffer.getReadPointer(0);
     for (int i = 0; i < buffer.getNumSamples(); ++i)
     {
@@ -35,7 +35,7 @@ void FeatureExtraction::process(const juce::AudioBuffer<float>& buffer, FeatureE
 
     // Convert to dB with epsilon to avoid log(0) and floor at -80 dB
     rms = 20.0f * std::log10(rms + 1e-8f);
-    rms = std::max(rms, -80.0);
+    rms = std::max(rms, -80.0f);
 
     // Update the results
     results.rmsMean.set(rms, true);

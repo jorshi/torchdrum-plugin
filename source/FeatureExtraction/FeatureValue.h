@@ -43,8 +43,12 @@ public:
     // Get the normalized value
     T getNormalized() const
     {
-        if (minValue == maxValue || minValue == std::numeric_limits<T>::max())
+        // If the minimum / maximum values have yet to be set (or not different)
+        if (juce::approximatelyEqual(minValue, maxValue)
+            || juce::approximatelyEqual(minValue, std::numeric_limits<T>::max()))
+        {
             return 0.5;
+        }
 
         T normalized = (value - minValue) / (maxValue - minValue);
         return juce::jlimit(static_cast<T>(0.0), static_cast<T>(1.0), normalized);
