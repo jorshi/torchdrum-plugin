@@ -2,7 +2,7 @@
 #include "PluginProcessor.h"
 
 TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
-    : AudioProcessorEditor(&p), processor(p)
+    : AudioProcessorEditor(&p), drumProcessor(p)
 {
     fileChooser = std::make_unique<juce::FileChooser>(
         "File Browser",
@@ -28,25 +28,25 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     // Setup the reset normalizer button
     resetNormButton.onClick = [this]
     {
-        processor.getSynthController().resetFeatureNormalizers();
+        drumProcessor.getSynthController().resetFeatureNormalizers();
     };
 
     // Add the action listener to the SynthController
-    processor.getSynthController().getBroadcaster().addActionListener(this);
+    drumProcessor.getSynthController().getBroadcaster().addActionListener(this);
 
     setSize(400, 600);
 }
 
 TorchDrumEditor::~TorchDrumEditor()
 {
-    processor.getSynthController().getBroadcaster().removeActionListener(this);
+    drumProcessor.getSynthController().getBroadcaster().removeActionListener(this);
 }
 
 void TorchDrumEditor::chooserCallback(const juce::FileChooser& chooser)
 {
     auto result = chooser.getResult();
     auto resultPath = result.getFullPathName().toStdString();
-    processor.getSynthController().updateModel(resultPath);
+    drumProcessor.getSynthController().updateModel(resultPath);
 }
 
 void TorchDrumEditor::paint(juce::Graphics& g)
@@ -54,7 +54,7 @@ void TorchDrumEditor::paint(juce::Graphics& g)
     g.fillAll(
         getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 
-    auto& results = processor.getSynthController().getFeatures();
+    auto& results = drumProcessor.getSynthController().getFeatures();
     float rms = results.rmsMean.getNormalized();
     float sc = results.spectralCentroidMean.getNormalized();
     float sf = results.spectralFlatnessMean.getNormalized();

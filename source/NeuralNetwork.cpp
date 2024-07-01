@@ -29,18 +29,18 @@ void NeuralNetwork::process(const std::vector<double>& input, std::vector<double
 
     // Run prediction with model
     auto& inputTensor = inputs[0].toTensor();
-    for (int i = 0; i < input.size(); ++i)
+    for (size_t i = 0; i < input.size(); ++i)
     {
-        inputTensor[0][i] = input[i];
+        inputTensor[0][(int64_t) i] = input[i];
     }
 
     auto outputTensor = model.forward(inputs).toTensor();
     jassert(outputTensor.sizes().size() == 2);
-    jassert(outputTensor.sizes()[1] == output.size());
+    jassert(outputTensor.sizes()[1] == (int64_t) output.size());
 
-    for (int i = 0; i < output.size(); ++i)
+    for (size_t i = 0; i < output.size(); ++i)
     {
-        output[i] = outputTensor[0][i].item<double>();
+        output[i] = outputTensor[0][(int64_t) i].item<double>();
     }
 }
 
@@ -54,9 +54,9 @@ void NeuralNetwork::getCurrentPatch(std::vector<juce::RangedAudioParameter*> par
     }
 
     jassert(currentPatch.size() == parameters.size());
-    for (int i = 0; i < parameters.size(); ++i)
+    for (size_t i = 0; i < parameters.size(); ++i)
     {
-        parameters[i]->setValueNotifyingHost(currentPatch[i]);
+        parameters[i]->setValueNotifyingHost((float) currentPatch[i]);
     }
 }
 
@@ -95,10 +95,10 @@ void NeuralNetwork::_testModel()
 
         // Update the current patch from network output
         currentPatch.clear();
-        currentPatch.resize(outputFeatures);
-        for (int i = 0; i < outputFeatures; ++i)
+        currentPatch.resize((size_t) outputFeatures);
+        for (size_t i = 0; i < (size_t) outputFeatures; ++i)
         {
-            currentPatch[i] = output[1][i].item<double>();
+            currentPatch[i] = output[1][(int64_t) i].item<double>();
         }
     }
     catch (const c10::Error& e)

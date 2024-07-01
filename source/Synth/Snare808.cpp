@@ -84,7 +84,7 @@ float Snare808::process()
 
     // Noise Signal
     float n = noise.process();
-    n = noiseFilter.process(n);
+    n = (float) noiseFilter.process(n);
     n = n * noiseEnv.process();
     n = noiseGain.process(n);
 
@@ -109,7 +109,7 @@ void Snare808::trigger()
 // Update the filter frequency
 void Snare808::updateFilterFreq(float value)
 {
-    float nyquist = 0.5f * sampleRate;
+    float nyquist = 0.5f * (float) sampleRate;
     float freq = std::min(value, nyquist);
     noiseFilter.setFc(freq);
 }
