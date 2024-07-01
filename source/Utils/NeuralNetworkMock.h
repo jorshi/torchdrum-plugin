@@ -16,7 +16,10 @@ public:
 
     bool loadModel(const std::string& path);
     void process(const std::vector<double>& input, std::vector<double>& output);
-    void getCurrentPatch(std::vector<juce::RangedAudioParameter*> parameters) {}
+    void getCurrentPatch(std::vector<juce::RangedAudioParameter*> parameters)
+    {
+        (void) parameters; // Unused in mock
+    }
 
     void setInOutFeatures(int in, int out)
     {
