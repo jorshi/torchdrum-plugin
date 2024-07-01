@@ -1,4 +1,7 @@
 {
     "cmake.configureOnOpen": true,
-    "cmake.cmakePath": "/opt/homebrew/bin/cmake"
+    "cmake.cmakePath": "/opt/homebrew/bin/cmake",
+    "cmake.configureArgs": [
+        "-DCMAKE_PREFIX_PATH=/Users/jordanm/anaconda3/envs/torchdrum/lib/python3.10/site-packages/torch/share/cmake"
+    ]
 }

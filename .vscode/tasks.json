@@ -24,5 +24,4 @@
             "command": "cmake -Bbuild -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_PREFIX_PATH=/Users/jordanm/anaconda3/envs/torchdrum/lib/python3.10/site-packages/torch/share/cmake -DCOPY_PLUGIN_AFTER_BUILD=0 && cmake --build build --config Release -j12"
         }
     ]
-
 }
