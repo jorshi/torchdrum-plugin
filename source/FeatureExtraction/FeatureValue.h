@@ -44,7 +44,8 @@ public:
     T getNormalized() const
     {
         // If the minimum / maximum values have yet to be set (or not different)
-        if (juce::approximatelyEqual(minValue, maxValue) || juce::approximatelyEqual(minValue, std::numeric_limits<T>::max()))
+        if (juce::approximatelyEqual(minValue, maxValue)
+            || juce::approximatelyEqual(minValue, std::numeric_limits<T>::max()))
         {
             return 0.5;
         }
