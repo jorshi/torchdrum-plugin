@@ -45,6 +45,9 @@ juce_add_plugin("${BaseTargetName}"
 # Adding source code
 add_subdirectory(source)
 
+# Adding binary data
+add_subdirectory(assets)
+
 target_compile_definitions(${BaseTargetName}
     PUBLIC
         JUCE_WEB_BROWSER=0
@@ -53,6 +56,7 @@ target_compile_definitions(${BaseTargetName}
         DONT_SET_USING_JUCE_NAMESPACE=1)
 
 target_link_libraries(${BaseTargetName} PRIVATE
+        torchdrum_binary_data
         shared_plugin_helpers
         juce_dsp
         juce_recommended_config_flags
