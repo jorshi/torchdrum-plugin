@@ -18,6 +18,9 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     // Load the background image
     backgroundImage = juce::ImageCache::getFromMemory(BinaryData::background2x_png,
                                                       BinaryData::background2x_pngSize);
+
+    // Add GUI Components
+    addAndMakeVisible(synthControlComponent);
 }
 
 TorchDrumEditor::~TorchDrumEditor()
@@ -38,6 +41,10 @@ void TorchDrumEditor::paint(juce::Graphics& g)
 
     auto rescaledBackground = backgroundImage.rescaled(getWidth(), getHeight());
     g.drawImageAt(rescaledBackground, 0, 0);
+
+    // Draw the SynthControlComponent
+    int controlX = (int) (getWidth() * 0.65f);
+    synthControlComponent.setBounds(controlX, 0, getWidth() - controlX, getHeight());
 }
 
 void TorchDrumEditor::resized() {}

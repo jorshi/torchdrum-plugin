@@ -1,5 +1,6 @@
 add_subdirectory(FeatureExtraction)
 add_subdirectory(Synth)
+add_subdirectory(GUI)
 
 target_sources(${BaseTargetName} PRIVATE
         PluginProcessor.cpp

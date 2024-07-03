@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BinaryData.h"
+#include "GUI/SynthControlComponent.h"
 #include "PluginProcessor.h"
 
 class TorchDrumEditor : public juce::AudioProcessorEditor, juce::ActionListener
@@ -34,4 +35,7 @@ private:
 
     // Background image
     juce::Image backgroundImage;
+
+    // GUI Components
+    SynthControlComponent synthControlComponent;
 };
