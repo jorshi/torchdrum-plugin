@@ -9,5 +9,5 @@ void SynthControlComponent::paint(juce::Graphics& g)
     g.drawRect(0, 0, getWidth(), getHeight());
 
     // Draw the knob
-    knob1.setBounds(10, 10, 100, 100);
+    knob1.setBounds(10, 10, 45, 45);
 }

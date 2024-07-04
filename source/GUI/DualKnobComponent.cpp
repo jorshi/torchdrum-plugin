@@ -11,9 +11,9 @@ DualKnobComponent::DualKnobComponent()
 void DualKnobComponent::paint(juce::Graphics& g)
 {
     // Bounding box for development purposes
-    g.setColour(juce::Colours::black);
-    g.drawRect(0, 0, getWidth(), getHeight());
+    // g.setColour(juce::Colours::black);
+    // g.drawRect(0, 0, getWidth(), getHeight());
 
-    // Draw the knob
+    // Draw the knob5
     innerKnob.setBounds(0, 0, getWidth(), getHeight());
 }
