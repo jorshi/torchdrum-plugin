@@ -99,6 +99,10 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     auto tickLength = getOuterKnobTickLength((float) width);
     auto tickStart = height / 2.0f - tickLength * 0.8;
     g.setOrigin(juce::Point<int>(centre.getX(), centre.getY()));
+
+    auto tickRotation = (modulatedValue - 0.5f) * rotarySize;
+    g.addTransform(juce::AffineTransform::rotation(tickRotation, 0.0, 0.0));
+
     g.drawRoundedRectangle(
         juce::Rectangle<float>(
             -stroke / 4.0f, -tickStart, stroke / 2.0f, -(tickLength * 0.6f - stroke)),
@@ -121,6 +125,9 @@ DualKnobComponent::DualKnobComponent()
     addAndMakeVisible(innerKnob);
 
     innerKnob.addListener(this);
+
+    // Set value of modulated parameter -- this should be set by the synth
+    outerKnobLookAndFeel.setModulatedValue(0.5f);
 }
 
 void DualKnobComponent::paint(juce::Graphics& g)

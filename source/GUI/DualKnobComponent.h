@@ -38,9 +38,11 @@ public:
                           juce::Slider& slider) override;
 
     void setOffset(float newValue) { offset = newValue; }
+    void setModulatedValue(float newValue) { modulatedValue = newValue; }
 
 private:
     float offset = 0.0f;
+    float modulatedValue = 0.0f;
 };
 
 //==============================================================================
