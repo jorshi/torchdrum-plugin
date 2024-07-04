@@ -10,7 +10,7 @@ void InnerKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
                                             float sliderPos,
                                             float rotaryStartAngle,
                                             float rotaryEndAngle,
-                                            juce::Slider& slider)
+                                            [[maybe_unused]] juce::Slider& slider)
 {
     auto bounds = juce::Rectangle<float>(x, y, width, height).toFloat();
     auto centre = bounds.getCentre();
@@ -18,7 +18,7 @@ void InnerKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
 
     g.saveState();
 
-    sliderPos = sliderPos - 0.5;
+    sliderPos = sliderPos - 0.5f;
     g.addTransform(juce::AffineTransform::rotation(
         sliderPos * (rotaryEndAngle - rotaryStartAngle), centre.getX(), centre.getY()));
 
@@ -35,7 +35,7 @@ void InnerKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     // Draw the tick mark
     auto tickLength = getInnerKnobTickLength((float) width);
     auto tickStart = height / 2.0f - tickLength;
-    g.setOrigin(juce::Point<int>(centre.getX(), centre.getY()));
+    g.setOrigin(juce::Point<int>((int) centre.getX(), (int) centre.getY()));
     g.drawRoundedRectangle(
         juce::Rectangle<float>(
             -stroke / 4.0f, -tickStart, stroke / 2.0f, -(tickLength - stroke)),
@@ -55,7 +55,7 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
                                             float sliderPos,
                                             float rotaryStartAngle,
                                             float rotaryEndAngle,
-                                            juce::Slider& slider)
+                                            [[maybe_unused]] juce::Slider& slider)
 {
     auto bounds = juce::Rectangle<float>(x, y, width, height).toFloat();
     auto centre = bounds.getCentre();
@@ -85,7 +85,6 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     modulation.addPieSegment(bounds.reduced(stroke / 2.0f), modStart, modEnd, 0.65f);
 
     // Draw the radial gradient fill for the modulation ring
-    auto gradCentre = bounds.getCentre().getX() * 0.3f;
     g.setGradientFill(juce::ColourGradient(
         modKnobColourA, centre.getX(), centre.getY(), modKnobColourB, 0.0, 0.0, true));
     g.fillPath(modulation);
@@ -97,8 +96,8 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
 
     // Draw the modulated parameter tick mark
     auto tickLength = getOuterKnobTickLength((float) width);
-    auto tickStart = height / 2.0f - tickLength * 0.8;
-    g.setOrigin(juce::Point<int>(centre.getX(), centre.getY()));
+    auto tickStart = height / 2.0f - tickLength * 0.8f;
+    g.setOrigin(juce::Point<int>((int) centre.getX(), (int) centre.getY()));
 
     auto tickRotation = (modulatedValue - 0.5f) * rotarySize;
     g.addTransform(juce::AffineTransform::rotation(tickRotation, 0.0, 0.0));
@@ -130,7 +129,7 @@ DualKnobComponent::DualKnobComponent()
     outerKnobLookAndFeel.setModulatedValue(0.5f);
 }
 
-void DualKnobComponent::paint(juce::Graphics& g)
+void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
 {
     // Draw the outer knob
     int outerKnobSize = getWidth();
@@ -153,7 +152,7 @@ void DualKnobComponent::sliderValueChanged(juce::Slider* slider)
                                      innerKnob.getMaximum(),
                                      0.0,
                                      1.0);
-        outerKnobLookAndFeel.setOffset(innerValue);
+        outerKnobLookAndFeel.setOffset((float) innerValue);
         outerKnob.repaint();
     }
 }
