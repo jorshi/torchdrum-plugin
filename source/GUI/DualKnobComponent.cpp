@@ -75,9 +75,13 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     // TODO: how to make the modulation ring rotate with the inner knob?
     juce::Path modulation;
     auto rotarySize = rotaryEndAngle - rotaryStartAngle;
-    auto modCentre = (offset - 0.5f) * (rotaryEndAngle - rotaryStartAngle);
+    auto modCentre = (offset - 0.5f) * rotarySize;
     auto modStart = modCentre - rotarySize * 0.5f * sliderPos;
     auto modEnd = modStart + rotarySize * sliderPos;
+
+    modStart = juce::jmax(modStart, -0.5f * rotarySize);
+    modEnd = juce::jmin(modEnd, 0.5f * rotarySize);
+
     modulation.addPieSegment(bounds.reduced(stroke / 2.0f), modStart, modEnd, 0.65f);
 
     // Draw the radial gradient fill for the modulation ring
