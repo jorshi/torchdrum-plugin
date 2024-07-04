@@ -6,6 +6,8 @@ const juce::Colour borderColour = juce::Colour::fromRGB(43, 59, 63);
 const juce::Colour innerKnobColourA = juce::Colour::fromRGBA(177, 225, 243, 127);
 const juce::Colour innerKnobColourB = juce::Colour::fromRGB(120, 166, 177);
 const juce::Colour outerKnobColourA = juce::Colour::fromRGB(126, 142, 147);
+const juce::Colour modKnobColourA = juce::Colour::fromRGBA(120, 166, 177, 179);
+const juce::Colour modKnobColourB = juce::Colour::fromRGBA(255, 255, 255, 255);
 
 inline float getInnerKnobStrokeWidth(float sliderWidth)
 {

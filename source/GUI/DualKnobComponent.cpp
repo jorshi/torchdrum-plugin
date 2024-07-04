@@ -63,12 +63,32 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
 
     g.saveState();
 
+    // Add the background ring
     juce::Path ring;
     ring.addPieSegment(
         bounds.reduced(stroke / 2.0f), 0.0f, juce::MathConstants<float>::twoPi, 0.64f);
 
     g.setColour(outerKnobColourA);
     g.fillPath(ring);
+
+    // Add the modulation ring
+    juce::Path modulation;
+    auto startAngle = (rotaryEndAngle - rotaryStartAngle) * -0.5f;
+    auto endAngle = startAngle + (rotaryEndAngle - rotaryStartAngle);
+    modulation.addPieSegment(bounds.reduced(stroke / 2.0f),
+                             startAngle * sliderPos,
+                             endAngle * sliderPos,
+                             0.65f);
+
+    auto gradCentre = bounds.getCentre().getX() * 0.3f;
+    g.setGradientFill(juce::ColourGradient(
+        modKnobColourA, centre.getX(), centre.getY(), modKnobColourB, 0.0, 0.0, true));
+    g.fillPath(modulation);
+
+    // Draw the dial knob border
+    g.setColour(borderColour);
+    g.drawEllipse(bounds.reduced(stroke / 2.0f), stroke);
+    g.strokePath(modulation, juce::PathStrokeType(stroke));
 
     g.restoreState();
 }
