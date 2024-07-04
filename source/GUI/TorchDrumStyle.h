@@ -23,3 +23,8 @@ inline float getOuterKnobStrokeWidth(float sliderWidth)
 {
     return (sliderWidth / 66.0f) * 1.5f;
 }
+
+inline float getOuterKnobTickLength(float sliderWidth)
+{
+    return (sliderWidth / 66.0f) * 11.5f;
+}

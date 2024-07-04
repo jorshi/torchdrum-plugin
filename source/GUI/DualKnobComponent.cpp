@@ -95,6 +95,16 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     g.drawEllipse(bounds.reduced(stroke / 2.0f), stroke);
     g.strokePath(modulation, juce::PathStrokeType(stroke));
 
+    // Draw the modulated parameter tick mark
+    auto tickLength = getOuterKnobTickLength((float) width);
+    auto tickStart = height / 2.0f - tickLength * 0.8;
+    g.setOrigin(juce::Point<int>(centre.getX(), centre.getY()));
+    g.drawRoundedRectangle(
+        juce::Rectangle<float>(
+            -stroke / 4.0f, -tickStart, stroke / 2.0f, -(tickLength * 0.6f - stroke)),
+        stroke / 8.0f,
+        stroke / 1.5f);
+
     g.restoreState();
 }
 
