@@ -36,15 +36,22 @@ public:
                           float rotaryStartAngle,
                           float rotaryEndAngle,
                           juce::Slider& slider) override;
+
+    void setOffset(float newValue) { offset = newValue; }
+
+private:
+    float offset = 0.0f;
 };
 
 //==============================================================================
-class DualKnobComponent : public juce::Component
+class DualKnobComponent : public juce::Component, juce::Slider::Listener
 {
 public:
     DualKnobComponent();
 
     void paint(juce::Graphics& g) override;
+
+    void sliderValueChanged(juce::Slider* slider) override;
 
 private:
     InnerKnobLookAndFeel innerKnobLookAndFeel;

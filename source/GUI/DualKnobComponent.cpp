@@ -72,14 +72,15 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     g.fillPath(ring);
 
     // Add the modulation ring
+    // TODO: how to make the modulation ring rotate with the inner knob?
     juce::Path modulation;
-    auto startAngle = (rotaryEndAngle - rotaryStartAngle) * -0.5f;
-    auto endAngle = startAngle + (rotaryEndAngle - rotaryStartAngle);
-    modulation.addPieSegment(bounds.reduced(stroke / 2.0f),
-                             startAngle * sliderPos,
-                             endAngle * sliderPos,
-                             0.65f);
+    auto rotarySize = rotaryEndAngle - rotaryStartAngle;
+    auto modCentre = (offset - 0.5f) * (rotaryEndAngle - rotaryStartAngle);
+    auto modStart = modCentre - rotarySize * 0.5f * sliderPos;
+    auto modEnd = modStart + rotarySize * sliderPos;
+    modulation.addPieSegment(bounds.reduced(stroke / 2.0f), modStart, modEnd, 0.65f);
 
+    // Draw the radial gradient fill for the modulation ring
     auto gradCentre = bounds.getCentre().getX() * 0.3f;
     g.setGradientFill(juce::ColourGradient(
         modKnobColourA, centre.getX(), centre.getY(), modKnobColourB, 0.0, 0.0, true));
@@ -104,6 +105,8 @@ DualKnobComponent::DualKnobComponent()
     innerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     innerKnob.setLookAndFeel(&innerKnobLookAndFeel);
     addAndMakeVisible(innerKnob);
+
+    innerKnob.addListener(this);
 }
 
 void DualKnobComponent::paint(juce::Graphics& g)
@@ -118,4 +121,18 @@ void DualKnobComponent::paint(juce::Graphics& g)
     int innerKnobX = (int) ((getWidth() - innerKnobSize) / 2.0f);
     innerKnob.setBounds(
         innerKnobX, innerKnobX, (int) innerKnobSize, (int) innerKnobSize);
+}
+
+void DualKnobComponent::sliderValueChanged(juce::Slider* slider)
+{
+    if (slider == &innerKnob)
+    {
+        auto innerValue = juce::jmap(innerKnob.getValue(),
+                                     innerKnob.getMinimum(),
+                                     innerKnob.getMaximum(),
+                                     0.0,
+                                     1.0);
+        outerKnobLookAndFeel.setOffset(innerValue);
+        outerKnob.repaint();
+    }
 }
