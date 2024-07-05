@@ -10,7 +10,7 @@ const juce::Colour outerKnobColourA = juce::Colour::fromRGB(126, 142, 147);
 const juce::Colour modKnobColourA = juce::Colour::fromRGBA(120, 166, 177, 179);
 const juce::Colour modKnobColourB = juce::Colour::fromRGBA(255, 255, 255, 255);
 
-// Spacing
+// Spacing based on the original designed size of the dual knob component
 const float dualKnobComponentHeight = 89.2076f;
 const float dualKnobComponentWidth = 82.8238f;
 const float dualKnobTextBoxHeight = 19.5902f;
@@ -18,13 +18,10 @@ const float dualKnobSize = 66.0f;
 const float dualKnobPadding =
     dualKnobComponentHeight - (dualKnobTextBoxHeight + dualKnobSize);
 
-static const juce::Font getPluginFont()
-{
-    auto typeface = juce::Typeface::createSystemTypefaceFor(
-        BinaryData::YantramanavMedium_ttf, BinaryData::YantramanavMedium_ttfSize);
-    juce::FontOptions options(typeface);
-    return juce::Font(options);
-}
+/**
+ * Returns FontOption object with the primary typeface for the plugin.
+ */
+const juce::FontOptions getPluginFont();
 
 inline float getTextHeight(float textBoxHeight)
 {

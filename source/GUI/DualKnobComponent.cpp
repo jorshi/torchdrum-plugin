@@ -130,7 +130,7 @@ DualKnobComponent::DualKnobComponent()
     textBox.setColour(juce::Label::textColourId, juce::Colours::black);
     addAndMakeVisible(textBox);
 
-    font = getPluginFont();
+    fontOptions = getPluginFont();
 
     // Set value of modulated parameter -- this should be set by the synth
     outerKnobLookAndFeel.setModulatedValue(0.5f);
@@ -154,24 +154,25 @@ void DualKnobComponent::resized()
     auto height = getHeight();
 
     // Target height for the textbox and padding
-    auto textBoxHeight = (int) getDualKnobTextBoxHeight(width);
-    auto textWithPadding = textBoxHeight + getDualKnobPadding(width);
+    int textBoxHeight = (int) getDualKnobTextBoxHeight(width);
+    int textWithPadding = textBoxHeight + (int) getDualKnobPadding(width);
     textBoxBounds = juce::Rectangle<int>(0, 0, width, textBoxHeight);
 
     // Outer knob bounds
-    auto outerKnobSize = height - textWithPadding;
-    auto outerKnobX = (int) ((width - outerKnobSize) / 2.0f);
+    int outerKnobSize = height - textWithPadding;
+    int outerKnobX = (int) ((width - outerKnobSize) / 2.0f);
     outerKnobBounds =
         juce::Rectangle<int>(outerKnobX, textWithPadding, outerKnobSize, outerKnobSize);
 
     // Inner knob bounds
-    auto innerKnobSize = (int) (outerKnobSize * 0.66);
-    auto innerKnobX = (int) ((width - innerKnobSize) / 2.0f);
-    auto innerKnobY = textWithPadding + (int) ((outerKnobSize - innerKnobSize) / 2.0f);
+    int innerKnobSize = (int) (outerKnobSize * 0.66);
+    int innerKnobX = (int) ((width - innerKnobSize) / 2.0f);
+    int innerKnobY = textWithPadding + (int) ((outerKnobSize - innerKnobSize) / 2.0f);
     innerKnobBounds =
         juce::Rectangle<int>(innerKnobX, innerKnobY, innerKnobSize, innerKnobSize);
 
     // Update the font size
+    juce::Font font(fontOptions);
     textBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
 }
 
