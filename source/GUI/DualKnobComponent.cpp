@@ -83,7 +83,7 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     modStart = juce::jmax(modStart, -0.5f * rotarySize);
     modEnd = juce::jmin(modEnd, 0.5f * rotarySize);
 
-    modulation.addPieSegment(bounds.reduced(stroke / 2.0f), modStart, modEnd, 0.65f);
+    modulation.addPieSegment(bounds.reduced(stroke / 2.0f), modStart, modEnd, 0.655f);
 
     // Draw the radial gradient fill for the modulation ring
     g.setGradientFill(juce::ColourGradient(
@@ -126,9 +126,11 @@ DualKnobComponent::DualKnobComponent()
     addAndMakeVisible(innerKnob);
     innerKnob.addListener(this);
 
-    textBox.setText("Modulated Parameter", juce::dontSendNotification);
-    textBox.setEditable(true, true, true);
+    textBox.setText("Freq", juce::dontSendNotification);
+    textBox.setColour(juce::Label::textColourId, juce::Colours::black);
     addAndMakeVisible(textBox);
+
+    font = getPluginFont();
 
     // Set value of modulated parameter -- this should be set by the synth
     outerKnobLookAndFeel.setModulatedValue(0.5f);
@@ -151,19 +153,23 @@ void DualKnobComponent::resized()
     auto width = getWidth();
     auto height = getHeight();
     auto textBoxHeight = (int) getDualKnobTextBoxHeight(width);
+    auto textWithPadding = textBoxHeight + getDualKnobPadding(width);
 
-    auto outerKnobSize = height - textBoxHeight;
+    auto outerKnobSize = height - textWithPadding;
     auto outerKnobX = (int) ((width - outerKnobSize) / 2.0f);
 
     auto innerKnobSize = (int) (outerKnobSize * 0.66);
     auto innerKnobX = (int) ((width - innerKnobSize) / 2.0f);
-    auto innerKnobY = innerKnobX - outerKnobX + textBoxHeight;
+    auto innerKnobY = textWithPadding + (int) ((outerKnobSize - innerKnobSize) / 2.0f);
 
     textBoxBounds = juce::Rectangle<int>(0, 0, width, textBoxHeight);
     outerKnobBounds =
-        juce::Rectangle<int>(outerKnobX, textBoxHeight, outerKnobSize, outerKnobSize);
+        juce::Rectangle<int>(outerKnobX, textWithPadding, outerKnobSize, outerKnobSize);
     innerKnobBounds =
         juce::Rectangle<int>(innerKnobX, innerKnobY, innerKnobSize, innerKnobSize);
+
+    // Update the font size
+    textBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
 }
 
 void DualKnobComponent::sliderValueChanged(juce::Slider* slider)

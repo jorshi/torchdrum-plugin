@@ -62,6 +62,7 @@ private:
     juce::Slider innerKnob;
     juce::Slider outerKnob;
     juce::Label textBox;
+    juce::Font font;
 
     // Layout
     juce::Rectangle<int> outerKnobBounds;
