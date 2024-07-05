@@ -126,6 +126,8 @@ DualKnobComponent::DualKnobComponent()
     addAndMakeVisible(innerKnob);
     innerKnob.addListener(this);
 
+    textBox.setText("Modulated Parameter", juce::dontSendNotification);
+    textBox.setEditable(true, true, true);
     addAndMakeVisible(textBox);
 
     // Set value of modulated parameter -- this should be set by the synth
@@ -136,7 +138,6 @@ void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
 {
     // Draw the textbox at the top
     textBox.setBounds(textBoxBounds);
-    textBox.setText("Modulated Parameter", juce::dontSendNotification);
     textBox.setJustificationType(juce::Justification::centred);
 
     // Draw the outer knob
