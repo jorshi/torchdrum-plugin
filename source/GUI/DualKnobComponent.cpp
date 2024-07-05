@@ -98,11 +98,11 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     // Draw the modulated parameter tick mark
     auto tickLength = getOuterKnobTickLength((float) width);
     auto tickStart = height / 2.0f - tickLength * 0.8f;
-    g.setOrigin(juce::Point<int>((int) centre.getX(), (int) centre.getY()));
-
     auto tickRotation = (modulatedValue - 0.5f) * rotarySize;
-    g.addTransform(juce::AffineTransform::rotation(tickRotation, 0.0, 0.0));
 
+    // Rotate the tick mark with respect to the centre
+    g.setOrigin(juce::Point<int>((int) centre.getX(), (int) centre.getY()));
+    g.addTransform(juce::AffineTransform::rotation(tickRotation, 0.0, 0.0));
     g.drawRoundedRectangle(
         juce::Rectangle<float>(
             -stroke / 4.0f, -tickStart, stroke / 2.0f, -(tickLength * 0.6f - stroke)),
@@ -152,19 +152,22 @@ void DualKnobComponent::resized()
     // Update the inner component positions
     auto width = getWidth();
     auto height = getHeight();
+
+    // Target height for the textbox and padding
     auto textBoxHeight = (int) getDualKnobTextBoxHeight(width);
     auto textWithPadding = textBoxHeight + getDualKnobPadding(width);
+    textBoxBounds = juce::Rectangle<int>(0, 0, width, textBoxHeight);
 
+    // Outer knob bounds
     auto outerKnobSize = height - textWithPadding;
     auto outerKnobX = (int) ((width - outerKnobSize) / 2.0f);
+    outerKnobBounds =
+        juce::Rectangle<int>(outerKnobX, textWithPadding, outerKnobSize, outerKnobSize);
 
+    // Inner knob bounds
     auto innerKnobSize = (int) (outerKnobSize * 0.66);
     auto innerKnobX = (int) ((width - innerKnobSize) / 2.0f);
     auto innerKnobY = textWithPadding + (int) ((outerKnobSize - innerKnobSize) / 2.0f);
-
-    textBoxBounds = juce::Rectangle<int>(0, 0, width, textBoxHeight);
-    outerKnobBounds =
-        juce::Rectangle<int>(outerKnobX, textWithPadding, outerKnobSize, outerKnobSize);
     innerKnobBounds =
         juce::Rectangle<int>(innerKnobX, innerKnobY, innerKnobSize, innerKnobSize);
 
