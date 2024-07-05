@@ -52,6 +52,7 @@ public:
     DualKnobComponent();
 
     void paint(juce::Graphics& g) override;
+    void resized() override;
 
     void sliderValueChanged(juce::Slider* slider) override;
 
@@ -60,6 +61,12 @@ private:
     OuterKnobLookAndFeel outerKnobLookAndFeel;
     juce::Slider innerKnob;
     juce::Slider outerKnob;
+    juce::Label textBox;
+
+    // Layout
+    juce::Rectangle<int> outerKnobBounds;
+    juce::Rectangle<int> innerKnobBounds;
+    juce::Rectangle<int> textBoxBounds;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DualKnobComponent)

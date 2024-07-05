@@ -28,3 +28,5 @@ inline float getOuterKnobTickLength(float sliderWidth)
 {
     return (sliderWidth / 66.0f) * 11.5f;
 }
+
+inline float getDualKnobTextBoxHeight(float width) { return (width / 82.3f) * 19.6f; }

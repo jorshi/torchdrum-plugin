@@ -45,6 +45,7 @@ void InnerKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     g.restoreState();
 }
 
+//==============================================================================
 OuterKnobLookAndFeel::OuterKnobLookAndFeel() {}
 
 void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
@@ -111,6 +112,7 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     g.restoreState();
 }
 
+//==============================================================================
 DualKnobComponent::DualKnobComponent()
 {
     outerKnob.setSliderStyle(juce::Slider::RotaryVerticalDrag);
@@ -122,8 +124,9 @@ DualKnobComponent::DualKnobComponent()
     innerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     innerKnob.setLookAndFeel(&innerKnobLookAndFeel);
     addAndMakeVisible(innerKnob);
-
     innerKnob.addListener(this);
+
+    addAndMakeVisible(textBox);
 
     // Set value of modulated parameter -- this should be set by the synth
     outerKnobLookAndFeel.setModulatedValue(0.5f);
@@ -131,16 +134,35 @@ DualKnobComponent::DualKnobComponent()
 
 void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
 {
-    // Draw the outer knob
-    int outerKnobSize = getWidth();
-    int outerKnobX = 0;
-    outerKnob.setBounds(outerKnobX, outerKnobX, outerKnobSize, outerKnobSize);
+    // Draw the textbox at the top
+    textBox.setBounds(textBoxBounds);
+    textBox.setText("Modulated Parameter", juce::dontSendNotification);
+    textBox.setJustificationType(juce::Justification::centred);
 
-    // Draw the inner knob over the outer knob
-    int innerKnobSize = (int) (getWidth() * 0.66);
-    int innerKnobX = (int) ((getWidth() - innerKnobSize) / 2.0f);
-    innerKnob.setBounds(
-        innerKnobX, innerKnobX, (int) innerKnobSize, (int) innerKnobSize);
+    // Draw the outer knob
+    outerKnob.setBounds(outerKnobBounds);
+    innerKnob.setBounds(innerKnobBounds);
+}
+
+void DualKnobComponent::resized()
+{
+    // Update the inner component positions
+    auto width = getWidth();
+    auto height = getHeight();
+    auto textBoxHeight = (int) getDualKnobTextBoxHeight(width);
+
+    auto outerKnobSize = height - textBoxHeight;
+    auto outerKnobX = (int) ((width - outerKnobSize) / 2.0f);
+
+    auto innerKnobSize = (int) (outerKnobSize * 0.66);
+    auto innerKnobX = (int) ((width - innerKnobSize) / 2.0f);
+    auto innerKnobY = innerKnobX - outerKnobX + textBoxHeight;
+
+    textBoxBounds = juce::Rectangle<int>(0, 0, width, textBoxHeight);
+    outerKnobBounds =
+        juce::Rectangle<int>(outerKnobX, textBoxHeight, outerKnobSize, outerKnobSize);
+    innerKnobBounds =
+        juce::Rectangle<int>(innerKnobX, innerKnobY, innerKnobSize, innerKnobSize);
 }
 
 void DualKnobComponent::sliderValueChanged(juce::Slider* slider)
