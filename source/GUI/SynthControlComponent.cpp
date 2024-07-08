@@ -22,7 +22,7 @@ SynthControlComponent::SynthControlComponent()
 void SynthControlComponent::paint(juce::Graphics& g)
 {
     // Draw the knob rows
-    auto rowHeight = getKnobRowComponentHeight(getWidth(), 4);
+    auto rowHeight = getKnobRowComponentHeight(getWidth());
     auto padding = (int) getKnobRowPadding(rowHeight);
     knobRow1.setBounds(0, 0, getWidth(), rowHeight);
     knobRow2.setBounds(0, rowHeight + padding, getWidth(), rowHeight);

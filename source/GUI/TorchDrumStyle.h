@@ -14,6 +14,15 @@ const juce::Colour knobValueBackground = juce::Colour::fromRGBA(249, 247, 243, 1
 // Spacing based on the original designed size of the dual knob component
 const float fullPluginWidth = 960.0f;
 const float fullPluginHeight = 550.0f;
+
+const float synthControlComponentWidth = 342.1267f;
+const float synthControlComponentX = 583.488f;
+const float synthControlComponentY = 25.6461f;
+
+const float knobRowComponentHeight = 116.235f;
+const float knobRowLabelHeight = 23.1006f;
+const float knobRowPadding = 8.2488f;
+
 const float dualKnobComponentHeight = 89.2076f;
 const float dualKnobComponentWidth = 82.8238f;
 const float dualKnobTextBoxHeight = 19.5902f;
@@ -21,9 +30,6 @@ const float dualKnobSize = 66.0f;
 const float dualKnobPadding =
     dualKnobComponentHeight - (dualKnobTextBoxHeight + dualKnobSize);
 const float dualKnobThinStrokeWidth = 1.0f;
-const float knobRowComponentHeight = 116.235f;
-const float knobRowLabelHeight = 23.1006f;
-const float knobRowPadding = 8.2488f;
 
 /**
  * Returns FontOption object with the primary typeface for the plugin.
@@ -37,17 +43,17 @@ const juce::FontOptions getBoldPluginFont();
 
 inline float getSynthControlComponentWidth(float pluginWidth)
 {
-    return (pluginWidth / fullPluginWidth) * 342.1267;
+    return (pluginWidth / fullPluginWidth) * synthControlComponentWidth;
 }
 
 inline float getSynthControlComponentX(float pluginWidth)
 {
-    return (pluginWidth / fullPluginWidth) * 583.488;
+    return (pluginWidth / fullPluginWidth) * synthControlComponentX;
 }
 
 inline float getSynthControlComponentY(float pluginHeight)
 {
-    return (pluginHeight / fullPluginHeight) * 25.6461;
+    return (pluginHeight / fullPluginHeight) * synthControlComponentY;
 }
 
 inline float getTextHeight(float textBoxHeight)
@@ -90,10 +96,10 @@ inline float getDualKnobThinStrokeWidth(float width)
     return (width / dualKnobComponentWidth) * dualKnobThinStrokeWidth;
 }
 
-inline float getKnobRowComponentHeight(float width, int numKnobs)
+inline float getKnobRowComponentHeight(float width)
 {
-    auto fullWidth = dualKnobComponentWidth * numKnobs;
-    return (width / fullWidth) * knobRowComponentHeight;
+    auto widthRatio = width / synthControlComponentWidth;
+    return widthRatio * knobRowComponentHeight;
 }
 
 inline float getKnobRowKnobHeight(float height)
