@@ -20,6 +20,7 @@ const float dualKnobPadding =
 const float dualKnobThinStrokeWidth = 1.0f;
 const float knobRowComponentHeight = 116.235f;
 const float knobRowLabelHeight = 23.1006f;
+const float knobRowPadding = 8.2488f;
 
 /**
  * Returns FontOption object with the primary typeface for the plugin.
@@ -85,4 +86,9 @@ inline float getKnobRowKnobHeight(float height)
 inline float getKnobRowLabelHeight(float height)
 {
     return (height / knobRowComponentHeight) * dualKnobTextBoxHeight;
+}
+
+inline float getKnobRowPadding(float height)
+{
+    return (height / knobRowComponentHeight) * knobRowPadding;
 }

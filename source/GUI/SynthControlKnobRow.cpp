@@ -15,17 +15,15 @@ SynthControlKnobRow::SynthControlKnobRow()
 void SynthControlKnobRow::paint(juce::Graphics& g)
 {
     // Bounding box for development purposes
-    g.setColour(juce::Colours::black);
-    g.drawRect(0, 0, getWidth(), getHeight());
+    // g.setColour(juce::Colours::black);
+    // g.drawRect(0, 0, getWidth(), getHeight());
 
-    g.drawRect(label.getBounds());
+    // g.drawRect(label.getBounds());
 }
 
 void SynthControlKnobRow::resized()
 {
     auto height = getHeight();
-    // Update the bounds of the label
-    label.setBounds(0, 0, getWidth(), (int) getKnobRowLabelHeight(height));
 
     // Update the bounds of each knob
     int knobWidth = getWidth() / numKnobs;
@@ -37,9 +35,13 @@ void SynthControlKnobRow::resized()
         knobs[i]->setBounds(knobBounds[i]);
     }
 
+    // Update the bounds of the label
+    auto labelHeight = (int) knobY * 0.85f;
+    label.setBounds(0, 0, getWidth(), labelHeight);
+
     // Update the font size
     juce::Font font(fontOptions);
-    label.setFont(font.withHeight(getKnobRowLabelHeight(height)));
+    label.setFont(font.withHeight(labelHeight));
 }
 
 void SynthControlKnobRow::setNumKnobs(int newValue)
@@ -59,4 +61,9 @@ void SynthControlKnobRow::setNumKnobs(int newValue)
     }
 
     resized();
+}
+
+void SynthControlKnobRow::setLabelText(const juce::String& newText)
+{
+    label.setText(newText, juce::dontSendNotification);
 }

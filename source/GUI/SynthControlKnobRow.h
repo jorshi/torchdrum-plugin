@@ -12,6 +12,7 @@ public:
     void resized() override;
 
     void setNumKnobs(int newValue);
+    void setLabelText(const juce::String& newText);
 
 private:
     int numKnobs = 0;
