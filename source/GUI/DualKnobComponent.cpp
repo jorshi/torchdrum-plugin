@@ -151,7 +151,11 @@ void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
     textBox.setBounds(textBoxBounds);
 
     // Draw the value box over the textbox
-    valueBox.setBounds(textBoxBounds);
+    if (dragging)
+    {
+        valueBox.setVisible(true);
+        valueBox.setBounds(textBoxBounds);
+    }
 
     // Draw the outer knob
     outerKnob.setBounds(outerKnobBounds);
@@ -229,8 +233,7 @@ void DualKnobComponent::sliderDragStarted(juce::Slider* slider)
 {
     if (slider == &innerKnob)
     {
-        // innerKnobLookAndFeel.setMouseOver(true);
-        // innerKnob.repaint();
+        dragging = true;
     }
 }
 
@@ -238,8 +241,7 @@ void DualKnobComponent::sliderDragEnded(juce::Slider* slider)
 {
     if (slider == &innerKnob)
     {
-        // innerKnobLookAndFeel.setMouseOver(false);
-        // innerKnob.repaint();
+        dragging = false;
     }
 }
 
@@ -261,6 +263,7 @@ void DualKnobComponent::mouseExit(const juce::MouseEvent& event)
     if (mouseOver)
     {
         mouseOver = false;
+        valueBox.setVisible(false);
         repaint();
     }
 }

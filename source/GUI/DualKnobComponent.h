@@ -80,6 +80,7 @@ private:
     juce::Rectangle<int> rightTextBoxLine;
 
     std::atomic<bool> mouseOver = false;
+    std::atomic<bool> dragging = false;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DualKnobComponent)
