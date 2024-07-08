@@ -2,6 +2,10 @@
 
 SynthControlKnobRow::SynthControlKnobRow()
 {
+    // Load custom font
+    fontOptions = getBoldPluginFont();
+
+    // Set up the label
     addAndMakeVisible(label);
     label.setText("Knob Row", juce::dontSendNotification);
     label.setColour(juce::Label::textColourId, juce::Colours::black);
@@ -13,6 +17,8 @@ void SynthControlKnobRow::paint(juce::Graphics& g)
     // Bounding box for development purposes
     g.setColour(juce::Colours::black);
     g.drawRect(0, 0, getWidth(), getHeight());
+
+    g.drawRect(label.getBounds());
 }
 
 void SynthControlKnobRow::resized()
@@ -30,6 +36,10 @@ void SynthControlKnobRow::resized()
         knobBounds[i].setBounds(i * knobWidth, knobY, knobWidth, knobHeight);
         knobs[i]->setBounds(knobBounds[i]);
     }
+
+    // Update the font size
+    juce::Font font(fontOptions);
+    label.setFont(font.withHeight(getKnobRowLabelHeight(height)));
 }
 
 void SynthControlKnobRow::setNumKnobs(int newValue)

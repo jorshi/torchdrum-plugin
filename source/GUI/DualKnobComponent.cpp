@@ -140,6 +140,7 @@ DualKnobComponent::DualKnobComponent()
     addAndMakeVisible(valueBox);
     valueBox.setVisible(false);
 
+    // Load custom font
     fontOptions = getPluginFont();
 
     // Set value of modulated parameter -- this should be set by the synth

@@ -26,6 +26,11 @@ const float knobRowLabelHeight = 23.1006f;
  */
 const juce::FontOptions getPluginFont();
 
+/**
+ * Returns FontOption object with the bold typeface for the plugin.
+ */
+const juce::FontOptions getBoldPluginFont();
+
 inline float getTextHeight(float textBoxHeight)
 {
     return (textBoxHeight / 19.19f) * 18.34f;
