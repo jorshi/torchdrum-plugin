@@ -56,6 +56,10 @@ public:
 
     void sliderValueChanged(juce::Slider* slider) override;
 
+    // Mouse listener
+    void mouseEnter(const juce::MouseEvent& event) override;
+    void mouseExit(const juce::MouseEvent& event) override;
+
 private:
     InnerKnobLookAndFeel innerKnobLookAndFeel;
     OuterKnobLookAndFeel outerKnobLookAndFeel;
@@ -68,6 +72,10 @@ private:
     juce::Rectangle<int> outerKnobBounds;
     juce::Rectangle<int> innerKnobBounds;
     juce::Rectangle<int> textBoxBounds;
+    juce::Rectangle<int> leftTextBoxLine;
+    juce::Rectangle<int> rightTextBoxLine;
+
+    std::atomic<bool> mouseOver = false;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DualKnobComponent)

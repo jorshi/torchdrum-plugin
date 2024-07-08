@@ -17,6 +17,7 @@ const float dualKnobTextBoxHeight = 19.5902f;
 const float dualKnobSize = 66.0f;
 const float dualKnobPadding =
     dualKnobComponentHeight - (dualKnobTextBoxHeight + dualKnobSize);
+const float dualKnobThinStrokeWidth = 1.0f;
 
 /**
  * Returns FontOption object with the primary typeface for the plugin.
@@ -56,4 +57,9 @@ inline float getDualKnobTextBoxHeight(float width)
 inline float getDualKnobPadding(float width)
 {
     return (width / dualKnobComponentWidth) * dualKnobPadding;
+}
+
+inline float getDualKnobThinStrokeWidth(float width)
+{
+    return (width / dualKnobComponentWidth) * dualKnobThinStrokeWidth;
 }

@@ -134,6 +134,9 @@ DualKnobComponent::DualKnobComponent()
 
     // Set value of modulated parameter -- this should be set by the synth
     outerKnobLookAndFeel.setModulatedValue(0.5f);
+
+    // Add a deep listener that includes all children components
+    this->addMouseListener(this, true);
 }
 
 void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
@@ -145,6 +148,14 @@ void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
     // Draw the outer knob
     outerKnob.setBounds(outerKnobBounds);
     innerKnob.setBounds(innerKnobBounds);
+
+    // Draw the text box outline in the hover state
+    if (mouseOver)
+    {
+        g.setColour(borderColour);
+        g.fillRect(leftTextBoxLine);
+        g.fillRect(rightTextBoxLine);
+    }
 }
 
 void DualKnobComponent::resized()
@@ -174,6 +185,16 @@ void DualKnobComponent::resized()
     // Update the font size
     juce::Font font(fontOptions);
     textBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
+
+    // Lines for textbox border during hover state
+    auto thickness = getDualKnobThinStrokeWidth((float) width);
+    auto lineHeight = textBoxBounds.getHeight() - 2 * thickness;
+    leftTextBoxLine = juce::Rectangle<int>(
+        textBoxBounds.getX(), textBoxBounds.getY() + thickness, thickness, lineHeight);
+    rightTextBoxLine = juce::Rectangle<int>(textBoxBounds.getRight() - thickness,
+                                            textBoxBounds.getY() + thickness,
+                                            thickness,
+                                            lineHeight);
 }
 
 void DualKnobComponent::sliderValueChanged(juce::Slider* slider)
@@ -187,5 +208,27 @@ void DualKnobComponent::sliderValueChanged(juce::Slider* slider)
                                      1.0);
         outerKnobLookAndFeel.setOffset((float) innerValue);
         outerKnob.repaint();
+    }
+}
+
+void DualKnobComponent::mouseEnter(const juce::MouseEvent& event)
+{
+    // Update the text box border when over the component
+    if (! mouseOver)
+    {
+        mouseOver = true;
+        repaint();
+    }
+}
+
+void DualKnobComponent::mouseExit(const juce::MouseEvent& event)
+{
+    // Update the text box border when leaving the component
+    // Could there be a race condition here is leaving an innerKnob and moving
+    // into the outerBnob or parent component?
+    if (mouseOver)
+    {
+        mouseOver = false;
+        repaint();
     }
 }
