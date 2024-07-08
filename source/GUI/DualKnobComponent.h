@@ -54,7 +54,10 @@ public:
     void paint(juce::Graphics& g) override;
     void resized() override;
 
+    // Slider listener
     void sliderValueChanged(juce::Slider* slider) override;
+    void sliderDragStarted(juce::Slider* slider) override;
+    void sliderDragEnded(juce::Slider* slider) override;
 
     // Mouse listener
     void mouseEnter(const juce::MouseEvent& event) override;
@@ -66,6 +69,7 @@ private:
     juce::Slider innerKnob;
     juce::Slider outerKnob;
     juce::Label textBox;
+    juce::Label valueBox;
     juce::FontOptions fontOptions;
 
     // Layout

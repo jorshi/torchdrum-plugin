@@ -128,7 +128,13 @@ DualKnobComponent::DualKnobComponent()
 
     textBox.setText("Freq", juce::dontSendNotification);
     textBox.setColour(juce::Label::textColourId, juce::Colours::black);
+    textBox.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(textBox);
+
+    valueBox.setText(innerKnob.getTextFromValue(innerKnob.getValue()),
+                     juce::dontSendNotification);
+    valueBox.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(valueBox);
 
     fontOptions = getPluginFont();
 
@@ -143,7 +149,9 @@ void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
 {
     // Draw the textbox at the top
     textBox.setBounds(textBoxBounds);
-    textBox.setJustificationType(juce::Justification::centred);
+
+    // Draw the value box over the textbox
+    valueBox.setBounds(textBoxBounds);
 
     // Draw the outer knob
     outerKnob.setBounds(outerKnobBounds);
@@ -185,6 +193,7 @@ void DualKnobComponent::resized()
     // Update the font size
     juce::Font font(fontOptions);
     textBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
+    valueBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
 
     // Lines for textbox border during hover state
     auto thickness = getDualKnobThinStrokeWidth((float) width);
@@ -208,6 +217,29 @@ void DualKnobComponent::sliderValueChanged(juce::Slider* slider)
                                      1.0);
         outerKnobLookAndFeel.setOffset((float) innerValue);
         outerKnob.repaint();
+
+        // Update the value box
+        valueBox.setText(innerKnob.getTextFromValue(innerKnob.getValue()),
+                         juce::dontSendNotification);
+        valueBox.repaint();
+    }
+}
+
+void DualKnobComponent::sliderDragStarted(juce::Slider* slider)
+{
+    if (slider == &innerKnob)
+    {
+        // innerKnobLookAndFeel.setMouseOver(true);
+        // innerKnob.repaint();
+    }
+}
+
+void DualKnobComponent::sliderDragEnded(juce::Slider* slider)
+{
+    if (slider == &innerKnob)
+    {
+        // innerKnobLookAndFeel.setMouseOver(false);
+        // innerKnob.repaint();
     }
 }
 
