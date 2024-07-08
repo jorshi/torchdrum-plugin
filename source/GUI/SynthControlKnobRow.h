@@ -13,6 +13,7 @@ public:
 
     void setNumKnobs(int newValue);
     void setLabelText(const juce::String& newText);
+    void addParameter(juce::RangedAudioParameter* parameter, int index);
 
 private:
     int numKnobs = 0;

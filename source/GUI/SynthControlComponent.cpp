@@ -1,6 +1,8 @@
 #include "SynthControlComponent.h"
+#include "../Synth/SynthParameterBase.h"
 
-SynthControlComponent::SynthControlComponent()
+SynthControlComponent::SynthControlComponent(TorchDrumProcessor& processor)
+    : drumProcessor(processor)
 {
     knobRow1.setNumKnobs(4);
     knobRow1.setLabelText("Oscillator 1");
@@ -17,6 +19,9 @@ SynthControlComponent::SynthControlComponent()
     knobRow4.setNumKnobs(4);
     knobRow4.setLabelText("Global Controls");
     addAndMakeVisible(knobRow4);
+
+    auto& synthParameters = processor.getSynthParameters();
+    knobRow1.addParameter(synthParameters.parameters[0], 0);
 }
 
 void SynthControlComponent::paint(juce::Graphics& g)

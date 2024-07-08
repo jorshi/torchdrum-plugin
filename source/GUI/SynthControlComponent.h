@@ -6,7 +6,7 @@
 class SynthControlComponent : public juce::Component
 {
 public:
-    SynthControlComponent();
+    SynthControlComponent(TorchDrumProcessor& processor);
 
     void paint(juce::Graphics& g) override;
 
@@ -15,6 +15,8 @@ private:
     SynthControlKnobRow knobRow2;
     SynthControlKnobRow knobRow3;
     SynthControlKnobRow knobRow4;
+
+    TorchDrumProcessor& drumProcessor;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthControlComponent)

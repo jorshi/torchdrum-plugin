@@ -32,7 +32,10 @@ void SynthControlKnobRow::resized()
     for (int i = 0; i < numKnobs; i++)
     {
         knobBounds[i].setBounds(i * knobWidth, knobY, knobWidth, knobHeight);
-        knobs[i]->setBounds(knobBounds[i]);
+
+        // Draw the knob if it exists
+        if (knobs[i] != nullptr)
+            knobs[i]->setBounds(knobBounds[i]);
     }
 
     // Update the bounds of the label
@@ -55,9 +58,8 @@ void SynthControlKnobRow::setNumKnobs(int newValue)
         juce::Rectangle<int> knobBounds;
         this->knobBounds.push_back(knobBounds);
 
-        std::unique_ptr<DualKnobComponent> knob = std::make_unique<DualKnobComponent>();
+        std::unique_ptr<DualKnobComponent> knob = nullptr;
         knobs.push_back(std::move(knob));
-        addAndMakeVisible(knobs[i].get());
     }
 
     resized();
@@ -66,4 +68,14 @@ void SynthControlKnobRow::setNumKnobs(int newValue)
 void SynthControlKnobRow::setLabelText(const juce::String& newText)
 {
     label.setText(newText, juce::dontSendNotification);
+}
+
+void SynthControlKnobRow::addParameter(juce::RangedAudioParameter* parameter, int index)
+{
+    if (index < numKnobs)
+    {
+        knobs[index] = std::make_unique<DualKnobComponent>();
+        addAndMakeVisible(knobs[index].get());
+        resized();
+    }
 }

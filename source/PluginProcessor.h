@@ -20,6 +20,7 @@ public:
     void setStateInformation(const void* data, int sizeInBytes) override;
 
     SynthController& getSynthController() { return synthController; }
+    SynthParameterBase& getSynthParameters() { return snare808.getParameters(); }
 
 private:
     Parameters parameters;

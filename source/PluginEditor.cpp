@@ -2,7 +2,7 @@
 #include "PluginProcessor.h"
 
 TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
-    : AudioProcessorEditor(&p), drumProcessor(p)
+    : AudioProcessorEditor(&p), drumProcessor(p), synthControlComponent(p)
 {
     fileChooser =
         std::make_unique<juce::FileChooser>("File Browser", getPresetFolder(), "*.pt");
