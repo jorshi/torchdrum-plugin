@@ -156,7 +156,7 @@ void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
     if (dragging)
     {
         // Draw a rectangle behind the value box
-        g.setColour(juce::Colours::white);
+        g.setColour(knobValueBackground);
         g.fillRect(textBoxBounds);
 
         // Draw the border

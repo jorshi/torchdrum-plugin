@@ -11,13 +11,14 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     drumProcessor.getSynthController().getBroadcaster().addActionListener(this);
 
     // Plugin window size and resizable settings
-    setSize(960, 550);
+    setSize(fullPluginWidth, fullPluginHeight);
     setResizable(true, true);
-    setResizeLimits(960, 550, 960 * 2, 550 * 2);
+    setResizeLimits(
+        fullPluginWidth, fullPluginHeight, fullPluginWidth * 2, fullPluginHeight * 2);
 
     // Set the constrainer aspect ratio
     auto* constrainer = getConstrainer();
-    constrainer->setFixedAspectRatio(960.0 / 550.0);
+    constrainer->setFixedAspectRatio(fullPluginWidth / fullPluginHeight);
 
     // Load the background image
     backgroundImage = juce::ImageCache::getFromMemory(BinaryData::background2x_png,
@@ -47,8 +48,13 @@ void TorchDrumEditor::paint(juce::Graphics& g)
     g.drawImageAt(rescaledBackground, 0, 0);
 
     // Draw the SynthControlComponent
-    int controlX = (int) (getWidth() * 0.65f);
-    synthControlComponent.setBounds(controlX, 0, getWidth() - controlX, getHeight());
+    int width = getWidth();
+    int height = getHeight();
+    int controlX = (int) getSynthControlComponentX(width);
+    int controlY = (int) getSynthControlComponentY(height);
+    int controlWidth = getSynthControlComponentWidth(getWidth());
+    int controlHeight = height - controlY;
+    synthControlComponent.setBounds(controlX, controlY, controlWidth, controlHeight);
 }
 
 void TorchDrumEditor::resized() {}

@@ -9,8 +9,11 @@ const juce::Colour innerKnobColourB = juce::Colour::fromRGB(120, 166, 177);
 const juce::Colour outerKnobColourA = juce::Colour::fromRGB(126, 142, 147);
 const juce::Colour modKnobColourA = juce::Colour::fromRGBA(120, 166, 177, 179);
 const juce::Colour modKnobColourB = juce::Colour::fromRGBA(255, 255, 255, 255);
+const juce::Colour knobValueBackground = juce::Colour::fromRGBA(249, 247, 243, 153);
 
 // Spacing based on the original designed size of the dual knob component
+const float fullPluginWidth = 960.0f;
+const float fullPluginHeight = 550.0f;
 const float dualKnobComponentHeight = 89.2076f;
 const float dualKnobComponentWidth = 82.8238f;
 const float dualKnobTextBoxHeight = 19.5902f;
@@ -31,6 +34,21 @@ const juce::FontOptions getPluginFont();
  * Returns FontOption object with the bold typeface for the plugin.
  */
 const juce::FontOptions getBoldPluginFont();
+
+inline float getSynthControlComponentWidth(float pluginWidth)
+{
+    return (pluginWidth / fullPluginWidth) * 342.1267;
+}
+
+inline float getSynthControlComponentX(float pluginWidth)
+{
+    return (pluginWidth / fullPluginWidth) * 583.488;
+}
+
+inline float getSynthControlComponentY(float pluginHeight)
+{
+    return (pluginHeight / fullPluginHeight) * 25.6461;
+}
 
 inline float getTextHeight(float textBoxHeight)
 {
