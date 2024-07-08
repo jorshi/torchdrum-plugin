@@ -15,6 +15,7 @@ public:
 
 private:
     int numKnobs = 0;
+    juce::Label label;
     std::vector<juce::Rectangle<int>> knobBounds;
     std::vector<std::unique_ptr<DualKnobComponent>> knobs;
 

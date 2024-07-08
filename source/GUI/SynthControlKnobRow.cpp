@@ -1,6 +1,12 @@
 #include "SynthControlKnobRow.h"
 
-SynthControlKnobRow::SynthControlKnobRow() {}
+SynthControlKnobRow::SynthControlKnobRow()
+{
+    addAndMakeVisible(label);
+    label.setText("Knob Row", juce::dontSendNotification);
+    label.setColour(juce::Label::textColourId, juce::Colours::black);
+    label.setJustificationType(juce::Justification::centred);
+}
 
 void SynthControlKnobRow::paint(juce::Graphics& g)
 {
@@ -11,12 +17,17 @@ void SynthControlKnobRow::paint(juce::Graphics& g)
 
 void SynthControlKnobRow::resized()
 {
-    int knobWidth = getWidth() / numKnobs;
-    int knobHeight = getHeight();
+    auto height = getHeight();
+    // Update the bounds of the label
+    label.setBounds(0, 0, getWidth(), (int) getKnobRowLabelHeight(height));
 
+    // Update the bounds of each knob
+    int knobWidth = getWidth() / numKnobs;
+    int knobHeight = (int) getKnobRowKnobHeight(height);
+    int knobY = height - knobHeight;
     for (int i = 0; i < numKnobs; i++)
     {
-        knobBounds[i].setBounds(i * knobWidth, 0, knobWidth, knobHeight);
+        knobBounds[i].setBounds(i * knobWidth, knobY, knobWidth, knobHeight);
         knobs[i]->setBounds(knobBounds[i]);
     }
 }

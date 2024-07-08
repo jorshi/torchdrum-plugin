@@ -18,5 +18,5 @@ void SynthControlComponent::paint(juce::Graphics& g)
     // knob1.setBounds(10, 10, 200, 200);
 
     // Draw the knob row
-    knobRow1.setBounds(0, 0, getWidth(), 90.0f);
+    knobRow1.setBounds(0, 0, getWidth(), getKnobRowComponentHeight(getWidth(), 4));
 }
