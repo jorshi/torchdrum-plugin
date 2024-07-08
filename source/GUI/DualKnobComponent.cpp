@@ -208,7 +208,7 @@ void DualKnobComponent::resized()
         juce::Rectangle<int>(outerKnobX, textWithPadding, outerKnobSize, outerKnobSize);
 
     // Inner knob bounds
-    int innerKnobSize = (int) (outerKnobSize * 0.66);
+    int innerKnobSize = (int) (outerKnobSize * (2.0 / 3.0));
     int innerKnobX = (int) ((width - innerKnobSize) / 2.0f);
     int innerKnobY = textWithPadding + (int) ((outerKnobSize - innerKnobSize) / 2.0f);
     innerKnobBounds =
