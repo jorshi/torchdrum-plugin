@@ -15,6 +15,10 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     setResizable(true, true);
     setResizeLimits(960, 550, 960 * 2, 550 * 2);
 
+    // Set the constrainer aspect ratio
+    auto* constrainer = getConstrainer();
+    constrainer->setFixedAspectRatio(960.0 / 550.0);
+
     // Load the background image
     backgroundImage = juce::ImageCache::getFromMemory(BinaryData::background2x_png,
                                                       BinaryData::background2x_pngSize);
