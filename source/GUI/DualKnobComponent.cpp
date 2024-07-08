@@ -123,6 +123,7 @@ DualKnobComponent::DualKnobComponent()
     innerKnob.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     innerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     innerKnob.setLookAndFeel(&innerKnobLookAndFeel);
+    innerKnob.setNumDecimalPlacesToDisplay(2);
     addAndMakeVisible(innerKnob);
     innerKnob.addListener(this);
 
@@ -133,8 +134,11 @@ DualKnobComponent::DualKnobComponent()
 
     valueBox.setText(innerKnob.getTextFromValue(innerKnob.getValue()),
                      juce::dontSendNotification);
+    valueBox.setColour(juce::Label::textColourId, juce::Colours::black);
     valueBox.setJustificationType(juce::Justification::centred);
+    valueBox.setEditable(true, false, true);
     addAndMakeVisible(valueBox);
+    valueBox.setVisible(false);
 
     fontOptions = getPluginFont();
 
@@ -147,27 +151,42 @@ DualKnobComponent::DualKnobComponent()
 
 void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
 {
-    // Draw the textbox at the top
-    textBox.setBounds(textBoxBounds);
-
-    // Draw the value box over the textbox
+    // Draw the value box over if dragging
     if (dragging)
     {
+        // Draw a rectangle behind the value box
+        g.setColour(juce::Colours::white);
+        g.fillRect(textBoxBounds);
+
+        // Draw the border
+        auto thickness = getDualKnobThinStrokeWidth((float) getWidth());
+        g.setColour(borderColour);
+        g.drawRect(textBoxBounds, thickness);
+
         valueBox.setVisible(true);
+        textBox.setVisible(false);
         valueBox.setBounds(textBoxBounds);
+    }
+
+    // Draw the text box if the valueBox is not visible
+    if (! valueBox.isVisible())
+    {
+        // Draw the textbox at the top
+        textBox.setVisible(true);
+        textBox.setBounds(textBoxBounds);
+
+        // Draw the text box outline in the hover state
+        if (mouseOver)
+        {
+            g.setColour(borderColour);
+            g.fillRect(leftTextBoxLine);
+            g.fillRect(rightTextBoxLine);
+        }
     }
 
     // Draw the outer knob
     outerKnob.setBounds(outerKnobBounds);
     innerKnob.setBounds(innerKnobBounds);
-
-    // Draw the text box outline in the hover state
-    if (mouseOver)
-    {
-        g.setColour(borderColour);
-        g.fillRect(leftTextBoxLine);
-        g.fillRect(rightTextBoxLine);
-    }
 }
 
 void DualKnobComponent::resized()
