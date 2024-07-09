@@ -22,6 +22,22 @@ SynthControlComponent::SynthControlComponent(TorchDrumProcessor& processor)
 
     auto& synthParameters = processor.getSynthParameters();
     knobRow1.addParameter(synthParameters.parameters[0], 0);
+    knobRow1.addParameter(synthParameters.parameters[1], 1);
+    knobRow1.addParameter(synthParameters.parameters[5], 2);
+    knobRow1.addParameter(synthParameters.parameters[10], 3);
+
+    knobRow2.addParameter(synthParameters.parameters[2], 0);
+    knobRow2.addParameter(synthParameters.parameters[3], 1);
+    knobRow2.addParameter(synthParameters.parameters[6], 2);
+    knobRow2.addParameter(synthParameters.parameters[11], 3);
+
+    knobRow3.addParameter(synthParameters.parameters[8], 0);
+    knobRow3.addParameter(synthParameters.parameters[9], 1);
+    knobRow3.addParameter(synthParameters.parameters[7], 2);
+    knobRow3.addParameter(synthParameters.parameters[12], 3);
+
+    knobRow4.addParameter(synthParameters.parameters[4], 1);
+    knobRow4.addParameter(synthParameters.parameters[13], 2);
 }
 
 void SynthControlComponent::paint(juce::Graphics& g)

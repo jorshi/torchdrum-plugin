@@ -3,6 +3,7 @@
 #include "BinaryData.h"
 #include "TorchDrumStyle.h"
 #include "juce_gui_basics/juce_gui_basics.h"
+#include <shared_plugin_helpers/shared_plugin_helpers.h>
 
 //==============================================================================
 class InnerKnobLookAndFeel : public juce::LookAndFeel_V4
@@ -49,7 +50,8 @@ private:
 class DualKnobComponent : public juce::Component, juce::Slider::Listener
 {
 public:
-    DualKnobComponent();
+    DualKnobComponent() = delete;
+    DualKnobComponent(juce::RangedAudioParameter* p);
 
     void paint(juce::Graphics& g) override;
     void resized() override;
@@ -64,6 +66,9 @@ public:
     void mouseExit(const juce::MouseEvent& event) override;
 
 private:
+    // Parameter
+    juce::RangedAudioParameter* parameter;
+
     InnerKnobLookAndFeel innerKnobLookAndFeel;
     OuterKnobLookAndFeel outerKnobLookAndFeel;
     juce::Slider innerKnob;

@@ -113,7 +113,7 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
 }
 
 //==============================================================================
-DualKnobComponent::DualKnobComponent()
+DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p) : parameter(p)
 {
     outerKnob.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     outerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
@@ -127,7 +127,7 @@ DualKnobComponent::DualKnobComponent()
     addAndMakeVisible(innerKnob);
     innerKnob.addListener(this);
 
-    textBox.setText("Freq", juce::dontSendNotification);
+    textBox.setText(parameter->getName(10), juce::dontSendNotification);
     textBox.setColour(juce::Label::textColourId, juce::Colours::black);
     textBox.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(textBox);
