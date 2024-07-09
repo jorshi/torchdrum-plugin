@@ -59,3 +59,12 @@ How to use:
 This is an audio plugin, so it has audio input and output.
 It is a real-time drum synthensizer than takes audio as input.
 
+
+Ideas:
+dry/wet
+
+info on Model
+
+Feedback for onset detection
+
+Visualisation of the decaying frequencies
