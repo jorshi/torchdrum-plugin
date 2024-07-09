@@ -1,6 +1,13 @@
 # torchdrum-plugin
 Differentiable drum synthesizer plugin
 
+
+# Use Python3 within the shell:
+```
+pyenv install 3.9
+pyenv shell 3.9.16
+```
+
 ## Building from Source
 
 Clone project and pull submodules. Includes JUCE.
