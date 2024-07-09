@@ -57,3 +57,5 @@ modules/libtorch/
 Presets/
 remove_library_presets.sh
 SignedPlugins/
+
+venv/
