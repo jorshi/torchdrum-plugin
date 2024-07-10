@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BinaryData.h"
+#include "SliderParameterComponent.h"
 #include "TorchDrumStyle.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 #include <shared_plugin_helpers/shared_plugin_helpers.h>
@@ -71,7 +72,7 @@ private:
 
     InnerKnobLookAndFeel innerKnobLookAndFeel;
     OuterKnobLookAndFeel outerKnobLookAndFeel;
-    juce::Slider innerKnob;
+    SliderParameterComponent innerKnob;
     juce::Slider outerKnob;
     juce::Label textBox;
     juce::Label valueBox;

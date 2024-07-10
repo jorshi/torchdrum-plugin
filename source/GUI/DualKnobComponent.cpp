@@ -113,40 +113,25 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
 }
 
 //==============================================================================
-DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p) : parameter(p)
+DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p)
+    : parameter(p), innerKnob(p)
 {
     outerKnob.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     outerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     outerKnob.setLookAndFeel(&outerKnobLookAndFeel);
     addAndMakeVisible(outerKnob);
 
-    innerKnob.setSliderStyle(juce::Slider::RotaryVerticalDrag);
-    innerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     innerKnob.setLookAndFeel(&innerKnobLookAndFeel);
-    innerKnob.setNumDecimalPlacesToDisplay(2);
-
-    // Apply the normalisable range to the inner knob
-    // Need to convert from float to double
-    juce::NormalisableRange<double> range(
-        parameter->getNormalisableRange().start,
-        parameter->getNormalisableRange().end,
-        parameter->getNormalisableRange().interval,
-        parameter->getNormalisableRange().skew,
-        parameter->getNormalisableRange().symmetricSkew);
-    innerKnob.setNormalisableRange(range);
-
-    auto defaultValue = parameter->convertFrom0to1(parameter->getDefaultValue());
-    innerKnob.setDoubleClickReturnValue(true, defaultValue);
-
+    auto& innerSlider = innerKnob.getSlider();
+    innerSlider.addListener(this);
     addAndMakeVisible(innerKnob);
-    innerKnob.addListener(this);
 
     textBox.setText(parameter->getName(10), juce::dontSendNotification);
     textBox.setColour(juce::Label::textColourId, juce::Colours::black);
     textBox.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(textBox);
 
-    valueBox.setText(innerKnob.getTextFromValue(innerKnob.getValue()),
+    valueBox.setText(innerSlider.getTextFromValue(innerSlider.getValue()),
                      juce::dontSendNotification);
     valueBox.setColour(juce::Label::textColourId, juce::Colours::black);
     valueBox.setJustificationType(juce::Justification::centred);
@@ -246,18 +231,19 @@ void DualKnobComponent::resized()
 
 void DualKnobComponent::sliderValueChanged(juce::Slider* slider)
 {
-    if (slider == &innerKnob)
+    auto& innerSlider = innerKnob.getSlider();
+    if (slider == &innerSlider)
     {
-        auto innerValue = juce::jmap(innerKnob.getValue(),
-                                     innerKnob.getMinimum(),
-                                     innerKnob.getMaximum(),
+        auto innerValue = juce::jmap(innerSlider.getValue(),
+                                     innerSlider.getMinimum(),
+                                     innerSlider.getMaximum(),
                                      0.0,
                                      1.0);
         outerKnobLookAndFeel.setOffset((float) innerValue);
         outerKnob.repaint();
 
         // Update the value box
-        valueBox.setText(innerKnob.getTextFromValue(innerKnob.getValue()),
+        valueBox.setText(innerSlider.getTextFromValue(innerSlider.getValue()),
                          juce::dontSendNotification);
         valueBox.repaint();
     }
@@ -265,7 +251,7 @@ void DualKnobComponent::sliderValueChanged(juce::Slider* slider)
 
 void DualKnobComponent::sliderDragStarted(juce::Slider* slider)
 {
-    if (slider == &innerKnob)
+    if (slider == &innerKnob.getSlider())
     {
         dragging = true;
     }
@@ -273,7 +259,7 @@ void DualKnobComponent::sliderDragStarted(juce::Slider* slider)
 
 void DualKnobComponent::sliderDragEnded(juce::Slider* slider)
 {
-    if (slider == &innerKnob)
+    if (slider == &innerKnob.getSlider())
     {
         dragging = false;
     }
