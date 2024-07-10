@@ -124,6 +124,20 @@ DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p) : parameter(
     innerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     innerKnob.setLookAndFeel(&innerKnobLookAndFeel);
     innerKnob.setNumDecimalPlacesToDisplay(2);
+
+    // Apply the normalisable range to the inner knob
+    // Need to convert from float to double
+    juce::NormalisableRange<double> range(
+        parameter->getNormalisableRange().start,
+        parameter->getNormalisableRange().end,
+        parameter->getNormalisableRange().interval,
+        parameter->getNormalisableRange().skew,
+        parameter->getNormalisableRange().symmetricSkew);
+    innerKnob.setNormalisableRange(range);
+
+    auto defaultValue = parameter->convertFrom0to1(parameter->getDefaultValue());
+    innerKnob.setDoubleClickReturnValue(true, defaultValue);
+
     addAndMakeVisible(innerKnob);
     innerKnob.addListener(this);
 
