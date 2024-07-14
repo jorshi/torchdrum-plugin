@@ -67,13 +67,39 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
     // Add the background ring
     juce::Path ring;
     ring.addPieSegment(
-        bounds.reduced(stroke / 2.0f), 0.0f, juce::MathConstants<float>::twoPi, 0.64f);
+        bounds.reduced(stroke / 2.0f), 0.0f, juce::MathConstants<float>::twoPi, 0.655f);
 
     g.setColour(outerKnobColourA);
     g.fillPath(ring);
 
+    // Draw the fine-tune knob (if applicable)
+    if (fineTune)
+    {
+        drawFineTuneKnob(
+            g, bounds, sliderPos, rotaryStartAngle, rotaryEndAngle, slider);
+    }
+
+    // Draw the dial knob border
+    g.setColour(borderColour);
+    g.drawEllipse(bounds.reduced(stroke / 2.0f), stroke);
+    g.strokePath(ring, juce::PathStrokeType(stroke));
+
+    g.restoreState();
+}
+
+void OuterKnobLookAndFeel::drawFineTuneKnob(juce::Graphics& g,
+                                            juce::Rectangle<float>& bounds,
+                                            float sliderPos,
+                                            float rotaryStartAngle,
+                                            float rotaryEndAngle,
+                                            [[maybe_unused]] juce::Slider& slider)
+{
+    g.saveState();
+
+    auto centre = bounds.getCentre();
+    auto stroke = getOuterKnobStrokeWidth(bounds.getWidth());
+
     // Add the modulation ring
-    // TODO: how to make the modulation ring rotate with the inner knob?
     juce::Path modulation;
     auto rotarySize = rotaryEndAngle - rotaryStartAngle;
     auto modCentre = (offset - 0.5f) * rotarySize;
@@ -90,17 +116,13 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
         modKnobColourA, centre.getX(), centre.getY(), modKnobColourB, 0.0, 0.0, true));
     g.fillPath(modulation);
 
-    // Draw the dial knob border
-    g.setColour(borderColour);
-    g.drawEllipse(bounds.reduced(stroke / 2.0f), stroke);
-    g.strokePath(modulation, juce::PathStrokeType(stroke));
-
     // Draw the modulated parameter tick mark
-    auto tickLength = getOuterKnobTickLength((float) width);
-    auto tickStart = height / 2.0f - tickLength * 0.8f;
+    auto tickLength = getOuterKnobTickLength(bounds.getWidth());
+    auto tickStart = bounds.getHeight() / 2.0f - tickLength * 0.8f;
     auto tickRotation = (modulatedValue - 0.5f) * rotarySize;
 
     // Rotate the tick mark with respect to the centre
+    g.setColour(borderColour);
     g.setOrigin(juce::Point<int>((int) centre.getX(), (int) centre.getY()));
     g.addTransform(juce::AffineTransform::rotation(tickRotation, 0.0, 0.0));
     g.drawRoundedRectangle(

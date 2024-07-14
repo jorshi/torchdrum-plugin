@@ -38,13 +38,21 @@ public:
                           float rotaryStartAngle,
                           float rotaryEndAngle,
                           juce::Slider& slider) override;
+    void drawFineTuneKnob(juce::Graphics& g,
+                          juce::Rectangle<float>& bounds,
+                          float sliderPos,
+                          float rotaryStartAngle,
+                          float rotaryEndAngle,
+                          juce::Slider& slider);
 
     void setOffset(float newValue) { offset = newValue; }
     void setModulatedValue(float newValue) { modulatedValue = newValue; }
+    void setFineTune(bool newValue) { fineTune = newValue; }
 
 private:
     float offset = 0.0f;
     float modulatedValue = 0.0f;
+    bool fineTune = false;
 };
 
 //==============================================================================
@@ -65,6 +73,9 @@ public:
     // Mouse listener
     void mouseEnter(const juce::MouseEvent& event) override;
     void mouseExit(const juce::MouseEvent& event) override;
+
+    // Set fine-tune mode
+    void setFineTune(bool newValue) { outerKnobLookAndFeel.setFineTune(newValue); }
 
 private:
     // Parameter
