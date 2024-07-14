@@ -15,6 +15,11 @@ public:
     juce::Slider& getSlider() { return slider; }
 
 private:
+    void sliderValueChanged();
+    void sliderStartedDragging();
+    void sliderStoppedDragging();
+
     juce::RangedAudioParameter* parameter;
     juce::Slider slider;
+    bool isDragging = false;
 };
