@@ -31,6 +31,9 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     backgroundImage = juce::ImageCache::getFromMemory(BinaryData::background2x_png,
                                                       BinaryData::background2x_pngSize);
 
+    backgroundOverlay = juce::ImageCache::getFromMemory(
+        BinaryData::backgroundOverlay2x_png, BinaryData::backgroundOverlay2x_pngSize);
+
     // Add GUI Components
     addAndMakeVisible(buttonControlComponent);
     addAndMakeVisible(globalControlComponent);
@@ -53,9 +56,10 @@ void TorchDrumEditor::chooserCallback(const juce::FileChooser& chooser)
 
 void TorchDrumEditor::paint(juce::Graphics& g)
 {
-    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-    auto rescaledBackground = backgroundImage.rescaled(getWidth(), getHeight());
-    g.drawImageAt(rescaledBackground, 0, 0);
+    auto backgroundImageScaled = backgroundImage.rescaled(getWidth(), getHeight());
+    auto backgroundOverlayScaled = backgroundOverlay.rescaled(getWidth(), getHeight());
+    g.drawImageAt(backgroundImageScaled, 0, 0);
+    g.drawImageAt(backgroundOverlayScaled, 0, 0);
 }
 
 void TorchDrumEditor::resized()

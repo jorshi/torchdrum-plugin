@@ -39,6 +39,7 @@ private:
 
     // Background image
     juce::Image backgroundImage;
+    juce::Image backgroundOverlay;
 
     // GUI Components
     ButtonControlComponent buttonControlComponent;
