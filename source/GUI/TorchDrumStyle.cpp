@@ -17,35 +17,35 @@ const juce::FontOptions getBoldPluginFont()
 juce::Rectangle<int> getVisualizerBounds(float pluginWidth)
 {
     auto widthRatio = getPluginWidthRatio(pluginWidth);
-
-    int x = (int) (widthRatio * visualizerX);
-    int y = (int) (widthRatio * visualizerY);
-    int width = (int) (widthRatio * visualizerWidth);
-    int height = (int) (widthRatio * visualizerHeight);
-
-    return juce::Rectangle<int>(x, y, width, height);
+    return juce::Rectangle<int>((int) (widthRatio * visualizerX),
+                                (int) (widthRatio * visualizerY),
+                                (int) (widthRatio * visualizerWidth),
+                                (int) (widthRatio * visualizerHeight));
 }
 
 juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth)
 {
     auto widthRatio = getPluginWidthRatio(pluginWidth);
-
-    int x = (int) (widthRatio * onsetControlComponentX);
-    int y = (int) (widthRatio * onsetControlComponentY);
-    int width = (int) (widthRatio * onsetControlComponentWidth);
-    int height = (int) (widthRatio * onsetControlComponentHeight);
-
-    return juce::Rectangle<int>(x, y, width, height);
+    return juce::Rectangle<int>((int) (widthRatio * onsetControlComponentX),
+                                (int) (widthRatio * onsetControlComponentY),
+                                (int) (widthRatio * onsetControlComponentWidth),
+                                (int) (widthRatio * onsetControlComponentHeight));
 }
 
 juce::Rectangle<int> getGlobalControlComponentBounds(float pluginWidth)
 {
     auto widthRatio = getPluginWidthRatio(pluginWidth);
+    return juce::Rectangle<int>((int) (widthRatio * globalControlComponentX),
+                                (int) (widthRatio * globalControlComponentY),
+                                (int) (widthRatio * globalControlComponentWidth),
+                                (int) (widthRatio * globalControlComponentHeight));
+}
 
-    int x = (int) (widthRatio * globalControlComponentX);
-    int y = (int) (widthRatio * globalControlComponentY);
-    int width = (int) (widthRatio * globalControlComponentWidth);
-    int height = (int) (widthRatio * globalControlComponentHeight);
-
-    return juce::Rectangle<int>(x, y, width, height);
+juce::Rectangle<int> getButtonControlComponentBounds(float pluginWidth)
+{
+    auto widthRatio = getPluginWidthRatio(pluginWidth);
+    return juce::Rectangle<int>((int) (widthRatio * buttonControlComponentX),
+                                (int) (widthRatio * buttonControlComponentY),
+                                (int) (widthRatio * buttonControlComponentWidth),
+                                (int) (widthRatio * buttonControlComponentHeight));
 }

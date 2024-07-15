@@ -48,6 +48,11 @@ const float globalControlComponentY = 287.9902f;
 const float globalControlComponentWidth = 59.3047f;
 const float globalControlComponentHeight = 206.8701f;
 
+const float buttonControlComponentX = 28.4389f;
+const float buttonControlComponentY = 55.6959f;
+const float buttonControlComponentWidth = 113.6449f;
+const float buttonControlComponentHeight = 163.343f;
+
 /**
  * Returns FontOption object with the primary typeface for the plugin.
  */
@@ -144,7 +149,6 @@ inline float getKnobRowPadding(float height)
 }
 
 juce::Rectangle<int> getVisualizerBounds(float pluginWidth);
-
 juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth);
-
 juce::Rectangle<int> getGlobalControlComponentBounds(float pluginWidth);
+juce::Rectangle<int> getButtonControlComponentBounds(float pluginWidth);

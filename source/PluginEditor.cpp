@@ -5,6 +5,7 @@
 TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     : AudioProcessorEditor(&p),
       drumProcessor(p),
+      buttonControlComponent(p),
       globalControlComponent(p),
       onsetControlComponent(p),
       synthControlComponent(p),
@@ -31,6 +32,7 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
                                                       BinaryData::background2x_pngSize);
 
     // Add GUI Components
+    addAndMakeVisible(buttonControlComponent);
     addAndMakeVisible(globalControlComponent);
     addAndMakeVisible(onsetControlComponent);
     addAndMakeVisible(synthControlComponent);
@@ -68,6 +70,7 @@ void TorchDrumEditor::paint(juce::Graphics& g)
 
 void TorchDrumEditor::resized()
 {
+    buttonControlComponent.setBounds(getButtonControlComponentBounds(getWidth()));
     globalControlComponent.setBounds(getGlobalControlComponentBounds(getWidth()));
     onsetControlComponent.setBounds(getOnsetControlComponentBounds(getWidth()));
     visualizerComponent.setBounds(getVisualizerBounds(getWidth()));

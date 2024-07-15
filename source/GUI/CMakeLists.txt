@@ -1,4 +1,5 @@
 target_sources(${BaseTargetName} PRIVATE
+        ButtonControlComponent.cpp
         DualKnobComponent.cpp
         GlobalControlComponent.cpp
         KnobLookAndFeel.cpp
