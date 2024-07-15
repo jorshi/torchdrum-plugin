@@ -10,6 +10,8 @@ const juce::Colour outerKnobColourA = juce::Colour::fromRGB(126, 142, 147);
 const juce::Colour modKnobColourA = juce::Colour::fromRGBA(120, 166, 177, 179);
 const juce::Colour modKnobColourB = juce::Colour::fromRGBA(255, 255, 255, 255);
 const juce::Colour knobValueBackground = juce::Colour::fromRGBA(249, 247, 243, 153);
+const juce::Colour vizualizerGradientColourA = juce::Colour::fromRGB(225, 225, 220);
+const juce::Colour vizualizerGradientColourB = juce::Colour::fromRGB(208, 217, 217);
 
 // Spacing based on the original designed size of the dual knob component
 const float fullPluginWidth = 960.0f;
@@ -31,6 +33,11 @@ const float dualKnobPadding =
     dualKnobComponentHeight - (dualKnobTextBoxHeight + dualKnobSize);
 const float dualKnobThinStrokeWidth = 1.0f;
 
+const float visualizerX = 218.688f;
+const float visualizerY = 56.0911f;
+const float visualizerWidth = 330.0f;
+const float visualizerHeight = 326.7857f;
+
 /**
  * Returns FontOption object with the primary typeface for the plugin.
  */
@@ -40,6 +47,15 @@ const juce::FontOptions getPluginFont();
  * Returns FontOption object with the bold typeface for the plugin.
  */
 const juce::FontOptions getBoldPluginFont();
+
+//==============================================================================
+// Functions to calculate the size and position of GUI components for resizing
+//==============================================================================
+
+inline float getPluginWidthRatio(float pluginWidth)
+{
+    return pluginWidth / fullPluginWidth;
+}
 
 inline float getSynthControlComponentWidth(float pluginWidth)
 {
@@ -116,3 +132,5 @@ inline float getKnobRowPadding(float height)
 {
     return (height / knobRowComponentHeight) * knobRowPadding;
 }
+
+juce::Rectangle<int> getVisualizerBounds(float pluginWidth);

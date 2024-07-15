@@ -1,8 +1,12 @@
 #include "PluginEditor.h"
+#include "GUI/TorchDrumStyle.h"
 #include "PluginProcessor.h"
 
 TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
-    : AudioProcessorEditor(&p), drumProcessor(p), synthControlComponent(p)
+    : AudioProcessorEditor(&p),
+      drumProcessor(p),
+      synthControlComponent(p),
+      visualizerComponent(p)
 {
     fileChooser =
         std::make_unique<juce::FileChooser>("File Browser", getPresetFolder(), "*.pt");
@@ -26,6 +30,7 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
 
     // Add GUI Components
     addAndMakeVisible(synthControlComponent);
+    addAndMakeVisible(visualizerComponent);
 }
 
 TorchDrumEditor::~TorchDrumEditor()
@@ -57,7 +62,11 @@ void TorchDrumEditor::paint(juce::Graphics& g)
     synthControlComponent.setBounds(controlX, controlY, controlWidth, controlHeight);
 }
 
-void TorchDrumEditor::resized() {}
+void TorchDrumEditor::resized()
+{
+    auto visualizerBounds = getVisualizerBounds(getWidth());
+    visualizerComponent.setBounds(visualizerBounds);
+}
 
 juce::File TorchDrumEditor::getPresetFolder()
 {

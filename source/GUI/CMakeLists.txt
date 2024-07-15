@@ -4,4 +4,5 @@ target_sources(${BaseTargetName} PRIVATE
         SliderParameterComponent.cpp
         SynthControlComponent.cpp
         SynthControlKnobRow.cpp
-        TorchDrumStyle.cpp)
+        TorchDrumStyle.cpp
+        VisualizerComponent.cpp)

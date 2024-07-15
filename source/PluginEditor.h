@@ -2,6 +2,7 @@
 
 #include "BinaryData.h"
 #include "GUI/SynthControlComponent.h"
+#include "GUI/VisualizerComponent.h"
 #include "PluginProcessor.h"
 
 class TorchDrumEditor : public juce::AudioProcessorEditor, juce::ActionListener
@@ -38,4 +39,5 @@ private:
 
     // GUI Components
     SynthControlComponent synthControlComponent;
+    VisualizerComponent visualizerComponent;
 };
