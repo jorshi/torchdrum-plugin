@@ -3,7 +3,8 @@
 #include "juce_gui_basics/juce_gui_basics.h"
 #include <shared_plugin_helpers/shared_plugin_helpers.h>
 
-class SliderParameterComponent : public juce::Component
+class SliderParameterComponent : public juce::Component,
+                                 private juce::AudioProcessorParameter::Listener
 {
 public:
     SliderParameterComponent() = delete;
@@ -14,6 +15,10 @@ public:
 
     juce::Slider& getSlider() { return slider; }
 
+    // Parameter listener
+    void parameterValueChanged(int parameterIndex, float newValue) override;
+    void parameterGestureChanged(int parameterIndex, bool gestureIsStarting) override {}
+
 private:
     void sliderValueChanged();
     void sliderStartedDragging();
@@ -22,4 +27,5 @@ private:
     juce::RangedAudioParameter* parameter;
     juce::Slider slider;
     bool isDragging = false;
+    std::atomic<bool> parameterValueHasChanged = false;
 };

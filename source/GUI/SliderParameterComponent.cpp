@@ -19,19 +19,26 @@ SliderParameterComponent::SliderParameterComponent(juce::RangedAudioParameter* p
 
     auto defaultValue = parameter->convertFrom0to1(parameter->getDefaultValue());
     slider.setDoubleClickReturnValue(true, defaultValue);
-
-    // TODO: Not sure if we should do this here?
-    slider.setValue(defaultValue);
-
     addAndMakeVisible(slider);
+
+    // Parameter listener -- called when the parameter changes from the host
+    parameter->addListener(this);
 
     // Add slider callbacks
     slider.onValueChange = [this] { sliderValueChanged(); };
+    slider.onDragStart = [this] { sliderStartedDragging(); };
+    slider.onDragEnd = [this] { sliderStoppedDragging(); };
 }
 
 void SliderParameterComponent::paint(juce::Graphics& g) {}
 
 void SliderParameterComponent::resized() { slider.setBounds(getLocalBounds()); }
+
+void SliderParameterComponent::parameterValueChanged(int parameterIndex, float newValue)
+{
+    if (parameterIndex == parameter->getParameterIndex())
+        parameterValueHasChanged = 1;
+}
 
 void SliderParameterComponent::sliderValueChanged()
 {
