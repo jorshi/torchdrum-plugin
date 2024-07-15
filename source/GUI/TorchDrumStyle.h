@@ -43,6 +43,11 @@ const float onsetControlComponentY = 416.0552f;
 const float onsetControlComponentWidth = 214.1505f;
 const float onsetControlComponentHeight = 92.0643f;
 
+const float globalControlComponentX = 56.1953f;
+const float globalControlComponentY = 287.9902f;
+const float globalControlComponentWidth = 59.3047f;
+const float globalControlComponentHeight = 206.8701f;
+
 /**
  * Returns FontOption object with the primary typeface for the plugin.
  */
@@ -141,3 +146,5 @@ inline float getKnobRowPadding(float height)
 juce::Rectangle<int> getVisualizerBounds(float pluginWidth);
 
 juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth);
+
+juce::Rectangle<int> getGlobalControlComponentBounds(float pluginWidth);
