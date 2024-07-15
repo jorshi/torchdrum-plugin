@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BinaryData.h"
+#include "GUI/OnsetControlComponent.h"
 #include "GUI/SynthControlComponent.h"
 #include "GUI/VisualizerComponent.h"
 #include "PluginProcessor.h"
@@ -38,6 +39,7 @@ private:
     juce::Image backgroundImage;
 
     // GUI Components
+    OnsetControlComponent onsetControlComponent;
     SynthControlComponent synthControlComponent;
     VisualizerComponent visualizerComponent;
 };

@@ -25,3 +25,15 @@ juce::Rectangle<int> getVisualizerBounds(float pluginWidth)
 
     return juce::Rectangle<int>(x, y, width, height);
 }
+
+juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth)
+{
+    auto widthRatio = getPluginWidthRatio(pluginWidth);
+
+    int x = (int) (widthRatio * onsetControlComponentX);
+    int y = (int) (widthRatio * onsetControlComponentY);
+    int width = (int) (widthRatio * onsetControlComponentWidth);
+    int height = (int) (widthRatio * onsetControlComponentHeight);
+
+    return juce::Rectangle<int>(x, y, width, height);
+}
