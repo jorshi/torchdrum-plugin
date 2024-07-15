@@ -28,6 +28,15 @@ SliderParameterComponent::SliderParameterComponent(juce::RangedAudioParameter* p
     slider.onValueChange = [this] { sliderValueChanged(); };
     slider.onDragStart = [this] { sliderStartedDragging(); };
     slider.onDragEnd = [this] { sliderStoppedDragging(); };
+
+    // Timer callback to check whether the parameter has changed from the host
+    startTimer(100);
+}
+
+SliderParameterComponent::~SliderParameterComponent()
+{
+    parameter->removeListener(this);
+    stopTimer();
 }
 
 void SliderParameterComponent::paint(juce::Graphics& g) {}
@@ -38,6 +47,28 @@ void SliderParameterComponent::parameterValueChanged(int parameterIndex, float n
 {
     if (parameterIndex == parameter->getParameterIndex())
         parameterValueHasChanged = 1;
+}
+
+void SliderParameterComponent::timerCallback()
+{
+    bool hasChanged = true;
+    if (parameterValueHasChanged.compare_exchange_strong(hasChanged, false))
+    {
+        if (! isDragging)
+        {
+            auto newValue = parameter->convertFrom0to1(parameter->getValue());
+            slider.setValue(newValue);
+
+            // Speed up the timer interval for smoother updates during parameter changes
+            startTimer(50);
+        }
+    }
+    else
+    {
+        // If the parameter has not changed, then increase the timer interval
+        // to reduce CPU usage until the next parameter change
+        startTimer(juce::jmin(250, getTimerInterval() + 10));
+    }
 }
 
 void SliderParameterComponent::sliderValueChanged()

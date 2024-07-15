@@ -4,11 +4,13 @@
 #include <shared_plugin_helpers/shared_plugin_helpers.h>
 
 class SliderParameterComponent : public juce::Component,
-                                 private juce::AudioProcessorParameter::Listener
+                                 private juce::AudioProcessorParameter::Listener,
+                                 private juce::Timer
 {
 public:
     SliderParameterComponent() = delete;
     SliderParameterComponent(juce::RangedAudioParameter* p);
+    ~SliderParameterComponent();
 
     void paint(juce::Graphics& g) override;
     void resized() override;
@@ -18,6 +20,9 @@ public:
     // Parameter listener
     void parameterValueChanged(int parameterIndex, float newValue) override;
     void parameterGestureChanged(int parameterIndex, bool gestureIsStarting) override {}
+
+    // Timer callback
+    void timerCallback() override;
 
 private:
     void sliderValueChanged();
