@@ -54,18 +54,8 @@ void TorchDrumEditor::chooserCallback(const juce::FileChooser& chooser)
 void TorchDrumEditor::paint(juce::Graphics& g)
 {
     g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-
     auto rescaledBackground = backgroundImage.rescaled(getWidth(), getHeight());
     g.drawImageAt(rescaledBackground, 0, 0);
-
-    // Draw the SynthControlComponent
-    int width = getWidth();
-    int height = getHeight();
-    int controlX = (int) getSynthControlComponentX(width);
-    int controlY = (int) getSynthControlComponentY(height);
-    int controlWidth = getSynthControlComponentWidth(getWidth());
-    int controlHeight = height - controlY;
-    synthControlComponent.setBounds(controlX, controlY, controlWidth, controlHeight);
 }
 
 void TorchDrumEditor::resized()
@@ -73,6 +63,7 @@ void TorchDrumEditor::resized()
     buttonControlComponent.setBounds(getButtonControlComponentBounds(getWidth()));
     globalControlComponent.setBounds(getGlobalControlComponentBounds(getWidth()));
     onsetControlComponent.setBounds(getOnsetControlComponentBounds(getWidth()));
+    synthControlComponent.setBounds(getSynthControlComponentBounds(getWidth()));
     visualizerComponent.setBounds(getVisualizerBounds(getWidth()));
 }
 

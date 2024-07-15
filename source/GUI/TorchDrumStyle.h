@@ -17,9 +17,10 @@ const juce::Colour vizualizerGradientColourB = juce::Colour::fromRGB(208, 217, 2
 const float fullPluginWidth = 960.0f;
 const float fullPluginHeight = 550.0f;
 
-const float synthControlComponentWidth = 342.1267f;
-const float synthControlComponentX = 583.488f;
-const float synthControlComponentY = 25.6461f;
+const float synthControlComponentX = 583.4984;
+const float synthControlComponentY = 29.1123f;
+const float synthControlComponentWidth = 342.3021f;
+const float synthControlComponentHeight = 489.6482f;
 
 const float knobRowComponentHeight = 116.235f;
 const float knobRowLabelHeight = 23.1006f;
@@ -33,10 +34,10 @@ const float dualKnobPadding =
     dualKnobComponentHeight - (dualKnobTextBoxHeight + dualKnobSize);
 const float dualKnobThinStrokeWidth = 1.0f;
 
-const float visualizerX = 218.688f;
-const float visualizerY = 56.0911f;
-const float visualizerWidth = 330.0f;
-const float visualizerHeight = 326.7857f;
+const float visualizerComponentX = 218.688f;
+const float visualizerComponentY = 56.0911f;
+const float visualizerComponentWidth = 330.0f;
+const float visualizerComponentHeight = 326.7857f;
 
 const float onsetControlComponentX = 276.9249f;
 const float onsetControlComponentY = 416.0552f;
@@ -152,3 +153,4 @@ juce::Rectangle<int> getVisualizerBounds(float pluginWidth);
 juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth);
 juce::Rectangle<int> getGlobalControlComponentBounds(float pluginWidth);
 juce::Rectangle<int> getButtonControlComponentBounds(float pluginWidth);
+juce::Rectangle<int> getSynthControlComponentBounds(float pluginWidth);

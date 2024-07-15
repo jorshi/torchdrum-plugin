@@ -17,10 +17,10 @@ const juce::FontOptions getBoldPluginFont()
 juce::Rectangle<int> getVisualizerBounds(float pluginWidth)
 {
     auto widthRatio = getPluginWidthRatio(pluginWidth);
-    return juce::Rectangle<int>((int) (widthRatio * visualizerX),
-                                (int) (widthRatio * visualizerY),
-                                (int) (widthRatio * visualizerWidth),
-                                (int) (widthRatio * visualizerHeight));
+    return juce::Rectangle<int>((int) (widthRatio * visualizerComponentX),
+                                (int) (widthRatio * visualizerComponentY),
+                                (int) (widthRatio * visualizerComponentWidth),
+                                (int) (widthRatio * visualizerComponentHeight));
 }
 
 juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth)
@@ -48,4 +48,13 @@ juce::Rectangle<int> getButtonControlComponentBounds(float pluginWidth)
                                 (int) (widthRatio * buttonControlComponentY),
                                 (int) (widthRatio * buttonControlComponentWidth),
                                 (int) (widthRatio * buttonControlComponentHeight));
+}
+
+juce::Rectangle<int> getSynthControlComponentBounds(float pluginWidth)
+{
+    auto widthRatio = getPluginWidthRatio(pluginWidth);
+    return juce::Rectangle<int>((int) (widthRatio * synthControlComponentX),
+                                (int) (widthRatio * synthControlComponentY),
+                                (int) (widthRatio * synthControlComponentWidth),
+                                (int) (widthRatio * synthControlComponentHeight));
 }
