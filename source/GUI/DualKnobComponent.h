@@ -11,7 +11,8 @@ class DualKnobComponent : public juce::Component, juce::Slider::Listener
 {
 public:
     DualKnobComponent() = delete;
-    DualKnobComponent(juce::RangedAudioParameter* p);
+    DualKnobComponent(juce::RangedAudioParameter* p,
+                      juce::NormalisableRange<double> range);
 
     void paint(juce::Graphics& g) override;
     void resized() override;

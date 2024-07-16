@@ -1,6 +1,8 @@
 #include "SliderParameterComponent.h"
 
-SliderParameterComponent::SliderParameterComponent(juce::RangedAudioParameter* p)
+SliderParameterComponent::SliderParameterComponent(
+    juce::RangedAudioParameter* p,
+    juce::NormalisableRange<double> range)
     : parameter(p)
 {
     slider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
@@ -9,12 +11,6 @@ SliderParameterComponent::SliderParameterComponent(juce::RangedAudioParameter* p
 
     // Apply the normalisable range to the inner knob
     // Need to convert from float to double
-    juce::NormalisableRange<double> range(
-        parameter->getNormalisableRange().start,
-        parameter->getNormalisableRange().end,
-        parameter->getNormalisableRange().interval,
-        parameter->getNormalisableRange().skew,
-        parameter->getNormalisableRange().symmetricSkew);
     slider.setNormalisableRange(range);
 
     auto defaultValue = parameter->convertFrom0to1(parameter->getDefaultValue());

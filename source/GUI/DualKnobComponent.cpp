@@ -1,8 +1,9 @@
 #include "DualKnobComponent.h"
 
 //==============================================================================
-DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p)
-    : parameter(p), innerKnob(p)
+DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
+                                     juce::NormalisableRange<double> range)
+    : parameter(p), innerKnob(p, range)
 {
     outerKnob.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     outerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);

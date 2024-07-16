@@ -21,23 +21,37 @@ SynthControlComponent::SynthControlComponent(TorchDrumProcessor& processor)
     addAndMakeVisible(knobRow4);
 
     auto& synthParameters = processor.getSynthParameters();
-    knobRow1.addParameter(synthParameters.parameters[0], 0);
-    knobRow1.addParameter(synthParameters.parameters[1], 1);
-    knobRow1.addParameter(synthParameters.parameters[5], 2);
-    knobRow1.addParameter(synthParameters.parameters[10], 3);
+    knobRow1.addParameter(
+        synthParameters.parameters[0], synthParameters.guiRanges[0], 0);
+    knobRow1.addParameter(
+        synthParameters.parameters[1], synthParameters.guiRanges[1], 1);
+    knobRow1.addParameter(
+        synthParameters.parameters[5], synthParameters.guiRanges[5], 2);
+    knobRow1.addParameter(
+        synthParameters.parameters[10], synthParameters.guiRanges[10], 3);
 
-    knobRow2.addParameter(synthParameters.parameters[2], 0);
-    knobRow2.addParameter(synthParameters.parameters[3], 1);
-    knobRow2.addParameter(synthParameters.parameters[6], 2);
-    knobRow2.addParameter(synthParameters.parameters[11], 3);
+    knobRow2.addParameter(
+        synthParameters.parameters[2], synthParameters.guiRanges[2], 0);
+    knobRow2.addParameter(
+        synthParameters.parameters[3], synthParameters.guiRanges[3], 1);
+    knobRow2.addParameter(
+        synthParameters.parameters[6], synthParameters.guiRanges[6], 2);
+    knobRow2.addParameter(
+        synthParameters.parameters[11], synthParameters.guiRanges[11], 3);
 
-    knobRow3.addParameter(synthParameters.parameters[8], 0);
-    knobRow3.addParameter(synthParameters.parameters[9], 1);
-    knobRow3.addParameter(synthParameters.parameters[7], 2);
-    knobRow3.addParameter(synthParameters.parameters[12], 3);
+    knobRow3.addParameter(
+        synthParameters.parameters[8], synthParameters.guiRanges[8], 0);
+    knobRow3.addParameter(
+        synthParameters.parameters[9], synthParameters.guiRanges[9], 1);
+    knobRow3.addParameter(
+        synthParameters.parameters[7], synthParameters.guiRanges[7], 2);
+    knobRow3.addParameter(
+        synthParameters.parameters[12], synthParameters.guiRanges[12], 3);
 
-    knobRow4.addParameter(synthParameters.parameters[4], 1);
-    knobRow4.addParameter(synthParameters.parameters[13], 2);
+    knobRow4.addParameter(
+        synthParameters.parameters[4], synthParameters.guiRanges[4], 1);
+    knobRow4.addParameter(
+        synthParameters.parameters[13], synthParameters.guiRanges[13], 2);
 }
 
 void SynthControlComponent::paint(juce::Graphics& g)

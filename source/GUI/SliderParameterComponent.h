@@ -9,7 +9,8 @@ class SliderParameterComponent : public juce::Component,
 {
 public:
     SliderParameterComponent() = delete;
-    SliderParameterComponent(juce::RangedAudioParameter* p);
+    SliderParameterComponent(juce::RangedAudioParameter* p,
+                             juce::NormalisableRange<double> range);
     ~SliderParameterComponent();
 
     void paint(juce::Graphics& g) override;

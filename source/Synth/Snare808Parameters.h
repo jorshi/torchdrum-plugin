@@ -30,6 +30,14 @@ struct Snare808Parameters : public SynthParameterBase
         addParameter(osc2Gain);
         addParameter(noiseGain);
         addParameter(tanhGain);
+
+        guiRanges[0].skew = 0.5; // Osc 1 freq
+        guiRanges[2].skew = 0.5; // Osc 2 freq
+        guiRanges[4].skew = 0.5; // Freq env decay
+        guiRanges[5].skew = 0.5; // Osc 1 decay time
+        guiRanges[6].skew = 0.5; // Osc 2 decay time
+        guiRanges[7].skew = 0.5; // Noise env decay time
+        guiRanges[8].skew = 0.25; // Noise filter freq
     }
 
     juce::AudioParameterFloat* osc1Freq =

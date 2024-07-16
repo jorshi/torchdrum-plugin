@@ -70,11 +70,13 @@ void SynthControlKnobRow::setLabelText(const juce::String& newText)
     label.setText(newText, juce::dontSendNotification);
 }
 
-void SynthControlKnobRow::addParameter(juce::RangedAudioParameter* parameter, int index)
+void SynthControlKnobRow::addParameter(juce::RangedAudioParameter* parameter,
+                                       juce::NormalisableRange<double> range,
+                                       int index)
 {
     if (index < numKnobs)
     {
-        knobs[index] = std::make_unique<DualKnobComponent>(parameter);
+        knobs[index] = std::make_unique<DualKnobComponent>(parameter, range);
         addAndMakeVisible(knobs[index].get());
         resized();
     }

@@ -29,6 +29,14 @@ struct SynthParameterBase
 
         // Create a dummy callback for this parameter
         callbacks.push_back([](float) {});
+
+        // Create a GUI range for this parameter
+        guiRanges.push_back(juce::NormalisableRange<double>(
+            param->getNormalisableRange().start,
+            param->getNormalisableRange().end,
+            param->getNormalisableRange().interval,
+            param->getNormalisableRange().skew,
+            param->getNormalisableRange().symmetricSkew));
     }
 
     void updateAllParameters()
@@ -41,7 +49,8 @@ struct SynthParameterBase
         }
     }
 
-    void updateAllParametersWithModulation(const std::vector<double>& modulation, float sensitivity = 1.0f)
+    void updateAllParametersWithModulation(const std::vector<double>& modulation,
+                                           float sensitivity = 1.0f)
     {
         jassert(modulation.size() == parameters.size());
         for (size_t i = 0; i < parameters.size(); ++i)
@@ -70,4 +79,5 @@ struct SynthParameterBase
 
     std::vector<juce::RangedAudioParameter*> parameters;
     std::vector<std::function<void(float)>> callbacks;
+    std::vector<juce::NormalisableRange<double>> guiRanges;
 };
