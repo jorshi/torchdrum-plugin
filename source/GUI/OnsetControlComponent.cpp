@@ -1,4 +1,5 @@
 #include "OnsetControlComponent.h"
+#include "../Parameters.h"
 #include "TorchDrumStyle.h"
 
 OnsetControlComponent::OnsetControlComponent(TorchDrumProcessor& processor)

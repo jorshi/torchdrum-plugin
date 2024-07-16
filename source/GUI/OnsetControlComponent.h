@@ -9,6 +9,7 @@ public:
     OnsetControlComponent(TorchDrumProcessor& processor);
 
     void paint(juce::Graphics& g) override;
+    void resized() override {}
 
 private:
     TorchDrumProcessor& drumProcessor;

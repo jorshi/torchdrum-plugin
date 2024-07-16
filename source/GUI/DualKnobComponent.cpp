@@ -38,7 +38,7 @@ DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
     this->addMouseListener(this, true);
 }
 
-void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
+void DualKnobComponent::paint(juce::Graphics& g)
 {
     // Draw the value box over if dragging
     if (dragging)
@@ -72,10 +72,6 @@ void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
             g.fillRect(rightTextBoxLine);
         }
     }
-
-    // Draw the outer knob
-    outerKnob.setBounds(outerKnobBounds);
-    innerKnob.setBounds(innerKnobBounds);
 }
 
 void DualKnobComponent::resized()
@@ -94,6 +90,7 @@ void DualKnobComponent::resized()
     int outerKnobX = (int) ((width - outerKnobSize) / 2.0f);
     outerKnobBounds =
         juce::Rectangle<int>(outerKnobX, textWithPadding, outerKnobSize, outerKnobSize);
+    outerKnob.setBounds(outerKnobBounds);
 
     // Inner knob bounds
     int innerKnobSize = (int) (outerKnobSize * (2.0 / 3.0));
@@ -101,6 +98,7 @@ void DualKnobComponent::resized()
     int innerKnobY = textWithPadding + (int) ((outerKnobSize - innerKnobSize) / 2.0f);
     innerKnobBounds =
         juce::Rectangle<int>(innerKnobX, innerKnobY, innerKnobSize, innerKnobSize);
+    innerKnob.setBounds(innerKnobBounds);
 
     // Update the font size
     juce::Font font(fontOptions);
