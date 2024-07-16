@@ -11,7 +11,7 @@ public:
     SliderParameterComponent() = delete;
     SliderParameterComponent(juce::RangedAudioParameter* p,
                              juce::NormalisableRange<double> range);
-    ~SliderParameterComponent();
+    ~SliderParameterComponent() override;
 
     void paint(juce::Graphics& g) override;
     void resized() override;
@@ -20,7 +20,10 @@ public:
 
     // Parameter listener
     void parameterValueChanged(int parameterIndex, float newValue) override;
-    void parameterGestureChanged(int parameterIndex, bool gestureIsStarting) override {}
+    void parameterGestureChanged([[maybe_unused]] int parameterIndex,
+                                 [[maybe_unused]] bool gestureIsStarting) override
+    {
+    }
 
     // Timer callback
     void timerCallback() override;

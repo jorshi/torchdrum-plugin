@@ -54,11 +54,10 @@ SynthControlComponent::SynthControlComponent(TorchDrumProcessor& processor)
         synthParameters.parameters[13], synthParameters.guiRanges[13], 2);
 }
 
-void SynthControlComponent::paint(juce::Graphics& g)
+void SynthControlComponent::resized()
 {
-    // Draw the knob rows
-    auto rowHeight = getKnobRowComponentHeight(getWidth());
-    auto padding = (int) getKnobRowPadding(rowHeight);
+    int rowHeight = (int) getKnobRowComponentHeight(getWidth());
+    int padding = (int) getKnobRowPadding(rowHeight);
     knobRow1.setBounds(0, 0, getWidth(), rowHeight);
     knobRow2.setBounds(0, rowHeight + padding, getWidth(), rowHeight);
     knobRow3.setBounds(0, (rowHeight + padding) * 2, getWidth(), rowHeight);

@@ -12,14 +12,7 @@ SynthControlKnobRow::SynthControlKnobRow()
     label.setJustificationType(juce::Justification::centred);
 }
 
-void SynthControlKnobRow::paint(juce::Graphics& g)
-{
-    // Bounding box for development purposes
-    // g.setColour(juce::Colours::black);
-    // g.drawRect(0, 0, getWidth(), getHeight());
-
-    // g.drawRect(label.getBounds());
-}
+void SynthControlKnobRow::paint([[maybe_unused]] juce::Graphics& g) {}
 
 void SynthControlKnobRow::resized()
 {
@@ -29,9 +22,9 @@ void SynthControlKnobRow::resized()
     int knobWidth = getWidth() / numKnobs;
     int knobHeight = (int) getKnobRowKnobHeight(height);
     int knobY = height - knobHeight;
-    for (int i = 0; i < numKnobs; i++)
+    for (size_t i = 0; (int) i < numKnobs; i++)
     {
-        knobBounds[i].setBounds(i * knobWidth, knobY, knobWidth, knobHeight);
+        knobBounds[i].setBounds((int) i * knobWidth, knobY, knobWidth, knobHeight);
 
         // Draw the knob if it exists
         if (knobs[i] != nullptr)
@@ -39,7 +32,7 @@ void SynthControlKnobRow::resized()
     }
 
     // Update the bounds of the label
-    auto labelHeight = (int) knobY * 0.85f;
+    auto labelHeight = (int) (knobY * 0.85f);
     label.setBounds(0, 0, getWidth(), labelHeight);
 
     // Update the font size
@@ -53,10 +46,10 @@ void SynthControlKnobRow::setNumKnobs(int newValue)
     knobBounds.clear();
     knobs.clear();
 
-    for (int i = 0; i < numKnobs; i++)
+    for (size_t i = 0; (int) i < numKnobs; i++)
     {
-        juce::Rectangle<int> knobBounds;
-        this->knobBounds.push_back(knobBounds);
+        juce::Rectangle<int> rowBounds;
+        this->knobBounds.push_back(rowBounds);
 
         std::unique_ptr<DualKnobComponent> knob = nullptr;
         knobs.push_back(std::move(knob));
@@ -76,8 +69,8 @@ void SynthControlKnobRow::addParameter(juce::RangedAudioParameter* parameter,
 {
     if (index < numKnobs)
     {
-        knobs[index] = std::make_unique<DualKnobComponent>(parameter, range);
-        addAndMakeVisible(knobs[index].get());
+        knobs[(size_t) index] = std::make_unique<DualKnobComponent>(parameter, range);
+        addAndMakeVisible(knobs[(size_t) index].get());
         resized();
     }
 }

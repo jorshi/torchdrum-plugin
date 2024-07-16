@@ -35,11 +35,12 @@ SliderParameterComponent::~SliderParameterComponent()
     stopTimer();
 }
 
-void SliderParameterComponent::paint(juce::Graphics& g) {}
+void SliderParameterComponent::paint([[maybe_unused]] juce::Graphics& g) {}
 
 void SliderParameterComponent::resized() { slider.setBounds(getLocalBounds()); }
 
-void SliderParameterComponent::parameterValueChanged(int parameterIndex, float newValue)
+void SliderParameterComponent::parameterValueChanged(int parameterIndex,
+                                                     [[maybe_unused]] float newValue)
 {
     if (parameterIndex == parameter->getParameterIndex())
         parameterValueHasChanged = 1;

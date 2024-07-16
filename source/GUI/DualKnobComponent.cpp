@@ -48,7 +48,7 @@ void DualKnobComponent::paint([[maybe_unused]] juce::Graphics& g)
         g.fillRect(textBoxBounds);
 
         // Draw the border
-        auto thickness = getDualKnobThinStrokeWidth((float) getWidth());
+        int thickness = (int) getDualKnobThinStrokeWidth((float) getWidth());
         g.setColour(borderColour);
         g.drawRect(textBoxBounds, thickness);
 
@@ -108,8 +108,8 @@ void DualKnobComponent::resized()
     valueBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
 
     // Lines for textbox border during hover state
-    auto thickness = getDualKnobThinStrokeWidth((float) width);
-    auto lineHeight = textBoxBounds.getHeight() - 2 * thickness;
+    int thickness = (int) getDualKnobThinStrokeWidth((float) width);
+    int lineHeight = (int) (textBoxBounds.getHeight() - 2.0f * thickness);
     leftTextBoxLine = juce::Rectangle<int>(
         textBoxBounds.getX(), textBoxBounds.getY() + thickness, thickness, lineHeight);
     rightTextBoxLine = juce::Rectangle<int>(textBoxBounds.getRight() - thickness,
@@ -154,7 +154,7 @@ void DualKnobComponent::sliderDragEnded(juce::Slider* slider)
     }
 }
 
-void DualKnobComponent::mouseEnter(const juce::MouseEvent& event)
+void DualKnobComponent::mouseEnter([[maybe_unused]] const juce::MouseEvent& event)
 {
     // Update the text box border when over the component
     if (! mouseOver)
@@ -164,7 +164,7 @@ void DualKnobComponent::mouseEnter(const juce::MouseEvent& event)
     }
 }
 
-void DualKnobComponent::mouseExit(const juce::MouseEvent& event)
+void DualKnobComponent::mouseExit([[maybe_unused]] const juce::MouseEvent& event)
 {
     // Update the text box border when leaving the component
     // Could there be a race condition here is leaving an innerKnob and moving

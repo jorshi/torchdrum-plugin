@@ -60,7 +60,6 @@ void OuterKnobLookAndFeel::drawRotarySlider(juce::Graphics& g,
                                             [[maybe_unused]] juce::Slider& slider)
 {
     auto bounds = juce::Rectangle<float>(x, y, width, height).toFloat();
-    auto centre = bounds.getCentre();
     auto stroke = getOuterKnobStrokeWidth((float) width);
 
     g.saveState();

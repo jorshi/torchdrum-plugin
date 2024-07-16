@@ -17,7 +17,7 @@ const juce::Colour vizualizerGradientColourB = juce::Colour::fromRGB(208, 217, 2
 const float fullPluginWidth = 960.0f;
 const float fullPluginHeight = 550.0f;
 
-const float synthControlComponentX = 583.4984;
+const float synthControlComponentX = 583.4984f;
 const float synthControlComponentY = 29.1123f;
 const float synthControlComponentWidth = 342.3021f;
 const float synthControlComponentHeight = 489.6482f;

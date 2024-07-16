@@ -18,10 +18,12 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     drumProcessor.getSynthController().getBroadcaster().addActionListener(this);
 
     // Plugin window size and resizable settings
-    setSize(fullPluginWidth, fullPluginHeight);
+    setSize((int) fullPluginWidth, (int) fullPluginHeight);
     setResizable(true, true);
-    setResizeLimits(
-        fullPluginWidth, fullPluginHeight, fullPluginWidth * 2, fullPluginHeight * 2);
+    setResizeLimits((int) fullPluginWidth,
+                    (int) fullPluginHeight,
+                    (int) (fullPluginWidth * 2.0f),
+                    (int) (fullPluginHeight * 2.0f));
 
     // Set the constrainer aspect ratio
     auto* constrainer = getConstrainer();
