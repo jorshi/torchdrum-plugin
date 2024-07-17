@@ -21,6 +21,7 @@ public:
 
     SynthController& getSynthController() { return synthController; }
     SynthParameterBase& getSynthParameters() { return snare808.getParameters(); }
+    Parameters& getGlobalParameters() { return parameters; }
 
 private:
     Parameters parameters;

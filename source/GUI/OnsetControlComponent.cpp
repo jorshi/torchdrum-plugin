@@ -5,12 +5,17 @@
 OnsetControlComponent::OnsetControlComponent(TorchDrumProcessor& processor)
     : drumProcessor(processor)
 {
+    auto& parameters = drumProcessor.getGlobalParameters();
+    triggerThresholdKnob = std::make_unique<KnobComponent>(parameters.parameters[0],
+                                                           parameters.guiRanges[0]);
+    addAndMakeVisible(triggerThresholdKnob.get());
 }
 
-void OnsetControlComponent::paint(juce::Graphics& g)
+void OnsetControlComponent::paint(juce::Graphics& g) {}
+
+void OnsetControlComponent::resized()
 {
-    g.setColour(vizualizerGradientColourB);
-    g.fillRect(getLocalBounds());
-    g.setColour(borderColour);
-    g.drawRect(getLocalBounds(), 1);
+    auto width = getWidth() / 3;
+    auto height = getHeight();
+    triggerThresholdKnob->setBounds(0, 0, width, height);
 }

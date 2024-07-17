@@ -2,6 +2,7 @@ target_sources(${BaseTargetName} PRIVATE
         ButtonControlComponent.cpp
         DualKnobComponent.cpp
         GlobalControlComponent.cpp
+        KnobComponent.cpp
         KnobLookAndFeel.cpp
         OnsetControlComponent.cpp
         SliderParameterComponent.cpp

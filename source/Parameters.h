@@ -2,9 +2,8 @@
 
 #include <juce_audio_processors/juce_audio_processors.h>
 
-class Parameters
+struct Parameters
 {
-public:
     Parameters()
     {
         addParameter(onThreshold);
@@ -66,7 +65,6 @@ public:
                                       4.f,
                                       1.0f);
 
-private:
     std::vector<juce::RangedAudioParameter*> parameters;
     std::vector<juce::NormalisableRange<double>> guiRanges;
 };
