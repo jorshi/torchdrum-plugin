@@ -10,11 +10,19 @@
 class DualKnobComponent : public juce::Component, juce::Slider::Listener
 {
 public:
+    enum class KnobType
+    {
+        Dual,
+        SingleSmall,
+        SingleLarge
+    };
+
     DualKnobComponent() = delete;
     DualKnobComponent(juce::RangedAudioParameter* p,
                       juce::NormalisableRange<double> range,
-                      bool displayOuterKnob = true);
+                      KnobType knobType = KnobType::Dual);
 
+    void setLayout(KnobType knobType);
     void paint(juce::Graphics& g) override;
     void resized() override;
 
@@ -29,6 +37,8 @@ public:
 
     // Set fine-tune mode
     void setFineTune(bool newValue) { outerKnobLookAndFeel.setFineTune(newValue); }
+
+    //
 
 private:
     // Parameter

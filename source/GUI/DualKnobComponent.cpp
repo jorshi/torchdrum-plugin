@@ -3,10 +3,10 @@
 //==============================================================================
 DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
                                      juce::NormalisableRange<double> range,
-                                     bool displayOuterKnob)
+                                     KnobType knobType)
     : parameter(p), innerKnob(p, range)
 {
-    if (displayOuterKnob)
+    if (knobType == KnobType::Dual)
     {
         outerKnob.setSliderStyle(juce::Slider::RotaryVerticalDrag);
         outerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
@@ -40,6 +40,25 @@ DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
 
     // Add a deep listener that includes all children components
     this->addMouseListener(this, true);
+
+    // Set the layout based on the knob type
+    setLayout(knobType);
+}
+
+void DualKnobComponent::setLayout(KnobType knobType)
+{
+    if (knobType == KnobType::Dual)
+    {
+        outerKnob.setBounds(dualKnobOuterKnobBounds);
+        innerKnob.setBounds(dualKnobInnerKnobBounds);
+        textBox.setBounds(dualKnobTextBoxBounds);
+        valueBox.setBounds(dualKnobTextBoxBounds);
+
+        // Update the font size
+        // juce::Font font(fontOptions);
+        // textBox.setFont(font.withHeight());
+        // valueBox.setFont(font.withHeight());
+    }
 }
 
 void DualKnobComponent::paint(juce::Graphics& g)
@@ -58,7 +77,6 @@ void DualKnobComponent::paint(juce::Graphics& g)
 
         valueBox.setVisible(true);
         textBox.setVisible(false);
-        valueBox.setBounds(textBoxBounds);
     }
 
     // Draw the text box if the valueBox is not visible
@@ -66,7 +84,6 @@ void DualKnobComponent::paint(juce::Graphics& g)
     {
         // Draw the textbox at the top
         textBox.setVisible(true);
-        textBox.setBounds(textBoxBounds);
 
         // Draw the text box outline in the hover state
         if (mouseOver)
@@ -80,44 +97,46 @@ void DualKnobComponent::paint(juce::Graphics& g)
 
 void DualKnobComponent::resized()
 {
-    // Update the inner component positions
-    auto width = getWidth();
-    auto height = getHeight();
+    // // Update the inner component positions
+    // auto width = getWidth();
+    // auto height = getHeight();
 
-    // Target height for the textbox and padding
-    int textBoxHeight = (int) getDualKnobTextBoxHeight(width);
-    int textWithPadding = textBoxHeight + (int) getDualKnobPadding(width);
-    textBoxBounds = juce::Rectangle<int>(0, 0, width, textBoxHeight);
+    // // Target height for the textbox and padding
+    // int textBoxHeight = (int) getDualKnobTextBoxHeight(width);
+    // int textWithPadding = textBoxHeight + (int) getDualKnobPadding(width);
+    // textBoxBounds = juce::Rectangle<int>(0, 0, width, textBoxHeight);
+    // textBox.setBounds(textBoxBounds);
+    // valueBox.setBounds(textBoxBounds);
 
-    // Outer knob bounds
-    int outerKnobSize = height - textWithPadding;
-    int outerKnobX = (int) ((width - outerKnobSize) / 2.0f);
-    outerKnobBounds =
-        juce::Rectangle<int>(outerKnobX, textWithPadding, outerKnobSize, outerKnobSize);
-    outerKnob.setBounds(outerKnobBounds);
+    // // Outer knob bounds
+    // int outerKnobSize = height - textWithPadding;
+    // int outerKnobX = (int) ((width - outerKnobSize) / 2.0f);
+    // outerKnobBounds =
+    //     juce::Rectangle<int>(outerKnobX, textWithPadding, outerKnobSize, outerKnobSize);
+    // outerKnob.setBounds(outerKnobBounds);
 
-    // Inner knob bounds
-    int innerKnobSize = (int) (outerKnobSize * (2.0 / 3.0));
-    int innerKnobX = (int) ((width - innerKnobSize) / 2.0f);
-    int innerKnobY = textWithPadding + (int) ((outerKnobSize - innerKnobSize) / 2.0f);
-    innerKnobBounds =
-        juce::Rectangle<int>(innerKnobX, innerKnobY, innerKnobSize, innerKnobSize);
-    innerKnob.setBounds(innerKnobBounds);
+    // // Inner knob bounds
+    // int innerKnobSize = (int) (outerKnobSize * (2.0 / 3.0));
+    // int innerKnobX = (int) ((width - innerKnobSize) / 2.0f);
+    // int innerKnobY = textWithPadding + (int) ((outerKnobSize - innerKnobSize) / 2.0f);
+    // innerKnobBounds =
+    //     juce::Rectangle<int>(innerKnobX, innerKnobY, innerKnobSize, innerKnobSize);
+    // innerKnob.setBounds(innerKnobBounds);
 
-    // Update the font size
-    juce::Font font(fontOptions);
-    textBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
-    valueBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
+    // // Update the font size
+    // juce::Font font(fontOptions);
+    // textBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
+    // valueBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
 
-    // Lines for textbox border during hover state
-    int thickness = (int) getDualKnobThinStrokeWidth((float) width);
-    int lineHeight = (int) (textBoxBounds.getHeight() - 2.0f * thickness);
-    leftTextBoxLine = juce::Rectangle<int>(
-        textBoxBounds.getX(), textBoxBounds.getY() + thickness, thickness, lineHeight);
-    rightTextBoxLine = juce::Rectangle<int>(textBoxBounds.getRight() - thickness,
-                                            textBoxBounds.getY() + thickness,
-                                            thickness,
-                                            lineHeight);
+    // // Lines for textbox border during hover state
+    // int thickness = (int) getDualKnobThinStrokeWidth((float) width);
+    // int lineHeight = (int) (textBoxBounds.getHeight() - 2.0f * thickness);
+    // leftTextBoxLine = juce::Rectangle<int>(
+    //     textBoxBounds.getX(), textBoxBounds.getY() + thickness, thickness, lineHeight);
+    // rightTextBoxLine = juce::Rectangle<int>(textBoxBounds.getRight() - thickness,
+    //                                         textBoxBounds.getY() + thickness,
+    //                                         thickness,
+    //                                         lineHeight);
 }
 
 void DualKnobComponent::sliderValueChanged(juce::Slider* slider)

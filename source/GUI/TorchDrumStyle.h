@@ -154,3 +154,8 @@ juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth);
 juce::Rectangle<int> getGlobalControlComponentBounds(float pluginWidth);
 juce::Rectangle<int> getButtonControlComponentBounds(float pluginWidth);
 juce::Rectangle<int> getSynthControlComponentBounds(float pluginWidth);
+
+// Dual knob layout relative to bounding box
+const juce::Rectangle<int> dualKnobOuterKnobBounds(8, 23, 66, 66);
+const juce::Rectangle<int> dualKnobInnerKnobBounds(19, 34, 44, 44);
+const juce::Rectangle<int> dualKnobTextBoxBounds(0, 0, 83, 20);
