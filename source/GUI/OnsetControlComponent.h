@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../PluginProcessor.h"
-#include "KnobComponent.h"
+#include "DualKnobComponent.h"
 #include <juce_gui_basics/juce_gui_basics.h>
 
 class OnsetControlComponent : public juce::Component
@@ -16,7 +16,7 @@ private:
     TorchDrumProcessor& drumProcessor;
 
     // Knobs
-    std::unique_ptr<KnobComponent> triggerThresholdKnob;
+    std::unique_ptr<DualKnobComponent> triggerThresholdKnob;
 
     juce::ColourGradient gradientBackground;
 

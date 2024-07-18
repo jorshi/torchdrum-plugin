@@ -6,8 +6,8 @@ OnsetControlComponent::OnsetControlComponent(TorchDrumProcessor& processor)
     : drumProcessor(processor)
 {
     auto& parameters = drumProcessor.getGlobalParameters();
-    triggerThresholdKnob = std::make_unique<KnobComponent>(parameters.parameters[0],
-                                                           parameters.guiRanges[0]);
+    triggerThresholdKnob = std::make_unique<DualKnobComponent>(
+        parameters.parameters[0], parameters.guiRanges[0], false);
     addAndMakeVisible(triggerThresholdKnob.get());
 }
 

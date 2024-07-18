@@ -2,13 +2,17 @@
 
 //==============================================================================
 DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
-                                     juce::NormalisableRange<double> range)
+                                     juce::NormalisableRange<double> range,
+                                     bool displayOuterKnob)
     : parameter(p), innerKnob(p, range)
 {
-    outerKnob.setSliderStyle(juce::Slider::RotaryVerticalDrag);
-    outerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-    outerKnob.setLookAndFeel(&outerKnobLookAndFeel);
-    addAndMakeVisible(outerKnob);
+    if (displayOuterKnob)
+    {
+        outerKnob.setSliderStyle(juce::Slider::RotaryVerticalDrag);
+        outerKnob.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+        outerKnob.setLookAndFeel(&outerKnobLookAndFeel);
+        addAndMakeVisible(outerKnob);
+    }
 
     innerKnob.setLookAndFeel(&innerKnobLookAndFeel);
     auto& innerSlider = innerKnob.getSlider();
