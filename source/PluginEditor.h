@@ -5,6 +5,7 @@
 #include "GUI/GlobalControlComponent.h"
 #include "GUI/OnsetControlComponent.h"
 #include "GUI/SynthControlComponent.h"
+#include "GUI/TorchDrumInterface.h"
 #include "GUI/VisualizerComponent.h"
 #include "PluginProcessor.h"
 
@@ -41,10 +42,6 @@ private:
     juce::Image backgroundImage;
     juce::Image backgroundOverlay;
 
-    // GUI Components
-    ButtonControlComponent buttonControlComponent;
-    GlobalControlComponent globalControlComponent;
-    OnsetControlComponent onsetControlComponent;
-    SynthControlComponent synthControlComponent;
-    VisualizerComponent visualizerComponent;
+    // Main plugin interface
+    TorchDrumInterface pluginInterface;
 };

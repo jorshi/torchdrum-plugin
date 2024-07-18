@@ -3,13 +3,7 @@
 #include "PluginProcessor.h"
 
 TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
-    : AudioProcessorEditor(&p),
-      drumProcessor(p),
-      buttonControlComponent(p),
-      globalControlComponent(p),
-      onsetControlComponent(p),
-      synthControlComponent(p),
-      visualizerComponent(p)
+    : AudioProcessorEditor(&p), drumProcessor(p), pluginInterface(p)
 {
     fileChooser =
         std::make_unique<juce::FileChooser>("File Browser", getPresetFolder(), "*.pt");
@@ -36,12 +30,8 @@ TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
     backgroundOverlay = juce::ImageCache::getFromMemory(
         BinaryData::backgroundOverlay2x_png, BinaryData::backgroundOverlay2x_pngSize);
 
-    // Add GUI Components
-    addAndMakeVisible(buttonControlComponent);
-    addAndMakeVisible(globalControlComponent);
-    addAndMakeVisible(onsetControlComponent);
-    addAndMakeVisible(synthControlComponent);
-    addAndMakeVisible(visualizerComponent);
+    pluginInterface.setBounds(0, 0, (int) fullPluginWidth, (int) fullPluginHeight);
+    addAndMakeVisible(pluginInterface);
 }
 
 TorchDrumEditor::~TorchDrumEditor()
@@ -66,11 +56,8 @@ void TorchDrumEditor::paint(juce::Graphics& g)
 
 void TorchDrumEditor::resized()
 {
-    buttonControlComponent.setBounds(getButtonControlComponentBounds(getWidth()));
-    globalControlComponent.setBounds(getGlobalControlComponentBounds(getWidth()));
-    onsetControlComponent.setBounds(getOnsetControlComponentBounds(getWidth()));
-    synthControlComponent.setBounds(getSynthControlComponentBounds(getWidth()));
-    visualizerComponent.setBounds(getVisualizerBounds(getWidth()));
+    float scale = getWidth() / fullPluginWidth;
+    pluginInterface.setTransform(juce::AffineTransform::scale(scale));
 }
 
 juce::File TorchDrumEditor::getPresetFolder()
