@@ -32,4 +32,7 @@ void OnsetControlComponent::resized()
     triggerThresholdKnob->setBounds(0, 0, 56, 92);
     retriggerThresholdKnob->setBounds(width / 2 - 56 / 2, 0, 56, 92);
     holdTimeKnob->setBounds(width - 56, 0, 56, 92);
+
+    // Add a border to the hold time knob to push onto two lines
+    holdTimeKnob->setTextBoxBorderSize(juce::BorderSize<int>(0, 8, 0, 8));
 }

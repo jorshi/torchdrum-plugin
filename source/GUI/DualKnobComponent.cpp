@@ -114,48 +114,12 @@ void DualKnobComponent::paint(juce::Graphics& g)
     }
 }
 
-void DualKnobComponent::resized()
+void DualKnobComponent::resized() {}
+
+void DualKnobComponent::setTextBoxBorderSize(juce::BorderSize<int> newBorderSize)
 {
-    // // Update the inner component positions
-    // auto width = getWidth();
-    // auto height = getHeight();
-
-    // // Target height for the textbox and padding
-    // int textBoxHeight = (int) getDualKnobTextBoxHeight(width);
-    // int textWithPadding = textBoxHeight + (int) getDualKnobPadding(width);
-    // textBoxBounds = juce::Rectangle<int>(0, 0, width, textBoxHeight);
-    // textBox.setBounds(textBoxBounds);
-    // valueBox.setBounds(textBoxBounds);
-
-    // // Outer knob bounds
-    // int outerKnobSize = height - textWithPadding;
-    // int outerKnobX = (int) ((width - outerKnobSize) / 2.0f);
-    // outerKnobBounds =
-    //     juce::Rectangle<int>(outerKnobX, textWithPadding, outerKnobSize, outerKnobSize);
-    // outerKnob.setBounds(outerKnobBounds);
-
-    // // Inner knob bounds
-    // int innerKnobSize = (int) (outerKnobSize * (2.0 / 3.0));
-    // int innerKnobX = (int) ((width - innerKnobSize) / 2.0f);
-    // int innerKnobY = textWithPadding + (int) ((outerKnobSize - innerKnobSize) / 2.0f);
-    // innerKnobBounds =
-    //     juce::Rectangle<int>(innerKnobX, innerKnobY, innerKnobSize, innerKnobSize);
-    // innerKnob.setBounds(innerKnobBounds);
-
-    // // Update the font size
-    // juce::Font font(fontOptions);
-    // textBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
-    // valueBox.setFont(font.withHeight(getTextHeight((float) textBoxHeight)));
-
-    // // Lines for textbox border during hover state
-    // int thickness = (int) getDualKnobThinStrokeWidth((float) width);
-    // int lineHeight = (int) (textBoxBounds.getHeight() - 2.0f * thickness);
-    // leftTextBoxLine = juce::Rectangle<int>(
-    //     textBoxBounds.getX(), textBoxBounds.getY() + thickness, thickness, lineHeight);
-    // rightTextBoxLine = juce::Rectangle<int>(textBoxBounds.getRight() - thickness,
-    //                                         textBoxBounds.getY() + thickness,
-    //                                         thickness,
-    //                                         lineHeight);
+    textBox.setBorderSize(newBorderSize);
+    repaint();
 }
 
 void DualKnobComponent::sliderValueChanged(juce::Slider* slider)

@@ -37,8 +37,7 @@ public:
 
     // Set fine-tune mode
     void setFineTune(bool newValue) { outerKnobLookAndFeel.setFineTune(newValue); }
-
-    //
+    void setTextBoxBorderSize(juce::BorderSize<int> newBorderSize);
 
 private:
     // Parameter
