@@ -17,6 +17,8 @@ private:
 
     // Knobs
     std::unique_ptr<DualKnobComponent> triggerThresholdKnob;
+    std::unique_ptr<DualKnobComponent> retriggerThresholdKnob;
+    std::unique_ptr<DualKnobComponent> holdTimeKnob;
 
     juce::ColourGradient gradientBackground;
 

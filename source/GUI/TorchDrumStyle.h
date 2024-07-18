@@ -32,7 +32,7 @@ const float dualKnobTextBoxHeight = 19.5902f;
 const float dualKnobSize = 66.0f;
 const float dualKnobPadding =
     dualKnobComponentHeight - (dualKnobTextBoxHeight + dualKnobSize);
-const float dualKnobThinStrokeWidth = 1.0f;
+const int dualKnobThinStrokeWidth = 1;
 
 const float visualizerComponentX = 218.688f;
 const float visualizerComponentY = 56.0911f;
@@ -43,6 +43,7 @@ const float onsetControlComponentX = 276.9249f;
 const float onsetControlComponentY = 416.0552f;
 const float onsetControlComponentWidth = 214.1505f;
 const float onsetControlComponentHeight = 92.0643f;
+const juce::Rectangle<int> onsetControlComponentBounds(276, 416, 214, 92);
 
 const float globalControlComponentX = 56.1953f;
 const float globalControlComponentY = 287.9902f;
@@ -158,4 +159,10 @@ juce::Rectangle<int> getSynthControlComponentBounds(float pluginWidth);
 // Dual knob layout relative to bounding box
 const juce::Rectangle<int> dualKnobOuterKnobBounds(8, 23, 66, 66);
 const juce::Rectangle<int> dualKnobInnerKnobBounds(19, 34, 44, 44);
-const juce::Rectangle<int> dualKnobTextBoxBounds(0, 0, 83, 20);
+const juce::Rectangle<int> dualKnobTextBoxBounds(0, 0, 82, 20);
+const juce::Rectangle<int> dualKnobTextOutlineLeft(0, 1, 1, 18);
+const juce::Rectangle<int> dualKnobTextOutlineRight(81, 1, 1, 18);
+
+// Dual knob single small layout relative to bounding box
+const juce::Rectangle<int> singleSmallKnobOuterKnobBounds(5, 46, 46, 46);
+const juce::Rectangle<int> singleSmallKnobTextBoxBounds(0, 0, 56, 40);

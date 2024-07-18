@@ -48,16 +48,12 @@ struct Parameters
                                       16.0f);
     juce::AudioParameterFloat* offThreshold =
         new juce::AudioParameterFloat({ "offThreshold", 1 },
-                                      "Off Threshold",
+                                      "Retrigger Threshold",
                                       0.0f,
                                       32.f,
                                       4.66f);
     juce::AudioParameterInt* waitSamples =
-        new juce::AudioParameterInt({ "waitSamples", 1 },
-                                    "Wait Samples",
-                                    0,
-                                    5000,
-                                    1000);
+        new juce::AudioParameterInt({ "waitSamples", 1 }, "Hold Time", 0, 5000, 1000);
     juce::AudioParameterFloat* sensitivity =
         new juce::AudioParameterFloat({ "sensitivity", 1 },
                                       "Mapping Sensitivity",

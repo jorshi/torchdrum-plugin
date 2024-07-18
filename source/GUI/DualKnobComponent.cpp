@@ -19,9 +19,10 @@ DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
     innerSlider.addListener(this);
     addAndMakeVisible(innerKnob);
 
-    textBox.setText(parameter->getName(10), juce::dontSendNotification);
+    textBox.setText(parameter->getName(24), juce::dontSendNotification);
     textBox.setColour(juce::Label::textColourId, juce::Colours::black);
     textBox.setJustificationType(juce::Justification::centred);
+    textBox.setMinimumHorizontalScale(1.0);
     addAndMakeVisible(textBox);
 
     valueBox.setText(innerSlider.getTextFromValue(innerSlider.getValue()),
@@ -53,11 +54,30 @@ void DualKnobComponent::setLayout(KnobType knobType)
         innerKnob.setBounds(dualKnobInnerKnobBounds);
         textBox.setBounds(dualKnobTextBoxBounds);
         valueBox.setBounds(dualKnobTextBoxBounds);
+        textBoxBounds = dualKnobTextBoxBounds;
+        leftTextBoxLine = dualKnobTextOutlineLeft;
+        rightTextBoxLine = dualKnobTextOutlineRight;
 
         // Update the font size
-        // juce::Font font(fontOptions);
-        // textBox.setFont(font.withHeight());
-        // valueBox.setFont(font.withHeight());
+        juce::Font font(fontOptions);
+        textBox.setFont(font.withHeight(dualKnobTextBoxBounds.getHeight()));
+        valueBox.setFont(font.withHeight(dualKnobTextBoxBounds.getHeight()));
+    }
+    else if (knobType == KnobType::SingleSmall)
+    {
+        innerKnob.setBounds(singleSmallKnobOuterKnobBounds);
+        textBox.setBounds(singleSmallKnobTextBoxBounds);
+        valueBox.setBounds(singleSmallKnobTextBoxBounds);
+        textBoxBounds = singleSmallKnobTextBoxBounds;
+
+        // Update the font size
+        juce::Font font(fontOptions);
+        auto textHeight = singleSmallKnobTextBoxBounds.getHeight() / 2 - 4;
+        textBox.setFont(font.withHeight(textHeight));
+        textBox.setJustificationType(juce::Justification::centredTop);
+        textBox.setBorderSize(juce::BorderSize<int>(0));
+
+        valueBox.setFont(font.withHeight(dualKnobTextBoxBounds.getHeight()));
     }
 }
 
@@ -71,9 +91,8 @@ void DualKnobComponent::paint(juce::Graphics& g)
         g.fillRect(textBoxBounds);
 
         // Draw the border
-        int thickness = (int) getDualKnobThinStrokeWidth((float) getWidth());
         g.setColour(borderColour);
-        g.drawRect(textBoxBounds, thickness);
+        g.drawRect(textBoxBounds, dualKnobThinStrokeWidth);
 
         valueBox.setVisible(true);
         textBox.setVisible(false);
