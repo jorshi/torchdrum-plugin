@@ -14,6 +14,7 @@ const juce::Colour knobValueBackground = juce::Colour::fromRGBA(249, 247, 243, 1
 const juce::Colour vizualizerGradientColourA = juce::Colour::fromRGB(225, 225, 220);
 const juce::Colour vizualizerGradientColourB = juce::Colour::fromRGB(208, 217, 217);
 const juce::Colour onsetVisualizerColour = juce::Colour::fromRGB(120, 166, 177);
+const juce::Colour onsetVisualizerColour2 = juce::Colour::fromRGB(126, 142, 147);
 
 const juce::Colour buttonGradientColourA = juce::Colour::fromRGBA(120, 166, 177, 76);
 const juce::Colour buttonGradientColourB = juce::Colour::fromRGBA(177, 225, 243, 76);

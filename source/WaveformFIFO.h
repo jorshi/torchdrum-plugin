@@ -31,11 +31,6 @@ public:
     bool isBufferReady() { return bufferReady; }
     void markBufferRead() { bufferReady = false; }
 
-    // Get the read buffer which has been downsampled to the desired resolution in Hz.
-    // The size of the resulting buffer is also returned.
-    // This should be called from the GUI thread.
-    std::pair<float*, size_t> getAtResolutionHz(float resolutionHz);
-
 private:
     double sampleRate;
     size_t size;

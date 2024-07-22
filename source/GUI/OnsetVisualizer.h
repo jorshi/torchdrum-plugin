@@ -24,8 +24,10 @@ private:
     std::vector<float> drawableSignal;
     size_t writeIndex = 0;
     size_t readIndex = 0;
+    size_t drawIndex = 0;
 
-    const int drawResoluationHz = 75;
+    const int timerHz = 30;
+    const int drawResoluationHz = 120;
     const int drawSeconds = 3;
 
     const float minValue = 0.0f;

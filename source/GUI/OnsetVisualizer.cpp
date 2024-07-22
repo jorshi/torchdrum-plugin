@@ -9,16 +9,17 @@ OnsetVisualizer::OnsetVisualizer(TorchDrumProcessor& p) : drumProcessor(p)
 
     readIndex = 0;
     writeIndex = 0;
-    startTimerHz(30);
+    drawIndex = 0;
+    startTimerHz(timerHz);
 }
 
 void OnsetVisualizer::paint(juce::Graphics& g)
 {
+    g.setColour(onsetVisualizerColour2);
+    g.fillPath(onsetPath);
+
     g.setColour(borderColour);
     g.drawRect(getLocalBounds(), 1);
-
-    g.setColour(onsetVisualizerColour);
-    g.fillPath(onsetPath);
 }
 
 void OnsetVisualizer::resized() {}
@@ -51,29 +52,35 @@ void OnsetVisualizer::timerCallback()
 {
     // If the onset signal is ready, update the visualizer
     auto& onsetFIFO = drumProcessor.getWaveformFIFO();
-    if (! onsetFIFO.isBufferReady())
-        return;
 
-    const std::vector<float>& onsetSignal = onsetFIFO.getReadBuffer();
-    const int rate = (int) drumProcessor.getSampleRate() / drawResoluationHz;
-
-    // Push new samples onto the drawing buffer
-    while (readIndex < onsetSignal.size())
+    if (onsetFIFO.isBufferReady())
     {
-        if (writeIndex >= drawableSignal.size())
-            writeIndex = 0;
+        const std::vector<float>& onsetSignal = onsetFIFO.getReadBuffer();
+        const int rate = (int) drumProcessor.getSampleRate() / drawResoluationHz;
 
-        float value = std::max(std::min(onsetSignal[readIndex], maxValue), minValue);
-        value = juce::jmap(value, minValue, maxValue, 0.0f, 1.0f);
-        drawableSignal[writeIndex++] = value;
-        readIndex += rate;
+        // Push new samples onto the drawing buffer
+        while (readIndex < onsetSignal.size())
+        {
+            if (writeIndex >= drawableSignal.size())
+                writeIndex = 0;
+
+            float value =
+                std::max(std::min(onsetSignal[readIndex], maxValue), minValue);
+            value = juce::jmap(value, minValue, maxValue, 0.0f, 1.0f);
+            drawableSignal[writeIndex++] = value;
+            readIndex += rate;
+        }
+
+        jassert(readIndex >= onsetSignal.size());
+        readIndex -= std::max(onsetSignal.size(), (size_t) 0);
+
+        // Update the onset path
+        onsetFIFO.markBufferRead();
+
+        // Update the timer interval to match the new rate
+        startTimerHz(drumProcessor.getSampleRate() / onsetSignal.size() + 1);
     }
 
-    jassert(readIndex >= onsetSignal.size());
-    readIndex -= std::max(onsetSignal.size(), (size_t) 0);
-
-    // Update the onset path
-    onsetFIFO.markBufferRead();
     updateOnsetPath();
     repaint();
 }

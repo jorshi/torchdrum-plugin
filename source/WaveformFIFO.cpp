@@ -48,20 +48,3 @@ void WaveformFIFO::addSample(float x)
 
     fifo[writeIndex++] = x;
 }
-
-std::pair<float*, size_t> WaveformFIFO::getAtResolutionHz(float resolutionHz)
-{
-    if (size == 0 || ! bufferReady)
-        return std::make_pair(nullptr, 0);
-
-    // Apply lowpass filter to downsample the buffer to the desired resolution
-    // Update the lowpass filter cutoff frequency if required
-    // Is this necessary?
-    // if (! juce::approximatelyEqual((float) lowpass.getFc(), resolutionHz))
-    //     lowpass.setFc(resolutionHz);
-
-    // for (size_t i = 0; i < size; ++i)
-    //     readBuffer[i] = lowpass.process(readBuffer[i]);
-
-    return std::make_pair(readBuffer.data(), size);
-}
