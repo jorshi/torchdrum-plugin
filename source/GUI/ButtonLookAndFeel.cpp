@@ -11,11 +11,12 @@ ButtonLookAndFeel::ButtonLookAndFeel()
     fontOptions = getRegularPluginFont();
 }
 
-void ButtonLookAndFeel::drawButtonBackground(juce::Graphics& g,
-                                             juce::Button& button,
-                                             const juce::Colour& backgroundColour,
-                                             bool isMouseOverButton,
-                                             bool isButtonDown)
+void ButtonLookAndFeel::drawButtonBackground(
+    juce::Graphics& g,
+    juce::Button& button,
+    [[maybe_unused]] const juce::Colour& backgroundColour,
+    bool isMouseOverButton,
+    bool isButtonDown)
 {
     auto buttonArea = button.getLocalBounds();
 
@@ -58,8 +59,8 @@ void ButtonLookAndFeel::drawButtonBackground(juce::Graphics& g,
 
 void ButtonLookAndFeel::drawButtonText(juce::Graphics& g,
                                        juce::TextButton& button,
-                                       bool isMouseOverButton,
-                                       bool isButtonDown)
+                                       [[maybe_unused]] bool isMouseOverButton,
+                                       [[maybe_unused]] bool isButtonDown)
 {
     juce::Font font = fontOptions;
     font.setHeight(defaultTextHeight);

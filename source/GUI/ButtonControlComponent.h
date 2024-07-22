@@ -12,9 +12,22 @@ public:
     void paint([[maybe_unused]] juce::Graphics& g) override {}
     void resized() override;
 
+    juce::File getPresetFolder();
+
+    // Handle the file chooser callback
+    // Send the returned file path to the SynthController
+    // to load a new NN model.
+    void chooserCallback(const juce::FileChooser& chooser);
+
+    // TODO: Is this specific for Mac OS X?
+    const juce::String SupportFolder = "Application Support";
+    const juce::String AppFolder = "TorchDrum";
+    const juce::String PresetFolder = "Presets";
+    const juce::String FactoryFolder = "Factory";
+
 private:
     TorchDrumProcessor& drumProcessor;
-    juce::ColourGradient gradientBackground;
+    std::unique_ptr<juce::FileChooser> fileChooser;
 
     juce::TextButton loadButton;
     juce::TextButton saveButton;
