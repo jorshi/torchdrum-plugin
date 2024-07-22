@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "Biquad.h"
 #include <vector>
 
 class WaveformFIFO
@@ -38,7 +37,5 @@ private:
     size_t writeIndex;
     std::vector<float> fifo;
     std::vector<float> readBuffer;
-    Biquad lowpass;
-
     std::atomic<bool> bufferReady;
 };

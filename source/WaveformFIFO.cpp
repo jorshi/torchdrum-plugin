@@ -15,14 +15,6 @@ void WaveformFIFO::prepare(double sr, size_t newSize)
     fifo.resize(size);
     readBuffer.resize(size);
     zeroBuffer();
-
-    BiquadCoeff::Settings settings;
-    settings.type = BiquadCoeff::lowpass;
-    settings.fs = sampleRate;
-    settings.cutoff = 10.0;
-    settings.q = 0.707;
-    settings.peakGainDb = 0.0;
-    lowpass.setup(settings);
 }
 
 void WaveformFIFO::zeroBuffer()
