@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../PluginProcessor.h"
+#include "OnsetVisualizer.h"
 #include <juce_gui_basics/juce_gui_basics.h>
 
 class VisualizerComponent : public juce::Component
@@ -12,6 +13,7 @@ public:
 
 private:
     TorchDrumProcessor& drumProcessor;
+    OnsetVisualizer onsetVisualizer;
 
     juce::ColourGradient gradientBackground;
 

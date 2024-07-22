@@ -5,6 +5,7 @@ target_sources(${BaseTargetName} PRIVATE
         GlobalControlComponent.cpp
         KnobLookAndFeel.cpp
         OnsetControlComponent.cpp
+        OnsetVisualizer.cpp
         SliderParameterComponent.cpp
         SynthControlComponent.cpp
         SynthControlKnobRow.cpp

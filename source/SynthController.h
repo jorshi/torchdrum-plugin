@@ -56,6 +56,9 @@ public:
     // Get the onset detection object
     OnsetDetection& getOnsetDetection() { return onsetDetection; }
 
+    // Get the waveform fifo object
+    WaveformFIFO& getWaveformFIFO() { return onsetFIFO; }
+
     std::string& getModelPath() { return modelPath; }
 
 private:
