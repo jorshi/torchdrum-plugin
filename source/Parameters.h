@@ -31,7 +31,8 @@ public:
             delete param;
     }
 
-    // Raw pointers. They will be owned by either the processor or the APVTS (if you use it)
+    // Raw pointers.
+    // They will be owned by the AudioProcessor in the application.
     juce::AudioParameterFloat* onThreshold =
         new juce::AudioParameterFloat({ "onThreshold", 1 },
                                       "On Threshold",
