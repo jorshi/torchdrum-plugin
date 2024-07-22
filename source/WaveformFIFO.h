@@ -26,6 +26,7 @@ public:
     void addSample(float x);
 
     const std::vector<float>& getReadBuffer() { return readBuffer; }
+    const double& getSampleRate() { return sampleRate; }
 
     bool isBufferReady() { return bufferReady; }
     void markBufferRead() { bufferReady = false; }

@@ -13,6 +13,7 @@ public:
 
     void paint(juce::Graphics& g) override;
     void resized() override;
+    void updateOnsetPath();
 
     void timerCallback() override;
 
@@ -20,8 +21,10 @@ private:
     TorchDrumProcessor& drumProcessor;
     juce::Path onsetPath;
 
-    int drawResoluationHz = 100;
-    int drawSeconds = 2;
+    std::vector<float> drawableSignal;
+    size_t writeIndex = 0;
+    const int drawResoluationHz = 20;
+    const int drawSeconds = 3;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OnsetVisualizer)
