@@ -52,9 +52,6 @@ private:
     juce::FontOptions fontOptions;
 
     // Layout
-    juce::Rectangle<int> outerKnobBounds;
-    juce::Rectangle<int> innerKnobBounds;
-    juce::Rectangle<int> textBoxBounds;
     juce::Rectangle<int> leftTextBoxLine;
     juce::Rectangle<int> rightTextBoxLine;
 

@@ -29,10 +29,13 @@ void OnsetControlComponent::paint(juce::Graphics& g) {}
 void OnsetControlComponent::resized()
 {
     auto width = getWidth();
-    triggerThresholdKnob->setBounds(0, 0, 56, 92);
-    retriggerThresholdKnob->setBounds(width / 2 - 56 / 2, 0, 56, 92);
-    holdTimeKnob->setBounds(width - 56, 0, 56, 92);
+    auto height = getHeight();
+    auto singleKnobWidth = width / 3;
+
+    triggerThresholdKnob->setBounds(0, 0, singleKnobWidth, height);
+    retriggerThresholdKnob->setBounds(singleKnobWidth, 0, singleKnobWidth, height);
+    holdTimeKnob->setBounds(singleKnobWidth * 2, 0, singleKnobWidth, height);
 
     // Add a border to the hold time knob to push onto two lines
-    holdTimeKnob->setTextBoxBorderSize(juce::BorderSize<int>(0, 8, 0, 8));
+    holdTimeKnob->setTextBoxBorderSize(juce::BorderSize<int>(0, 10, 0, 10));
 }

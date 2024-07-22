@@ -54,7 +54,6 @@ void DualKnobComponent::setLayout(KnobType knobType)
         innerKnob.setBounds(dualKnobInnerKnobBounds);
         textBox.setBounds(dualKnobTextBoxBounds);
         valueBox.setBounds(dualKnobTextBoxBounds);
-        textBoxBounds = dualKnobTextBoxBounds;
         leftTextBoxLine = dualKnobTextOutlineLeft;
         rightTextBoxLine = dualKnobTextOutlineRight;
 
@@ -65,19 +64,20 @@ void DualKnobComponent::setLayout(KnobType knobType)
     }
     else if (knobType == KnobType::SingleSmall)
     {
-        innerKnob.setBounds(singleSmallKnobOuterKnobBounds);
+        innerKnob.setBounds(singleSmallKnobInnerKnobBounds);
         textBox.setBounds(singleSmallKnobTextBoxBounds);
-        valueBox.setBounds(singleSmallKnobTextBoxBounds);
-        textBoxBounds = singleSmallKnobTextBoxBounds;
+        valueBox.setBounds(singleSmallKnobValueBoxBounds);
+        leftTextBoxLine = singleSmallKnobTextOutlineLeft;
+        rightTextBoxLine = singleSmallKnobTextOutlineRight;
 
         // Update the font size
         juce::Font font(fontOptions);
-        auto textHeight = singleSmallKnobTextBoxBounds.getHeight() / 2 - 4;
+        auto textHeight = singleSmallKnobTextBoxBounds.getHeight() / 2 - 2;
         textBox.setFont(font.withHeight(textHeight));
         textBox.setJustificationType(juce::Justification::centredTop);
         textBox.setBorderSize(juce::BorderSize<int>(0));
 
-        valueBox.setFont(font.withHeight(dualKnobTextBoxBounds.getHeight()));
+        valueBox.setFont(font.withHeight(singleSmallKnobValueBoxBounds.getHeight()));
     }
 }
 
@@ -88,11 +88,11 @@ void DualKnobComponent::paint(juce::Graphics& g)
     {
         // Draw a rectangle behind the value box
         g.setColour(knobValueBackground);
-        g.fillRect(textBoxBounds);
+        g.fillRect(valueBox.getBounds());
 
         // Draw the border
         g.setColour(borderColour);
-        g.drawRect(textBoxBounds, dualKnobThinStrokeWidth);
+        g.drawRect(valueBox.getBounds(), dualKnobThinStrokeWidth);
 
         valueBox.setVisible(true);
         textBox.setVisible(false);

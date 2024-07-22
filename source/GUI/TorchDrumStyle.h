@@ -39,10 +39,11 @@ const float visualizerComponentY = 56.0911f;
 const float visualizerComponentWidth = 330.0f;
 const float visualizerComponentHeight = 326.7857f;
 
-const float onsetControlComponentX = 276.9249f;
+// Adding 13px to the width to account for hover border
+const float onsetControlComponentX = 263.9249f;
 const float onsetControlComponentY = 416.0552f;
-const float onsetControlComponentWidth = 214.1505f;
-const float onsetControlComponentHeight = 92.0643f;
+const float onsetControlComponentWidth = 228.0f;
+const float onsetControlComponentHeight = 92.0f;
 const juce::Rectangle<int> onsetControlComponentBounds(276, 416, 214, 92);
 
 const float globalControlComponentX = 56.1953f;
@@ -164,5 +165,8 @@ const juce::Rectangle<int> dualKnobTextOutlineLeft(0, 1, 1, 18);
 const juce::Rectangle<int> dualKnobTextOutlineRight(81, 1, 1, 18);
 
 // Dual knob single small layout relative to bounding box
-const juce::Rectangle<int> singleSmallKnobOuterKnobBounds(5, 46, 46, 46);
-const juce::Rectangle<int> singleSmallKnobTextBoxBounds(0, 0, 56, 40);
+const juce::Rectangle<int> singleSmallKnobInnerKnobBounds(15, 46, 46, 46);
+const juce::Rectangle<int> singleSmallKnobTextBoxBounds(0, 0, 76, 40);
+const juce::Rectangle<int> singleSmallKnobValueBoxBounds(0, 10, 76, 20);
+const juce::Rectangle<int> singleSmallKnobTextOutlineLeft(0, 1, 1, 36);
+const juce::Rectangle<int> singleSmallKnobTextOutlineRight(75, 1, 1, 36);

@@ -26,6 +26,7 @@ SliderParameterComponent::SliderParameterComponent(
     slider.onDragEnd = [this] { sliderStoppedDragging(); };
 
     // Timer callback to check whether the parameter has changed from the host
+    parameterValueHasChanged = true;
     startTimer(100);
 }
 
@@ -43,7 +44,7 @@ void SliderParameterComponent::parameterValueChanged(int parameterIndex,
                                                      [[maybe_unused]] float newValue)
 {
     if (parameterIndex == parameter->getParameterIndex())
-        parameterValueHasChanged = 1;
+        parameterValueHasChanged = true;
 }
 
 void SliderParameterComponent::timerCallback()
