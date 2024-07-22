@@ -46,12 +46,9 @@ const float onsetControlComponentWidth = 228.0f;
 const float onsetControlComponentHeight = 92.0f;
 const juce::Rectangle<int> onsetControlComponentBounds(276, 416, 214, 92);
 
-const float globalControlComponentX = 46.0f;
-const float globalControlComponentY = 287.9902f;
-const float globalControlComponentWidth = 82.0f;
-const float globalControlComponentHeight = 206.8701f;
-
+const juce::Rectangle<int> globalControlComponentBounds(46, 288, 82, 208);
 const juce::Rectangle<int> globalKnob1Bounds(0, 0, 82, 86);
+const juce::Rectangle<int> globalKnob2Bounds(0, 122, 82, 86);
 
 const float buttonControlComponentX = 28.4389f;
 const float buttonControlComponentY = 55.6959f;
@@ -155,7 +152,6 @@ inline float getKnobRowPadding(float height)
 
 juce::Rectangle<int> getVisualizerBounds(float pluginWidth);
 juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth);
-juce::Rectangle<int> getGlobalControlComponentBounds(float pluginWidth);
 juce::Rectangle<int> getButtonControlComponentBounds(float pluginWidth);
 juce::Rectangle<int> getSynthControlComponentBounds(float pluginWidth);
 

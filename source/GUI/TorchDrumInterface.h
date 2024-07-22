@@ -18,7 +18,7 @@ public:
     TorchDrumInterface(TorchDrumProcessor& p);
     ~TorchDrumInterface() override;
 
-    void paint(juce::Graphics& g) override;
+    void paint([[maybe_unused]] juce::Graphics& g) override {};
     void resized() override;
 
 private:

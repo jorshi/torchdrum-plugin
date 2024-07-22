@@ -18,12 +18,10 @@ TorchDrumInterface::TorchDrumInterface(TorchDrumProcessor& p)
 
 TorchDrumInterface::~TorchDrumInterface() {}
 
-void TorchDrumInterface::paint(juce::Graphics& g) {}
-
 void TorchDrumInterface::resized()
 {
     buttonControlComponent.setBounds(getButtonControlComponentBounds(getWidth()));
-    globalControlComponent.setBounds(getGlobalControlComponentBounds(getWidth()));
+    globalControlComponent.setBounds(globalControlComponentBounds);
     onsetControlComponent.setBounds(getOnsetControlComponentBounds(getWidth()));
     synthControlComponent.setBounds(getSynthControlComponentBounds(getWidth()));
     visualizerComponent.setBounds(getVisualizerBounds(getWidth()));
