@@ -15,3 +15,9 @@ void VisualizerComponent::paint(juce::Graphics& g)
     g.setColour(borderColour);
     g.drawRect(getLocalBounds(), 1);
 }
+
+void VisualizerComponent::resized()
+{
+    onsetVisualizer.setBounds(
+        getLocalBounds().removeFromBottom(getLocalBounds().getHeight() / 2));
+}

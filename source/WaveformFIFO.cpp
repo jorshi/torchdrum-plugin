@@ -9,9 +9,33 @@ void WaveformFIFO::prepare(size_t newSize)
     size = newSize;
     readIndex = 0;
     writeIndex = 0;
+    bufferReady = false;
 
-    buffer.resize(size);
+    fifo.resize(size);
+    readBuffer.resize(size);
     zeroBuffer();
 }
 
-void WaveformFIFO::zeroBuffer() { std::fill(buffer.begin(), buffer.end(), 0.0f); }
+void WaveformFIFO::zeroBuffer()
+{
+    std::fill(fifo.begin(), fifo.end(), 0.0f);
+    std::fill(readBuffer.begin(), readBuffer.end(), 0.0f);
+}
+
+void WaveformFIFO::addSample(float x)
+{
+    if (size == 0)
+        return;
+
+    if (writeIndex >= size)
+    {
+        if (! bufferReady)
+        {
+            std::copy(fifo.begin(), fifo.end(), readBuffer.begin());
+            bufferReady = true;
+        }
+        writeIndex = 0;
+    }
+
+    fifo[writeIndex++] = x;
+}

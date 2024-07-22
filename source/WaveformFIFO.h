@@ -20,18 +20,16 @@ public:
     // Fill the buffer with zeros
     void zeroBuffer();
 
-    void addSample(float x)
-    {
-        if (size == 0)
-            return;
-
-        buffer[writeIndex] = x;
-        writeIndex = (writeIndex + 1) % size;
-    }
+    // Add a sample to the buffer. Once the buffer is full, the contents of the buffer
+    // will be copied to a read buffer and the bufferReady flag will be set to true.
+    void addSample(float x);
 
 private:
     size_t size;
     size_t readIndex;
     size_t writeIndex;
-    std::vector<float> buffer;
+    std::vector<float> fifo;
+    std::vector<float> readBuffer;
+
+    std::atomic<bool> bufferReady;
 };
