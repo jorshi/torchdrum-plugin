@@ -5,6 +5,7 @@
 
 #include "../PluginProcessor.h"
 #include "ButtonControlComponent.h"
+#include "ButtonLookAndFeel.h"
 #include "GlobalControlComponent.h"
 #include "OnsetControlComponent.h"
 #include "SynthControlComponent.h"
@@ -23,6 +24,9 @@ public:
 
 private:
     TorchDrumProcessor& drumProcessor;
+
+    // Look and feel for the buttons
+    ButtonLookAndFeel buttonLookAndFeel;
 
     // GUI Components
     ButtonControlComponent buttonControlComponent;

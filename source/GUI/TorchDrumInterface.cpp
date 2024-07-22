@@ -9,6 +9,7 @@ TorchDrumInterface::TorchDrumInterface(TorchDrumProcessor& p)
       synthControlComponent(p),
       visualizerComponent(p)
 {
+    buttonControlComponent.setLookAndFeel(&buttonLookAndFeel);
     addAndMakeVisible(buttonControlComponent);
     addAndMakeVisible(globalControlComponent);
     addAndMakeVisible(onsetControlComponent);

@@ -13,6 +13,13 @@ const juce::Colour knobValueBackground = juce::Colour::fromRGBA(249, 247, 243, 1
 const juce::Colour vizualizerGradientColourA = juce::Colour::fromRGB(225, 225, 220);
 const juce::Colour vizualizerGradientColourB = juce::Colour::fromRGB(208, 217, 217);
 
+const juce::Colour buttonGradientColourA = juce::Colour::fromRGBA(120, 166, 177, 76);
+const juce::Colour buttonGradientColourB = juce::Colour::fromRGBA(177, 225, 243, 76);
+const juce::Colour buttonOverGradientColourA =
+    juce::Colour::fromRGBA(120, 166, 177, 204);
+const juce::Colour buttonOverGradientColourB =
+    juce::Colour::fromRGBA(177, 225, 243, 204);
+
 // Spacing based on the original designed size of the dual knob component
 const float fullPluginWidth = 960.0f;
 const float fullPluginHeight = 550.0f;

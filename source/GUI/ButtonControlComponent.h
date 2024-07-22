@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../PluginProcessor.h"
+#include "ButtonLookAndFeel.h"
 #include <juce_gui_basics/juce_gui_basics.h>
 
 class ButtonControlComponent : public juce::Component
