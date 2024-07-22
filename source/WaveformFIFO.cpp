@@ -4,8 +4,9 @@
 
 WaveformFIFO::WaveformFIFO() : size(0), readIndex(0), writeIndex(0) {}
 
-void WaveformFIFO::prepare(size_t newSize)
+void WaveformFIFO::prepare(double sr, size_t newSize)
 {
+    sampleRate = sr;
     size = newSize;
     readIndex = 0;
     writeIndex = 0;
@@ -14,6 +15,14 @@ void WaveformFIFO::prepare(size_t newSize)
     fifo.resize(size);
     readBuffer.resize(size);
     zeroBuffer();
+
+    BiquadCoeff::Settings settings;
+    settings.type = BiquadCoeff::lowpass;
+    settings.fs = sampleRate;
+    settings.cutoff = 10.0;
+    settings.q = 0.707;
+    settings.peakGainDb = 0.0;
+    lowpass.setup(settings);
 }
 
 void WaveformFIFO::zeroBuffer()
@@ -38,4 +47,21 @@ void WaveformFIFO::addSample(float x)
     }
 
     fifo[writeIndex++] = x;
+}
+
+std::pair<float*, size_t> WaveformFIFO::getAtResolutionHz(float resolutionHz)
+{
+    if (size == 0 || ! bufferReady)
+        return std::make_pair(nullptr, 0);
+
+    // Apply lowpass filter to downsample the buffer to the desired resolution
+    // Update the lowpass filter cutoff frequency if required
+    // Is this necessary?
+    // if (! juce::approximatelyEqual((float) lowpass.getFc(), resolutionHz))
+    //     lowpass.setFc(resolutionHz);
+
+    // for (size_t i = 0; i < size; ++i)
+    //     readBuffer[i] = lowpass.process(readBuffer[i]);
+
+    return std::make_pair(readBuffer.data(), size);
 }

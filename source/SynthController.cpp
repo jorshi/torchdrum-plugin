@@ -27,7 +27,7 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     elapsedSamples = 0;
 
     // FIFO Buffer for sending onset function to GUI
-    onsetFIFO.prepare(2048);
+    onsetFIFO.prepare(sampleRate, 2048);
     onsetDetection.setWaveformFIFO(&onsetFIFO);
 
     // Prepare feature extraction

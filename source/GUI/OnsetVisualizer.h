@@ -18,6 +18,10 @@ public:
 
 private:
     TorchDrumProcessor& drumProcessor;
+    juce::Path onsetPath;
+
+    int drawResoluationHz = 100;
+    int drawSeconds = 2;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OnsetVisualizer)
