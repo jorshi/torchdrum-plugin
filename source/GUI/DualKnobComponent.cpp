@@ -79,6 +79,18 @@ void DualKnobComponent::setLayout(KnobType knobType)
 
         valueBox.setFont(font.withHeight(singleSmallKnobValueBoxBounds.getHeight()));
     }
+    else if (knobType == KnobType::SingleLarge)
+    {
+        innerKnob.setBounds(singleLargeKnobInnerKnobBounds);
+        textBox.setBounds(singleLargeKnobTextBoxBounds);
+        valueBox.setBounds(singleLargeKnobTextBoxBounds);
+        leftTextBoxLine = singleLargeKnobTextOutlineLeft;
+        rightTextBoxLine = singleLargeKnobTextOutlineRight;
+
+        juce::Font font(fontOptions);
+        textBox.setFont(font.withHeight(singleLargeKnobTextBoxBounds.getHeight()));
+        valueBox.setFont(font.withHeight(singleLargeKnobTextBoxBounds.getHeight()));
+    }
 }
 
 void DualKnobComponent::paint(juce::Graphics& g)

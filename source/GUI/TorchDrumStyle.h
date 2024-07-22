@@ -46,10 +46,12 @@ const float onsetControlComponentWidth = 228.0f;
 const float onsetControlComponentHeight = 92.0f;
 const juce::Rectangle<int> onsetControlComponentBounds(276, 416, 214, 92);
 
-const float globalControlComponentX = 56.1953f;
+const float globalControlComponentX = 46.0f;
 const float globalControlComponentY = 287.9902f;
-const float globalControlComponentWidth = 59.3047f;
+const float globalControlComponentWidth = 82.0f;
 const float globalControlComponentHeight = 206.8701f;
+
+const juce::Rectangle<int> globalKnob1Bounds(0, 0, 82, 86);
 
 const float buttonControlComponentX = 28.4389f;
 const float buttonControlComponentY = 55.6959f;
@@ -170,3 +172,8 @@ const juce::Rectangle<int> singleSmallKnobTextBoxBounds(0, 0, 76, 40);
 const juce::Rectangle<int> singleSmallKnobValueBoxBounds(0, 10, 76, 20);
 const juce::Rectangle<int> singleSmallKnobTextOutlineLeft(0, 1, 1, 36);
 const juce::Rectangle<int> singleSmallKnobTextOutlineRight(75, 1, 1, 36);
+
+const juce::Rectangle<int> singleLargeKnobInnerKnobBounds(11, 26, 60, 60);
+const juce::Rectangle<int> singleLargeKnobTextBoxBounds(0, 0, 82, 20);
+const juce::Rectangle<int> singleLargeKnobTextOutlineLeft(0, 1, 1, 18);
+const juce::Rectangle<int> singleLargeKnobTextOutlineRight(81, 1, 1, 18);

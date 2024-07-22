@@ -56,7 +56,7 @@ struct Parameters
         new juce::AudioParameterInt({ "waitSamples", 1 }, "Hold Time", 0, 5000, 1000);
     juce::AudioParameterFloat* sensitivity =
         new juce::AudioParameterFloat({ "sensitivity", 1 },
-                                      "Mapping Sensitivity",
+                                      "Neurality",
                                       0.f,
                                       4.f,
                                       1.0f);
