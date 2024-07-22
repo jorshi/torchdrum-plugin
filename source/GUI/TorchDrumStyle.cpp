@@ -32,15 +32,6 @@ juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth)
                                 (int) (widthRatio * onsetControlComponentHeight));
 }
 
-juce::Rectangle<int> getButtonControlComponentBounds(float pluginWidth)
-{
-    auto widthRatio = getPluginWidthRatio(pluginWidth);
-    return juce::Rectangle<int>((int) (widthRatio * buttonControlComponentX),
-                                (int) (widthRatio * buttonControlComponentY),
-                                (int) (widthRatio * buttonControlComponentWidth),
-                                (int) (widthRatio * buttonControlComponentHeight));
-}
-
 juce::Rectangle<int> getSynthControlComponentBounds(float pluginWidth)
 {
     auto widthRatio = getPluginWidthRatio(pluginWidth);

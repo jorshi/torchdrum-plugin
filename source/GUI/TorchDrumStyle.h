@@ -50,10 +50,8 @@ const juce::Rectangle<int> globalControlComponentBounds(46, 288, 82, 208);
 const juce::Rectangle<int> globalKnob1Bounds(0, 0, 82, 86);
 const juce::Rectangle<int> globalKnob2Bounds(0, 122, 82, 86);
 
-const float buttonControlComponentX = 28.4389f;
-const float buttonControlComponentY = 55.6959f;
-const float buttonControlComponentWidth = 113.6449f;
-const float buttonControlComponentHeight = 163.343f;
+const juce::Rectangle<int> buttonControlComponentBounds(30, 56, 114, 163);
+const juce::Rectangle<int> buttonContol1Bounds(0, 0, 114, 27);
 
 /**
  * Returns FontOption object with the primary typeface for the plugin.
@@ -152,7 +150,6 @@ inline float getKnobRowPadding(float height)
 
 juce::Rectangle<int> getVisualizerBounds(float pluginWidth);
 juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth);
-juce::Rectangle<int> getButtonControlComponentBounds(float pluginWidth);
 juce::Rectangle<int> getSynthControlComponentBounds(float pluginWidth);
 
 // Dual knob layout relative to bounding box

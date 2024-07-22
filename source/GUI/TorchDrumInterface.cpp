@@ -18,7 +18,7 @@ TorchDrumInterface::TorchDrumInterface(TorchDrumProcessor& p)
 
 void TorchDrumInterface::resized()
 {
-    buttonControlComponent.setBounds(getButtonControlComponentBounds(getWidth()));
+    buttonControlComponent.setBounds(buttonControlComponentBounds);
     globalControlComponent.setBounds(globalControlComponentBounds);
     onsetControlComponent.setBounds(getOnsetControlComponentBounds(getWidth()));
     synthControlComponent.setBounds(getSynthControlComponentBounds(getWidth()));
