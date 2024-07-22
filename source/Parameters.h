@@ -47,7 +47,7 @@ struct Parameters
         new juce::AudioParameterFloat({ "onThreshold", 1 },
                                       "Trigger Threshold",
                                       0.5f,
-                                      50.f,
+                                      60.f,
                                       16.0f);
     juce::AudioParameterFloat* offThreshold =
         new juce::AudioParameterFloat({ "offThreshold", 1 },

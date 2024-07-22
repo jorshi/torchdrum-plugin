@@ -8,6 +8,8 @@ OnsetVisualizer::OnsetVisualizer(TorchDrumProcessor& p)
     drawableSignal.resize(drawSeconds * drawResoluationHz);
     std::fill(drawableSignal.begin(), drawableSignal.end(), 0.0f);
 
+    fontOptions = getPluginFont();
+
     readIndex = 0;
     writeIndex = 0;
     drawIndex = 0;
@@ -22,6 +24,30 @@ void OnsetVisualizer::paint(juce::Graphics& g)
     g.setColour(borderColour);
     g.drawRect(getLocalBounds(), 1);
 
+    // Draw the meter on the left side
+    g.setColour(onsetVisMeterColour);
+    g.fillRect(0, 0, 28, getHeight());
+
+    g.setColour(borderColour);
+    g.drawRect(0, 0, 28, getHeight(), 1);
+
+    juce::Font font = fontOptions;
+    font.setHeight(12.0f);
+    g.setFont(font);
+
+    for (int i = 1; i < 6; ++i)
+    {
+        int y = (int) (getHeight() - i * getHeight() / 6.0f);
+        g.drawRect(20, y, 8, 1, 1);
+
+        g.drawText(std::to_string(i * 10),
+                   0,
+                   y - 6,
+                   18,
+                   12,
+                   juce::Justification::centredRight);
+    }
+
     // Draw the values of the parameters
     float triggerThreshold = parameters.parameters[0]->getValue();
     triggerThreshold = parameters.parameters[0]->convertFrom0to1(triggerThreshold);
@@ -34,8 +60,8 @@ void OnsetVisualizer::paint(juce::Graphics& g)
     int triggerThresholdY = getHeight() - getHeight() * triggerThreshold;
     int releaseThresholdY = getHeight() - getHeight() * releaseThreshold;
 
-    g.drawRect(0, triggerThresholdY, getWidth(), 1, 1);
-    g.drawRect(0, releaseThresholdY, getWidth(), 1, 1);
+    g.drawRect(28, triggerThresholdY, getWidth() - 28, 1, 1);
+    g.drawRect(28, releaseThresholdY, getWidth() - 28, 1, 1);
 }
 
 void OnsetVisualizer::resized() {}

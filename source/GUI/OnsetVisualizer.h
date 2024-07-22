@@ -22,6 +22,7 @@ private:
     TorchDrumProcessor& drumProcessor;
     Parameters& parameters;
     juce::Path onsetPath;
+    juce::FontOptions fontOptions;
 
     std::vector<float> drawableSignal;
     size_t writeIndex = 0;
