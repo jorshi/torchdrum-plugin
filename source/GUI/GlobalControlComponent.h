@@ -17,9 +17,6 @@ private:
 
     std::unique_ptr<DualKnobComponent> dryWetKnob;
     std::unique_ptr<DualKnobComponent> neuralKnob;
-
-    juce::ColourGradient gradientBackground;
-
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(GlobalControlComponent)
 };
