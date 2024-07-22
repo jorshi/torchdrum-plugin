@@ -26,6 +26,10 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     isOnset = false;
     elapsedSamples = 0;
 
+    // FIFO Buffer for sending onset function to GUI
+    onsetFIFO.prepare(2048);
+    onsetDetection.setWaveformFIFO(&onsetFIFO);
+
     // Prepare feature extraction
     featureExtraction.prepare(sampleRate, ONSET_WINDOW_SIZE, ONSET_WINDOW_SIZE / 4);
     featureBuffer.clear();
@@ -65,7 +69,8 @@ void SynthController::process(float x)
         neuralMapper.process(neuralInput, neuralOutput);
 
         // Calculate synth parameters, and trigger synth
-        synth.getParameters().updateAllParametersWithModulation(neuralOutput, parameters.sensitivity->get());
+        synth.getParameters().updateAllParametersWithModulation(
+            neuralOutput, parameters.sensitivity->get());
         synth.trigger();
 
         // Notify listeners that an onset was detected

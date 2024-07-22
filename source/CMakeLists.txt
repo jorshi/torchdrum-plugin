@@ -8,4 +8,5 @@ target_sources(${BaseTargetName} PRIVATE
         Biquad.cpp
         NeuralNetwork.cpp
         OnsetDetection.cpp
-        SynthController.cpp)
+        SynthController.cpp
+        WaveformFIFO.cpp)
