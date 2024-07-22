@@ -1,6 +1,7 @@
 // Animate the onset signal
 #pragma once
 
+#include "../Parameters.h"
 #include "../PluginProcessor.h"
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -19,6 +20,7 @@ public:
 
 private:
     TorchDrumProcessor& drumProcessor;
+    Parameters& parameters;
     juce::Path onsetPath;
 
     std::vector<float> drawableSignal;
@@ -31,7 +33,7 @@ private:
     const int drawSeconds = 3;
 
     const float minValue = 0.0f;
-    const float maxValue = 50.0f;
+    const float maxValue = 60.0f;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OnsetVisualizer)

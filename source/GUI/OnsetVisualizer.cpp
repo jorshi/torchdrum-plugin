@@ -2,7 +2,8 @@
 #include "TorchDrumStyle.h"
 #include <algorithm>
 
-OnsetVisualizer::OnsetVisualizer(TorchDrumProcessor& p) : drumProcessor(p)
+OnsetVisualizer::OnsetVisualizer(TorchDrumProcessor& p)
+    : drumProcessor(p), parameters(p.getGlobalParameters())
 {
     drawableSignal.resize(drawSeconds * drawResoluationHz);
     std::fill(drawableSignal.begin(), drawableSignal.end(), 0.0f);
@@ -20,6 +21,21 @@ void OnsetVisualizer::paint(juce::Graphics& g)
 
     g.setColour(borderColour);
     g.drawRect(getLocalBounds(), 1);
+
+    // Draw the values of the parameters
+    float triggerThreshold = parameters.parameters[0]->getValue();
+    triggerThreshold = parameters.parameters[0]->convertFrom0to1(triggerThreshold);
+    triggerThreshold /= maxValue;
+
+    float releaseThreshold = parameters.parameters[1]->getValue();
+    releaseThreshold = parameters.parameters[1]->convertFrom0to1(releaseThreshold);
+    releaseThreshold /= maxValue;
+
+    int triggerThresholdY = getHeight() - getHeight() * triggerThreshold;
+    int releaseThresholdY = getHeight() - getHeight() * releaseThreshold;
+
+    g.drawRect(0, triggerThresholdY, getWidth(), 1, 1);
+    g.drawRect(0, releaseThresholdY, getWidth(), 1, 1);
 }
 
 void OnsetVisualizer::resized() {}
@@ -38,7 +54,6 @@ void OnsetVisualizer::updateOnsetPath()
         float x = i * getWidth() / drawableSignal.size();
         float y = drawableSignal[start];
         start = (start + 1) % drawableSignal.size();
-
         y = getHeight() - y * getHeight();
         p.lineTo(x, y);
     }
