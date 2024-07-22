@@ -23,8 +23,13 @@ private:
 
     std::vector<float> drawableSignal;
     size_t writeIndex = 0;
-    const int drawResoluationHz = 20;
+    size_t readIndex = 0;
+
+    const int drawResoluationHz = 75;
     const int drawSeconds = 3;
+
+    const float minValue = 0.0f;
+    const float maxValue = 50.0f;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OnsetVisualizer)

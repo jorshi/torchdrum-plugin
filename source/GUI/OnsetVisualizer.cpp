@@ -7,6 +7,8 @@ OnsetVisualizer::OnsetVisualizer(TorchDrumProcessor& p) : drumProcessor(p)
     drawableSignal.resize(drawSeconds * drawResoluationHz);
     std::fill(drawableSignal.begin(), drawableSignal.end(), 0.0f);
 
+    readIndex = 0;
+    writeIndex = 0;
     startTimerHz(30);
 }
 
@@ -14,6 +16,8 @@ void OnsetVisualizer::paint(juce::Graphics& g)
 {
     g.setColour(borderColour);
     g.drawRect(getLocalBounds(), 1);
+
+    g.setColour(onsetVisualizerColour);
     g.fillPath(onsetPath);
 }
 
@@ -54,14 +58,19 @@ void OnsetVisualizer::timerCallback()
     const int rate = (int) drumProcessor.getSampleRate() / drawResoluationHz;
 
     // Push new samples onto the drawing buffer
-    for (size_t i = 0; i < onsetSignal.size(); i += (size_t) rate)
+    while (readIndex < onsetSignal.size())
     {
         if (writeIndex >= drawableSignal.size())
             writeIndex = 0;
 
-        float value = std::max(std::min(onsetSignal[i], 40.0f), 0.0f) / 40.0f;
+        float value = std::max(std::min(onsetSignal[readIndex], maxValue), minValue);
+        value = juce::jmap(value, minValue, maxValue, 0.0f, 1.0f);
         drawableSignal[writeIndex++] = value;
+        readIndex += rate;
     }
+
+    jassert(readIndex >= onsetSignal.size());
+    readIndex -= std::max(onsetSignal.size(), (size_t) 0);
 
     // Update the onset path
     onsetFIFO.markBufferRead();
