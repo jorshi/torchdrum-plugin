@@ -4,4 +4,5 @@ juce_add_binary_data(torchdrum_binary_data SOURCES
     buttonBG@2x.png
     Yantramanav-Bold.ttf
     Yantramanav-Light.ttf
-    Yantramanav-Medium.ttf)
+    Yantramanav-Medium.ttf
+    Yantramanav-Regular.ttf)

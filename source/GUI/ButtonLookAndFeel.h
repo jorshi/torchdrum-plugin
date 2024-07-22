@@ -13,6 +13,12 @@ public:
                               bool isMouseOverButton,
                               bool isButtonDown) override;
 
+    void drawButtonText(juce::Graphics& g,
+                        juce::TextButton& button,
+                        bool isMouseOverButton,
+                        bool isButtonDown) override;
+
 private:
     juce::Image backgroundImage;
+    juce::FontOptions fontOptions;
 };

@@ -14,6 +14,13 @@ const juce::FontOptions getBoldPluginFont()
     return juce::FontOptions(typeface);
 }
 
+const juce::FontOptions getRegularPluginFont()
+{
+    auto typeface = juce::Typeface::createSystemTypefaceFor(
+        BinaryData::YantramanavRegular_ttf, BinaryData::YantramanavRegular_ttfSize);
+    return juce::FontOptions(typeface);
+}
+
 juce::Rectangle<int> getVisualizerBounds(float pluginWidth)
 {
     auto widthRatio = getPluginWidthRatio(pluginWidth);

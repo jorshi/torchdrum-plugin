@@ -4,6 +4,7 @@
 #include "juce_gui_basics/juce_gui_basics.h"
 
 const juce::Colour borderColour = juce::Colour::fromRGB(43, 59, 63);
+const juce::Colour borderColourTransparent = juce::Colour::fromRGBA(43, 59, 63, 127);
 const juce::Colour innerKnobColourA = juce::Colour::fromRGBA(177, 225, 243, 127);
 const juce::Colour innerKnobColourB = juce::Colour::fromRGB(120, 166, 177);
 const juce::Colour outerKnobColourA = juce::Colour::fromRGB(126, 142, 147);
@@ -16,8 +17,12 @@ const juce::Colour vizualizerGradientColourB = juce::Colour::fromRGB(208, 217, 2
 const juce::Colour buttonGradientColourA = juce::Colour::fromRGBA(120, 166, 177, 76);
 const juce::Colour buttonGradientColourB = juce::Colour::fromRGBA(177, 225, 243, 76);
 const juce::Colour buttonOverGradientColourA =
-    juce::Colour::fromRGBA(120, 166, 177, 204);
+    juce::Colour::fromRGBA(120, 166, 177, 154);
 const juce::Colour buttonOverGradientColourB =
+    juce::Colour::fromRGBA(177, 225, 243, 154);
+const juce::Colour buttonDownGradientColourA =
+    juce::Colour::fromRGBA(120, 166, 177, 204);
+const juce::Colour buttonDownGradientColourB =
     juce::Colour::fromRGBA(177, 225, 243, 204);
 
 // Spacing based on the original designed size of the dual knob component
@@ -57,18 +62,21 @@ const juce::Rectangle<int> globalControlComponentBounds(46, 288, 82, 208);
 const juce::Rectangle<int> globalKnob1Bounds(0, 0, 82, 86);
 const juce::Rectangle<int> globalKnob2Bounds(0, 122, 82, 86);
 
-const juce::Rectangle<int> buttonControlComponentBounds(30, 56, 114, 163);
+const juce::Rectangle<int> buttonControlComponentBounds(30, 56, 114, 162);
 const juce::Rectangle<int> buttonContol1Bounds(0, 0, 114, 27);
+const juce::Rectangle<int> buttonContol2Bounds(0, 45, 114, 27);
+const juce::Rectangle<int> buttonContol3Bounds(0, 90, 114, 27);
+const juce::Rectangle<int> buttonContol4Bounds(0, 135, 114, 27);
+
+// Default text height for 16pt font
+const float defaultTextHeight = 22.0f;
 
 /**
- * Returns FontOption object with the primary typeface for the plugin.
+ * Font options for the plugin
  */
 const juce::FontOptions getPluginFont();
-
-/**
- * Returns FontOption object with the bold typeface for the plugin.
- */
 const juce::FontOptions getBoldPluginFont();
+const juce::FontOptions getRegularPluginFont();
 
 //==============================================================================
 // Functions to calculate the size and position of GUI components for resizing
