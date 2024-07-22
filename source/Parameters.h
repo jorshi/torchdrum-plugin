@@ -10,6 +10,7 @@ struct Parameters
         addParameter(offThreshold);
         addParameter(waitSamples);
         addParameter(sensitivity);
+        addParameter(drywet);
     }
 
     void add(juce::AudioProcessor& processor) const
@@ -18,6 +19,7 @@ struct Parameters
         processor.addParameter(offThreshold);
         processor.addParameter(waitSamples);
         processor.addParameter(sensitivity);
+        processor.addParameter(drywet);
     }
 
     void addParameter(juce::RangedAudioParameter* param)
@@ -39,7 +41,8 @@ struct Parameters
             delete param;
     }
 
-    // Raw pointers. They will be owned by either the processor or the APVTS (if you use it)
+    // Raw pointers.
+    // They will be owned by the AudioProcessor in the application.
     juce::AudioParameterFloat* onThreshold =
         new juce::AudioParameterFloat({ "onThreshold", 1 },
                                       "Trigger Threshold",
@@ -60,6 +63,8 @@ struct Parameters
                                       0.f,
                                       4.f,
                                       1.0f);
+    juce::AudioParameterFloat* drywet =
+        new juce::AudioParameterFloat({ "drywet", 1 }, "Dry/Wet", 0.0f, 1.0f, 1.0f);
 
     std::vector<juce::RangedAudioParameter*> parameters;
     std::vector<juce::NormalisableRange<double>> guiRanges;

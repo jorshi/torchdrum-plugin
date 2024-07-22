@@ -27,10 +27,14 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
     // Parameters to update once per block
     auto& onsetDetection = synthController.getOnsetDetection();
-    onsetDetection.updateParameters(
-        parameters.onThreshold->get(),
-        parameters.offThreshold->get(),
-        parameters.waitSamples->get());
+    onsetDetection.updateParameters(parameters.onThreshold->get(),
+                                    parameters.offThreshold->get(),
+                                    parameters.waitSamples->get());
+
+    // Square Root 3dB Dry/Wet Mix
+    auto drywet = parameters.drywet->get();
+    float dry = std::sqrt(1.0f - drywet);
+    float wet = std::sqrt(drywet);
 
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
@@ -54,7 +58,7 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
         for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
         {
             auto* channelData = buffer.getWritePointer(channel);
-            channelData[sample] = synthSample;
+            channelData[sample] = synthSample * wet + channelData[sample] * dry;
         }
     }
 }
@@ -82,14 +86,14 @@ void TorchDrumProcessor::getStateInformation(juce::MemoryBlock& destData)
 
     // Save model path and feature normalizers
     juce::ValueTree modelPath("ModelPath");
-    modelPath.setProperty("Path", juce::String(synthController.getModelPath()), nullptr);
+    modelPath.setProperty(
+        "Path", juce::String(synthController.getModelPath()), nullptr);
     pluginPreset.appendChild(modelPath, nullptr);
 
     copyXmlToBinary(*pluginPreset.createXml(), destData);
 }
 
-void TorchDrumProcessor::setStateInformation(const void* data,
-                                             int sizeInBytes)
+void TorchDrumProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
     // Loads your parameters, and any other potential data from an XML:
 
@@ -102,8 +106,7 @@ void TorchDrumProcessor::setStateInformation(const void* data,
 
         for (auto& param : getParameters())
         {
-            auto paramTree =
-                params.getChildWithName(PluginHelpers::getParamID(param));
+            auto paramTree = params.getChildWithName(PluginHelpers::getParamID(param));
 
             if (paramTree.isValid())
                 param->setValueNotifyingHost(paramTree["Value"]);
