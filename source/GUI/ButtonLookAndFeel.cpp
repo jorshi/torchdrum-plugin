@@ -24,37 +24,27 @@ void ButtonLookAndFeel::drawButtonBackground(juce::Graphics& g,
         backgroundImage.rescaled(buttonArea.getWidth(), buttonArea.getHeight());
     g.drawImageAt(backgroundImageScaled, buttonArea.getX(), buttonArea.getY());
 
-    float x1 = buttonArea.getX();
-    float y1 = buttonArea.getY();
-    float y2 = buttonArea.getY() + buttonArea.getHeight();
+    juce::Point<float> top(buttonArea.getX(), buttonArea.getY());
+    juce::Point<float> bottom(buttonArea.getX(),
+                              buttonArea.getY() + buttonArea.getHeight());
     juce::ColourGradient gradient;
     auto toggleState = button.getToggleState();
 
     // The background gradient colours depend on the button state
     if (isButtonDown || toggleState)
     {
-        gradient = juce::ColourGradient(buttonDownGradientColourB,
-                                        x1,
-                                        y1,
-                                        buttonDownGradientColourA,
-                                        x1,
-                                        y2,
-                                        false);
+        gradient = juce::ColourGradient(
+            buttonDownGradientColourB, top, buttonDownGradientColourA, bottom, false);
     }
     else if (isMouseOverButton)
     {
-        gradient = juce::ColourGradient(buttonOverGradientColourB,
-                                        x1,
-                                        y1,
-                                        buttonOverGradientColourA,
-                                        x1,
-                                        y2,
-                                        false);
+        gradient = juce::ColourGradient(
+            buttonOverGradientColourB, top, buttonOverGradientColourA, bottom, false);
     }
     else
     {
         gradient = juce::ColourGradient(
-            buttonGradientColourB, x1, y1, buttonGradientColourA, x1, y2, false);
+            buttonGradientColourB, top, buttonGradientColourA, bottom, false);
     }
 
     g.setGradientFill(gradient);
