@@ -16,8 +16,6 @@ TorchDrumInterface::TorchDrumInterface(TorchDrumProcessor& p)
     addAndMakeVisible(visualizerComponent);
 }
 
-TorchDrumInterface::~TorchDrumInterface() {}
-
 void TorchDrumInterface::resized()
 {
     buttonControlComponent.setBounds(getButtonControlComponentBounds(getWidth()));

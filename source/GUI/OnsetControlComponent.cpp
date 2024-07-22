@@ -24,8 +24,6 @@ OnsetControlComponent::OnsetControlComponent(TorchDrumProcessor& processor)
     addAndMakeVisible(holdTimeKnob.get());
 }
 
-void OnsetControlComponent::paint(juce::Graphics& g) {}
-
 void OnsetControlComponent::resized()
 {
     auto width = getWidth();
