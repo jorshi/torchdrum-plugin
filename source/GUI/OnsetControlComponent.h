@@ -9,7 +9,7 @@ class OnsetControlComponent : public juce::Component
 public:
     OnsetControlComponent(TorchDrumProcessor& processor);
 
-    void paint([[maybe_unused]] juce::Graphics& g) override {};
+    void paint([[maybe_unused]] juce::Graphics& g) override {}
     void resized() override;
 
 private:

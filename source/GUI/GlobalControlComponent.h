@@ -9,7 +9,7 @@ class GlobalControlComponent : public juce::Component
 public:
     GlobalControlComponent(TorchDrumProcessor& processor);
 
-    void paint(juce::Graphics& g) override;
+    void paint([[maybe_unused]] juce::Graphics& g) override {}
     void resized() override;
 
 private:

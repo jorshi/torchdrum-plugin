@@ -13,12 +13,4 @@ GlobalControlComponent::GlobalControlComponent(TorchDrumProcessor& processor)
     addAndMakeVisible(neuralKnob.get());
 }
 
-void GlobalControlComponent::paint(juce::Graphics& g) {}
-
-void GlobalControlComponent::resized()
-{
-    auto width = getWidth();
-    auto height = getHeight();
-
-    neuralKnob->setBounds(globalKnob2Bounds);
-}
+void GlobalControlComponent::resized() { neuralKnob->setBounds(globalKnob2Bounds); }

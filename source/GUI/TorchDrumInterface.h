@@ -16,9 +16,9 @@ class TorchDrumInterface : public juce::Component
 public:
     TorchDrumInterface() = delete;
     TorchDrumInterface(TorchDrumProcessor& p);
-    ~TorchDrumInterface() override {};
+    ~TorchDrumInterface() override {}
 
-    void paint([[maybe_unused]] juce::Graphics& g) override {};
+    void paint([[maybe_unused]] juce::Graphics& g) override {}
     void resized() override;
 
 private:
