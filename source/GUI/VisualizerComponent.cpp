@@ -5,6 +5,7 @@ VisualizerComponent::VisualizerComponent(TorchDrumProcessor& processor)
     : drumProcessor(processor), onsetVisualizer(processor)
 {
     addAndMakeVisible(onsetVisualizer);
+    addAndMakeVisible(featureVisualizer);
 }
 
 void VisualizerComponent::paint(juce::Graphics& g)
@@ -20,4 +21,6 @@ void VisualizerComponent::resized()
 {
     onsetVisualizer.setBounds(
         getLocalBounds().removeFromBottom(getLocalBounds().getHeight() / 2));
+    featureVisualizer.setBounds(
+        getLocalBounds().removeFromTop(getLocalBounds().getHeight() / 2));
 }

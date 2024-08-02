@@ -71,6 +71,8 @@ const juce::Rectangle<int> buttonContol2Bounds(0, 45, 114, 27);
 const juce::Rectangle<int> buttonContol3Bounds(0, 90, 114, 27);
 const juce::Rectangle<int> buttonContol4Bounds(0, 135, 114, 27);
 
+const juce::Rectangle<int> featureVizCircleBounds(89, 15, 132, 132);
+
 // Default text height for 16pt font
 const float defaultTextHeight = 22.0f;
 
