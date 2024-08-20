@@ -12,23 +12,28 @@ public:
 
     void paint(juce::Graphics& g) override;
     void setNumPoints(int numPoints);
+    void setMagnitude(size_t index, float newValue);
 
 private:
     std::vector<juce::Point<float>> points;
+    std::vector<float> magnitude;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FeatureCircle)
 };
 
-class FeatureVisualizer : public juce::Component
+class FeatureVisualizer : public juce::Component, juce::ActionListener
 {
 public:
     FeatureVisualizer() = delete;
     FeatureVisualizer(TorchDrumProcessor& p);
-    ~FeatureVisualizer() override {}
+    ~FeatureVisualizer() override;
 
     void paint(juce::Graphics& g) override;
     void resized() override;
+
+    // Callback for action listener
+    void actionListenerCallback(const juce::String& message) override;
 
 private:
     TorchDrumProcessor& drumProcessor;
