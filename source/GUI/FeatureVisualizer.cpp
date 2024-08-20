@@ -41,7 +41,9 @@ void FeatureCircle::setNumPoints(int numPoints)
     }
 }
 
-FeatureVisualizer::FeatureVisualizer()
+//==============================================================================
+
+FeatureVisualizer::FeatureVisualizer(TorchDrumProcessor& p) : drumProcessor(p)
 {
     featureCircle.setNumPoints(3);
     addAndMakeVisible(featureCircle);

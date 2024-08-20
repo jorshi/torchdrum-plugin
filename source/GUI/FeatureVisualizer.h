@@ -1,6 +1,7 @@
 // Animate features extracted at onsets
 #pragma once
 
+#include "../PluginProcessor.h"
 #include <juce_gui_basics/juce_gui_basics.h>
 
 class FeatureCircle : public juce::Component
@@ -22,13 +23,15 @@ private:
 class FeatureVisualizer : public juce::Component
 {
 public:
-    FeatureVisualizer();
+    FeatureVisualizer() = delete;
+    FeatureVisualizer(TorchDrumProcessor& p);
     ~FeatureVisualizer() override {}
 
     void paint(juce::Graphics& g) override;
     void resized() override;
 
 private:
+    TorchDrumProcessor& drumProcessor;
     FeatureCircle featureCircle;
 
     //==============================================================================

@@ -17,7 +17,7 @@ public:
 private:
     TorchDrumProcessor& drumProcessor;
 
-    FeatureVisualizer featureVisualizer;
+    FeatureVisualizer featureVisualizer { drumProcessor };
     OnsetVisualizer onsetVisualizer;
 
     juce::ColourGradient gradientBackground;
