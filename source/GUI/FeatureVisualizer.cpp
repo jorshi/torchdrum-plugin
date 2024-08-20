@@ -5,24 +5,39 @@ FeatureCircle::FeatureCircle() {}
 
 void FeatureCircle::paint(juce::Graphics& g)
 {
+    auto circeBounds = getLocalBounds().reduced(featureVizTrianglePointsRadius);
+
     g.setColour(juce::Colours::white);
-    g.fillEllipse(0.0f, 0.0f, (float) getWidth(), (float) getHeight());
+    g.fillEllipse(circeBounds.toFloat());
 
-    // Draw the triangle
-    if (points.size() > 0)
+    if (points.size() < 1)
+        return;
+
+    // Draw the triangle with each corner
+    juce::Point<int> centre(getWidth() / 2, getWidth() / 2);
+    g.setOrigin(centre);
+
+    juce::Path p;
+    int radius = circeBounds.getWidth() / 2;
+    p.startNewSubPath(points[0] * radius * magnitude[0]);
+
+    for (auto i = 1; i < points.size(); i++)
+        p.lineTo(points[i] * radius * magnitude[i]);
+
+    p.closeSubPath();
+    g.setColour(onsetVisualizerColour);
+    g.fillPath(p);
+
+    // Now draw circles at each point
+    float circleRadius = (float) featureVizTrianglePointsRadius;
+    g.setColour(borderColour);
+    for (auto i = 0; i < points.size(); i++)
     {
-        int radius = getWidth() / 2;
-        juce::Point<int> centre(radius, radius);
-        g.setOrigin(centre);
-
-        juce::Path p;
-        p.startNewSubPath(points[0] * radius * magnitude[0]);
-        for (auto i = 1; i < points.size(); i++)
-            p.lineTo(points[i] * radius * magnitude[i]);
-
-        p.closeSubPath();
-        g.setColour(onsetVisualizerColour);
-        g.fillPath(p);
+        auto outside = points[i] * radius;
+        g.fillEllipse(outside.getX() - featureVizTrianglePointsRadius,
+                      outside.getY() - featureVizTrianglePointsRadius,
+                      featureVizTrianglePointsRadius * 2.0f,
+                      featureVizTrianglePointsRadius * 2.0f);
     }
 }
 
@@ -46,7 +61,24 @@ void FeatureCircle::setNumPoints(int numPoints)
 void FeatureCircle::setMagnitude(size_t index, float newValue)
 {
     jassert(index < magnitude.size());
-    magnitude[index] = newValue;
+    magnitude[index] = juce::jmap(newValue, 0.1f, 0.95f);
+}
+
+std::vector<juce::Point<float>> FeatureCircle::getPoints()
+{
+    juce::Point<int> centre(getWidth() / 2, getWidth() / 2);
+    auto circeBounds = getLocalBounds().reduced(featureVizTrianglePointsRadius);
+    int radius = circeBounds.getWidth() / 2;
+    std::vector<juce::Point<float>> trianglePoints;
+
+    for (auto i = 0; i < points.size(); i++)
+    {
+        auto outside = points[i] * radius;
+        outside = outside + centre.toFloat();
+        trianglePoints.push_back(outside);
+    }
+
+    return trianglePoints;
 }
 
 //==============================================================================
@@ -55,6 +87,7 @@ FeatureVisualizer::FeatureVisualizer(TorchDrumProcessor& p) : drumProcessor(p)
 {
     featureCircle.setNumPoints(3);
     addAndMakeVisible(featureCircle);
+    addAndMakeVisible(ampLabel);
 
     // Add the action listener to the SynthController
     drumProcessor.getSynthController().getBroadcaster().addActionListener(this);
@@ -67,7 +100,13 @@ FeatureVisualizer::~FeatureVisualizer()
 
 void FeatureVisualizer::paint(juce::Graphics& g) {}
 
-void FeatureVisualizer::resized() { featureCircle.setBounds(featureVizCircleBounds); }
+void FeatureVisualizer::resized()
+{
+    featureCircle.setBounds(featureVizCircleBounds);
+    auto points = featureCircle.getPoints();
+
+    // Set the layout for the labels (hard-coded as three labels for now)
+}
 
 void FeatureVisualizer::actionListenerCallback(const juce::String& message)
 {

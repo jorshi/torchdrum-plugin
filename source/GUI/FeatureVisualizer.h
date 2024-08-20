@@ -14,6 +14,9 @@ public:
     void setNumPoints(int numPoints);
     void setMagnitude(size_t index, float newValue);
 
+    // Return points of the triangle relative to the top left corner of this component
+    std::vector<juce::Point<float>> getPoints();
+
 private:
     std::vector<juce::Point<float>> points;
     std::vector<float> magnitude;
@@ -38,6 +41,8 @@ public:
 private:
     TorchDrumProcessor& drumProcessor;
     FeatureCircle featureCircle;
+
+    juce::Label ampLabel;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FeatureVisualizer)
