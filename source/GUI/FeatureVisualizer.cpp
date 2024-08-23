@@ -21,7 +21,7 @@ void FeatureCircle::paint(juce::Graphics& g)
     int radius = circeBounds.getWidth() / 2;
     p.startNewSubPath(points[0] * radius * magnitude[0]);
 
-    for (auto i = 1; i < points.size(); i++)
+    for (size_t i = 1; i < points.size(); i++)
         p.lineTo(points[i] * radius * magnitude[i]);
 
     p.closeSubPath();
@@ -29,9 +29,8 @@ void FeatureCircle::paint(juce::Graphics& g)
     g.fillPath(p);
 
     // Now draw circles at each point
-    float circleRadius = (float) featureVizTrianglePointsRadius;
     g.setColour(borderColour);
-    for (auto i = 0; i < points.size(); i++)
+    for (size_t i = 0; i < points.size(); i++)
     {
         auto outside = points[i] * radius;
         g.fillEllipse(outside.getX() - featureVizTrianglePointsRadius,
@@ -45,7 +44,7 @@ void FeatureCircle::setNumPoints(int numPoints)
 {
     // Calculate locations of feature points
     auto twoPi = juce::MathConstants<float>::twoPi;
-    float startAngle = 3.5 * twoPi / 16.0f;
+    float startAngle = 3.5f * twoPi / 16.0f;
     float shiftAngle = twoPi / numPoints;
 
     points.clear();
@@ -71,7 +70,7 @@ std::vector<juce::Point<float>> FeatureCircle::getPoints()
     int radius = circeBounds.getWidth() / 2;
     std::vector<juce::Point<float>> trianglePoints;
 
-    for (auto i = 0; i < points.size(); i++)
+    for (size_t i = 0; i < points.size(); i++)
     {
         auto outside = points[i] * radius;
         outside = outside + centre.toFloat();
@@ -109,14 +108,7 @@ FeatureVisualizer::~FeatureVisualizer()
     drumProcessor.getSynthController().getBroadcaster().removeActionListener(this);
 }
 
-void FeatureVisualizer::paint(juce::Graphics& g)
-{
-    // g.setColour(juce::Colours::black);
-    // for (auto i = 0; i < numFeatures; ++i)
-    // {
-    //     g.drawRect(featureLabels[i].getBounds());
-    // }
-}
+void FeatureVisualizer::paint([[maybe_unused]] juce::Graphics& g) {}
 
 void FeatureVisualizer::resized()
 {
@@ -130,7 +122,7 @@ void FeatureVisualizer::resized()
     // Load font
     juce::Font font(fontOptions);
     font = font.withHeight(16);
-    for (auto i = 0; i < points.size(); ++i)
+    for (size_t i = 0; i < points.size(); ++i)
     {
         // Determine what quadrant of the circle the point lies in
         // This will be used to position the label
@@ -141,12 +133,12 @@ void FeatureVisualizer::resized()
         points[i].addXY(featureCircle.getX(), featureCircle.getY());
 
         // Position label
-        auto labelX = left ? points[i].getX() - 65 : points[i].getX() + 5;
-        auto labelY = upper ? points[i].getY() - 16 : points[i].getY();
+        float labelX = left ? points[i].getX() - 65.0f : points[i].getX() + 5.0f;
+        float labelY = upper ? points[i].getY() - 16.0f : points[i].getY();
         auto justification =
             left ? juce::Justification::centredRight : juce::Justification::centredLeft;
 
-        featureLabels[i].setBounds(labelX, labelY, 60, 16);
+        featureLabels[i].setBounds((int) labelX, (int) labelY, 60, 16);
         featureLabels[i].setJustificationType(justification);
         featureLabels[i].setBorderSize(juce::BorderSize<int>(0));
         featureLabels[i].setFont(font);

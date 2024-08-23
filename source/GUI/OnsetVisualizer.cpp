@@ -5,7 +5,7 @@
 OnsetVisualizer::OnsetVisualizer(TorchDrumProcessor& p)
     : drumProcessor(p), parameters(p.getGlobalParameters())
 {
-    drawableSignal.resize(drawSeconds * drawResoluationHz);
+    drawableSignal.resize((size_t) (drawSeconds * drawResoluationHz));
     std::fill(drawableSignal.begin(), drawableSignal.end(), 0.0f);
 
     fontOptions = getPluginFont();
@@ -57,8 +57,8 @@ void OnsetVisualizer::paint(juce::Graphics& g)
     releaseThreshold = parameters.parameters[1]->convertFrom0to1(releaseThreshold);
     releaseThreshold /= maxValue;
 
-    int triggerThresholdY = getHeight() - getHeight() * triggerThreshold;
-    int releaseThresholdY = getHeight() - getHeight() * releaseThreshold;
+    int triggerThresholdY = (int) (getHeight() - (getHeight() * triggerThreshold));
+    int releaseThresholdY = (int) (getHeight() - (getHeight() * releaseThreshold));
 
     g.drawRect(28, triggerThresholdY, getWidth() - 28, 1, 1);
     g.drawRect(28, releaseThresholdY, getWidth() - 28, 1, 1);
@@ -74,10 +74,10 @@ void OnsetVisualizer::updateOnsetPath()
 
     // Draw the onset signal
     // We want to start the drawing from the write index and wrap around
-    int start = writeIndex;
-    for (int i = 0; i < drawableSignal.size(); ++i)
+    size_t start = writeIndex;
+    for (size_t i = 0; i < drawableSignal.size(); ++i)
     {
-        float x = i * getWidth() / drawableSignal.size();
+        float x = i * (float) getWidth() / drawableSignal.size();
         float y = drawableSignal[start];
         start = (start + 1) % drawableSignal.size();
         y = getHeight() - y * getHeight();
@@ -97,7 +97,7 @@ void OnsetVisualizer::timerCallback()
     if (onsetFIFO.isBufferReady())
     {
         const std::vector<float>& onsetSignal = onsetFIFO.getReadBuffer();
-        const int rate = (int) drumProcessor.getSampleRate() / drawResoluationHz;
+        const int rate = (int) (drumProcessor.getSampleRate() / drawResoluationHz);
 
         // Push new samples onto the drawing buffer
         while (readIndex < onsetSignal.size())
@@ -109,7 +109,7 @@ void OnsetVisualizer::timerCallback()
                 std::max(std::min(onsetSignal[readIndex], maxValue), minValue);
             value = juce::jmap(value, minValue, maxValue, 0.0f, 1.0f);
             drawableSignal[writeIndex++] = value;
-            readIndex += rate;
+            readIndex += (size_t) rate;
         }
 
         jassert(readIndex >= onsetSignal.size());
@@ -118,8 +118,9 @@ void OnsetVisualizer::timerCallback()
         // Update the onset path
         onsetFIFO.markBufferRead();
 
-        // Update the timer interval to match the new rate
-        startTimerHz(drumProcessor.getSampleRate() / onsetSignal.size() + 1);
+        // Update the timer interval to match the new rate -- this is the rate that
+        // we expect the onset signal buffer to be filled, we'll run slightly faster
+        startTimerHz((int) (drumProcessor.getSampleRate() / onsetSignal.size()) + 1);
     }
 
     updateOnsetPath();
