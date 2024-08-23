@@ -85,9 +85,8 @@ std::vector<juce::Point<float>> FeatureCircle::getPoints()
 
 FeatureVisualizer::FeatureVisualizer(TorchDrumProcessor& p) : drumProcessor(p)
 {
-    featureCircle.setNumPoints(3);
+    featureCircle.setNumPoints(numFeatures);
     addAndMakeVisible(featureCircle);
-    addAndMakeVisible(ampLabel);
 
     // Add the action listener to the SynthController
     drumProcessor.getSynthController().getBroadcaster().addActionListener(this);
@@ -105,7 +104,16 @@ void FeatureVisualizer::resized()
     featureCircle.setBounds(featureVizCircleBounds);
     auto points = featureCircle.getPoints();
 
-    // Set the layout for the labels (hard-coded as three labels for now)
+    // Update points to be relative to parent
+    auto circleMiddle = featureCircle.getWidth() / 2;
+    for (auto i = 0; i < points.size(); ++i)
+    {
+        bool left = points[i].getX() < circleMiddle;
+        points[i].addXY(getX(), getY());
+        if (left)
+        {
+        }
+    }
 }
 
 void FeatureVisualizer::actionListenerCallback(const juce::String& message)

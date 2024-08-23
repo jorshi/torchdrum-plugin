@@ -49,11 +49,6 @@ const float dualKnobPadding =
     dualKnobComponentHeight - (dualKnobTextBoxHeight + dualKnobSize);
 const int dualKnobThinStrokeWidth = 1;
 
-const float visualizerComponentX = 218.688f;
-const float visualizerComponentY = 56.0911f;
-const float visualizerComponentWidth = 330.0f;
-const float visualizerComponentHeight = 326.7857f;
-
 // Adding 13px to the width to account for hover border
 const float onsetControlComponentX = 263.9249f;
 const float onsetControlComponentY = 416.0552f;
@@ -70,6 +65,9 @@ const juce::Rectangle<int> buttonContol1Bounds(0, 0, 114, 27);
 const juce::Rectangle<int> buttonContol2Bounds(0, 45, 114, 27);
 const juce::Rectangle<int> buttonContol3Bounds(0, 90, 114, 27);
 const juce::Rectangle<int> buttonContol4Bounds(0, 135, 114, 27);
+
+const juce::Rectangle<int> visualizerBounds(219, 56, 330, 328);
+//const juce::Rectangle<int> featureVizLabelA(53, 10, )
 
 const juce::Rectangle<int> featureVizCircleBounds(86, 12, 138, 138);
 const int featureVizTrianglePointsRadius = 3;
@@ -169,7 +167,6 @@ inline float getKnobRowPadding(float height)
     return (height / knobRowComponentHeight) * knobRowPadding;
 }
 
-juce::Rectangle<int> getVisualizerBounds(float pluginWidth);
 juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth);
 juce::Rectangle<int> getSynthControlComponentBounds(float pluginWidth);
 

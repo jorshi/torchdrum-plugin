@@ -42,7 +42,9 @@ private:
     TorchDrumProcessor& drumProcessor;
     FeatureCircle featureCircle;
 
-    juce::Label ampLabel;
+    const static int numFeatures = 3;
+    const std::string labelText[numFeatures] = { "Amplitude", "Brightness", "Noise" };
+    juce::Label featureLabels[numFeatures];
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FeatureVisualizer)

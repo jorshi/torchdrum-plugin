@@ -19,9 +19,10 @@ TorchDrumInterface::TorchDrumInterface(TorchDrumProcessor& p)
 
 void TorchDrumInterface::resized()
 {
+    jassert(getWidth() == 960); // The interface should always be a constant size
     buttonControlComponent.setBounds(buttonControlComponentBounds);
     globalControlComponent.setBounds(globalControlComponentBounds);
     onsetControlComponent.setBounds(getOnsetControlComponentBounds(getWidth()));
     synthControlComponent.setBounds(getSynthControlComponentBounds(getWidth()));
-    visualizerComponent.setBounds(getVisualizerBounds(getWidth()));
+    visualizerComponent.setBounds(visualizerBounds);
 }
