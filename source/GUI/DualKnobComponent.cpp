@@ -4,7 +4,7 @@
 DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
                                      juce::NormalisableRange<double> range,
                                      KnobType knobType)
-    : parameter(p), innerKnob(p, range)
+    : parameter(p), range(range), innerKnob(p, range)
 {
     if (knobType == KnobType::Dual)
     {
@@ -36,10 +36,8 @@ DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
     // Load custom font
     fontOptions = getPluginFont();
 
-    // Set value of modulated parameter -- this should be set by the synth
-    auto modValue =
-        range.convertTo0to1(parameter->convertFrom0to1(parameter->getValue()));
-    outerKnobLookAndFeel.setModulatedValue(modValue);
+    // Set default value of modulated parameter
+    this->setModulatedValue((float) parameter->getValue());
 
     // Add a deep listener that includes all children components
     this->addMouseListener(this, true);
@@ -193,4 +191,11 @@ void DualKnobComponent::mouseExit([[maybe_unused]] const juce::MouseEvent& event
         valueBox.setVisible(false);
         repaint();
     }
+}
+
+void DualKnobComponent::setModulatedValue(float newValue)
+{
+    auto modValue = range.convertTo0to1(parameter->convertFrom0to1(newValue));
+    outerKnobLookAndFeel.setModulatedValue((float) modValue);
+    outerKnob.repaint();
 }

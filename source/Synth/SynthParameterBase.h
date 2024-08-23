@@ -29,6 +29,7 @@ struct SynthParameterBase
 
         // Create a dummy callback for this parameter
         callbacks.push_back([](float) {});
+        guiCallbacks.push_back([](float) {});
 
         // Create a GUI range for this parameter
         guiRanges.push_back(juce::NormalisableRange<double>(
@@ -57,9 +58,13 @@ struct SynthParameterBase
         {
             auto* param = parameters[i];
             auto& callback = callbacks[i];
+            auto& guiCallback = guiCallbacks[i];
+
             float modAmount = (float) modulation[i] * sensitivity;
             float value = juce::jlimit(0.0f, 1.0f, param->getValue() + modAmount);
+
             callback(param->convertFrom0to1(value));
+            guiCallback(value);
         }
     }
 
@@ -67,6 +72,24 @@ struct SynthParameterBase
     {
         jassert(index < callbacks.size());
         callbacks[index] = callback;
+    }
+
+    void addGUICallback(size_t index, std::function<void(float)> callback)
+    {
+        jassert(index < guiCallbacks.size());
+        guiCallbacks[index] = callback;
+    }
+
+    void removeGUICallback(size_t index)
+    {
+        jassert(index < guiCallbacks.size());
+        guiCallbacks[index] = [](float) {};
+    }
+
+    void removeAllGUICallbacks()
+    {
+        for (auto i = 0; i < guiCallbacks.size(); ++i)
+            removeGUICallback(i);
     }
 
     // Free parameters -- this is here to support unit testing.
@@ -79,5 +102,6 @@ struct SynthParameterBase
 
     std::vector<juce::RangedAudioParameter*> parameters;
     std::vector<std::function<void(float)>> callbacks;
+    std::vector<std::function<void(float)>> guiCallbacks;
     std::vector<juce::NormalisableRange<double>> guiRanges;
 };
