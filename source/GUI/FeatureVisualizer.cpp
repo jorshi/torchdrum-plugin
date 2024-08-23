@@ -45,7 +45,7 @@ void FeatureCircle::setNumPoints(int numPoints)
 {
     // Calculate locations of feature points
     auto twoPi = juce::MathConstants<float>::twoPi;
-    float startAngle = twoPi / 4.0f;
+    float startAngle = 3.5 * twoPi / 16.0f;
     float shiftAngle = twoPi / numPoints;
 
     points.clear();
@@ -88,6 +88,18 @@ FeatureVisualizer::FeatureVisualizer(TorchDrumProcessor& p) : drumProcessor(p)
     featureCircle.setNumPoints(numFeatures);
     addAndMakeVisible(featureCircle);
 
+    for (auto i = 0; i < numFeatures; ++i)
+    {
+        featureLabels[i].setText(labelText[i],
+                                 juce::NotificationType::dontSendNotification);
+        featureLabels[i].setColour(juce::Label::textColourId, juce::Colours::black);
+        featureLabels[i].setMinimumHorizontalScale(1.0);
+        addAndMakeVisible(featureLabels[i]);
+    }
+
+    // Load custom font
+    fontOptions = getPluginFont();
+
     // Add the action listener to the SynthController
     drumProcessor.getSynthController().getBroadcaster().addActionListener(this);
 }
@@ -97,7 +109,14 @@ FeatureVisualizer::~FeatureVisualizer()
     drumProcessor.getSynthController().getBroadcaster().removeActionListener(this);
 }
 
-void FeatureVisualizer::paint(juce::Graphics& g) {}
+void FeatureVisualizer::paint(juce::Graphics& g)
+{
+    // g.setColour(juce::Colours::black);
+    // for (auto i = 0; i < numFeatures; ++i)
+    // {
+    //     g.drawRect(featureLabels[i].getBounds());
+    // }
+}
 
 void FeatureVisualizer::resized()
 {
@@ -105,14 +124,32 @@ void FeatureVisualizer::resized()
     auto points = featureCircle.getPoints();
 
     // Update points to be relative to parent
-    auto circleMiddle = featureCircle.getWidth() / 2;
+    auto circleMiddleX = featureCircle.getWidth() / 2;
+    auto circleMiddleY = featureCircle.getHeight() / 2;
+
+    // Load font
+    juce::Font font(fontOptions);
+    font = font.withHeight(16);
     for (auto i = 0; i < points.size(); ++i)
     {
-        bool left = points[i].getX() < circleMiddle;
-        points[i].addXY(getX(), getY());
-        if (left)
-        {
-        }
+        // Determine what quadrant of the circle the point lies in
+        // This will be used to position the label
+        bool left = points[i].getX() < circleMiddleX;
+        bool upper = points[i].getY() < circleMiddleY;
+
+        // Update the point X & Y coords to be relative to container
+        points[i].addXY(featureCircle.getX(), featureCircle.getY());
+
+        // Position label
+        auto labelX = left ? points[i].getX() - 65 : points[i].getX() + 5;
+        auto labelY = upper ? points[i].getY() - 16 : points[i].getY();
+        auto justification =
+            left ? juce::Justification::centredRight : juce::Justification::centredLeft;
+
+        featureLabels[i].setBounds(labelX, labelY, 60, 16);
+        featureLabels[i].setJustificationType(justification);
+        featureLabels[i].setBorderSize(juce::BorderSize<int>(0));
+        featureLabels[i].setFont(font);
     }
 }
 
@@ -121,9 +158,9 @@ void FeatureVisualizer::actionListenerCallback(const juce::String& message)
     if (message == "trigger")
     {
         auto& results = drumProcessor.getSynthController().getFeatures();
-        featureCircle.setMagnitude(0, results.rmsMean.getNormalized());
-        featureCircle.setMagnitude(1, results.spectralCentroidMean.getNormalized());
-        featureCircle.setMagnitude(2, results.spectralFlatnessMean.getNormalized());
+        featureCircle.setMagnitude(2, results.rmsMean.getNormalized());
+        featureCircle.setMagnitude(0, results.spectralCentroidMean.getNormalized());
+        featureCircle.setMagnitude(1, results.spectralFlatnessMean.getNormalized());
         featureCircle.repaint();
     }
 }

@@ -43,8 +43,9 @@ private:
     FeatureCircle featureCircle;
 
     const static int numFeatures = 3;
-    const std::string labelText[numFeatures] = { "Amplitude", "Brightness", "Noise" };
+    const std::string labelText[numFeatures] = { "Brightness", "Noise", "Amplitude" };
     juce::Label featureLabels[numFeatures];
+    juce::FontOptions fontOptions;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FeatureVisualizer)
