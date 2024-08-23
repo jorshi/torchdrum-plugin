@@ -59,6 +59,7 @@ const juce::Rectangle<int> onsetControlComponentBounds(276, 416, 214, 92);
 const juce::Rectangle<int> globalControlComponentBounds(46, 288, 82, 208);
 const juce::Rectangle<int> globalKnob1Bounds(0, 0, 82, 86);
 const juce::Rectangle<int> globalKnob2Bounds(0, 122, 82, 86);
+const float knobStrokeWidth = 1.5f;
 
 const juce::Rectangle<int> buttonControlComponentBounds(30, 56, 114, 162);
 const juce::Rectangle<int> buttonContol1Bounds(0, 0, 114, 27);
@@ -67,7 +68,6 @@ const juce::Rectangle<int> buttonContol3Bounds(0, 90, 114, 27);
 const juce::Rectangle<int> buttonContol4Bounds(0, 135, 114, 27);
 
 const juce::Rectangle<int> visualizerBounds(219, 56, 330, 328);
-//const juce::Rectangle<int> featureVizLabelA(53, 10, )
 
 const juce::Rectangle<int> featureVizCircleBounds(86, 12, 138, 138);
 const int featureVizTrianglePointsRadius = 3;
@@ -176,6 +176,8 @@ const juce::Rectangle<int> dualKnobInnerKnobBounds(19, 34, 44, 44);
 const juce::Rectangle<int> dualKnobTextBoxBounds(0, 0, 82, 20);
 const juce::Rectangle<int> dualKnobTextOutlineLeft(0, 1, 1, 18);
 const juce::Rectangle<int> dualKnobTextOutlineRight(81, 1, 1, 18);
+
+const float dualKnobOuterTickLength = 11.0f;
 
 // Dual knob single small layout relative to bounding box
 const juce::Rectangle<int> singleSmallKnobInnerKnobBounds(15, 46, 46, 46);

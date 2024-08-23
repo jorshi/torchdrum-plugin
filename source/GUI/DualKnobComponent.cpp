@@ -37,7 +37,9 @@ DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
     fontOptions = getPluginFont();
 
     // Set value of modulated parameter -- this should be set by the synth
-    outerKnobLookAndFeel.setModulatedValue(0.5f);
+    auto modValue =
+        range.convertTo0to1(parameter->convertFrom0to1(parameter->getValue()));
+    outerKnobLookAndFeel.setModulatedValue(modValue);
 
     // Add a deep listener that includes all children components
     this->addMouseListener(this, true);
