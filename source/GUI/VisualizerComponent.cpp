@@ -4,8 +4,10 @@
 VisualizerComponent::VisualizerComponent(TorchDrumProcessor& processor)
     : drumProcessor(processor), onsetVisualizer(processor)
 {
+    resetButton.setButtonText("Reset");
     addAndMakeVisible(onsetVisualizer);
     addAndMakeVisible(featureVisualizer);
+    addAndMakeVisible(resetButton);
 }
 
 void VisualizerComponent::paint(juce::Graphics& g)
@@ -26,6 +28,7 @@ void VisualizerComponent::resized()
         getLocalBounds().removeFromBottom(getLocalBounds().getHeight() / 2));
     featureVisualizer.setBounds(
         getLocalBounds().removeFromTop(getLocalBounds().getHeight() / 2));
+    resetButton.setBounds(resetButtonBounds);
 
     gradientBackground = juce::ColourGradient(vizualizerGradientColourA,
                                               getWidth() / 2.0f,

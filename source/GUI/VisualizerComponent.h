@@ -20,6 +20,7 @@ private:
     FeatureVisualizer featureVisualizer { drumProcessor };
     OnsetVisualizer onsetVisualizer;
 
+    juce::TextButton resetButton;
     juce::ColourGradient gradientBackground;
 
     //==============================================================================

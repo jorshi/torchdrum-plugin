@@ -68,8 +68,9 @@ const juce::Rectangle<int> buttonContol3Bounds(0, 90, 114, 27);
 const juce::Rectangle<int> buttonContol4Bounds(0, 135, 114, 27);
 
 const juce::Rectangle<int> visualizerBounds(219, 56, 330, 328);
-
 const juce::Rectangle<int> featureVizCircleBounds(86, 12, 138, 138);
+const juce::Rectangle<int> resetButtonBounds(216, 137, 114, 27);
+
 const int featureVizTrianglePointsRadius = 3;
 
 // Default text height for 16pt font
