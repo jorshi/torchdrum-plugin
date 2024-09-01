@@ -23,6 +23,7 @@ private:
     Parameters& parameters;
     juce::Path onsetPath;
     juce::FontOptions fontOptions;
+    juce::Font font;
 
     std::vector<float> drawableSignal;
     size_t writeIndex = 0;

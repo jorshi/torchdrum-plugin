@@ -9,6 +9,8 @@ OnsetVisualizer::OnsetVisualizer(TorchDrumProcessor& p)
     std::fill(drawableSignal.begin(), drawableSignal.end(), 0.0f);
 
     fontOptions = getPluginFont();
+    font = fontOptions;
+    font.setHeight(12.0f);
 
     readIndex = 0;
     writeIndex = 0;
@@ -31,8 +33,8 @@ void OnsetVisualizer::paint(juce::Graphics& g)
     g.setColour(borderColour);
     g.drawRect(0, 0, 28, getHeight(), 1);
 
-    juce::Font font = fontOptions;
-    font.setHeight(12.0f);
+    // TODO(js) this seems to be causing issues
+    // juce::Font font = fontOptions;
     g.setFont(font);
 
     for (int i = 1; i < 6; ++i)
