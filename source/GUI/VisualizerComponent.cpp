@@ -5,6 +5,11 @@ VisualizerComponent::VisualizerComponent(TorchDrumProcessor& processor)
     : drumProcessor(processor), onsetVisualizer(processor)
 {
     resetButton.setButtonText("Reset");
+
+    // Setup the reset normalizer button
+    resetButton.onClick = [this]
+    { drumProcessor.getSynthController().resetFeatureNormalizers(); };
+
     addAndMakeVisible(onsetVisualizer);
     addAndMakeVisible(featureVisualizer);
     addAndMakeVisible(resetButton);
