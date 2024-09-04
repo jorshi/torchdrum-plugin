@@ -14,34 +14,24 @@ Implementation of an 808 inspired snare drum synth
 Snare808::Snare808()
 {
     // Create all the parameter callbacks
-    parameters.addCallback(0, [this](float value)
-                           { osc1.setFrequencyHz(value); });
-    parameters.addCallback(1, [this](float value)
-                           { osc1.setModAmount(value); });
-    parameters.addCallback(2, [this](float value)
-                           { osc2.setFrequencyHz(value); });
-    parameters.addCallback(3, [this](float value)
-                           { osc2.setModAmount(value); });
-    parameters.addCallback(4, [this](float value)
-                           { freqEnv.setDecayMs(value); });
-    parameters.addCallback(5, [this](float value)
-                           { osc1Env.setDecayMs(value); });
-    parameters.addCallback(6, [this](float value)
-                           { osc2Env.setDecayMs(value); });
-    parameters.addCallback(7, [this](float value)
-                           { noiseEnv.setDecayMs(value); });
-    parameters.addCallback(8, [this](float value)
-                           { updateFilterFreq(value); });
-    parameters.addCallback(9, [this](float value)
-                           { updateFilterQ(value); });
-    parameters.addCallback(10, [this](float value)
-                           { osc1Gain.setGainDecibels(value); });
-    parameters.addCallback(11, [this](float value)
-                           { osc2Gain.setGainDecibels(value); });
-    parameters.addCallback(12, [this](float value)
-                           { noiseGain.setGainDecibels(value); });
-    parameters.addCallback(13, [this](float value)
-                           { waveshaper.setGainDecibels(value); });
+    parameters.addCallback(0, [this](float value) { osc1.setFrequencyHz(value); });
+    parameters.addCallback(1, [this](float value) { osc1.setModAmount(value); });
+    parameters.addCallback(2, [this](float value) { osc2.setFrequencyHz(value); });
+    parameters.addCallback(3, [this](float value) { osc2.setModAmount(value); });
+    parameters.addCallback(4, [this](float value) { freqEnv.setDecayMs(value); });
+    parameters.addCallback(5, [this](float value) { osc1Env.setDecayMs(value); });
+    parameters.addCallback(6, [this](float value) { osc2Env.setDecayMs(value); });
+    parameters.addCallback(7, [this](float value) { noiseEnv.setDecayMs(value); });
+    parameters.addCallback(8, [this](float value) { updateFilterFreq(value); });
+    parameters.addCallback(9, [this](float value) { updateFilterQ(value); });
+    parameters.addCallback(10,
+                           [this](float value) { osc1Gain.setGainDecibels(value); });
+    parameters.addCallback(11,
+                           [this](float value) { osc2Gain.setGainDecibels(value); });
+    parameters.addCallback(12,
+                           [this](float value) { noiseGain.setGainDecibels(value); });
+    parameters.addCallback(13,
+                           [this](float value) { waveshaper.setGainDecibels(value); });
 }
 
 // Prepare the synth for playback
@@ -109,13 +99,10 @@ void Snare808::trigger()
 // Update the filter frequency
 void Snare808::updateFilterFreq(float value)
 {
-    float nyquist = 0.5f * (float) sampleRate;
+    float nyquist = 0.5f * (float) sampleRate - 1000.0f;
     float freq = std::min(value, nyquist);
     noiseFilter.setFc(freq);
 }
 
 // Update the filter Q
-void Snare808::updateFilterQ(float value)
-{
-    noiseFilter.setQ(value);
-}
+void Snare808::updateFilterQ(float value) { noiseFilter.setQ(value); }

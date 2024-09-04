@@ -2,16 +2,15 @@
 
 #include <juce_audio_processors/juce_audio_processors.h>
 
-class Parameters
+struct Parameters
 {
-public:
     Parameters()
     {
-        parameters.push_back(onThreshold);
-        parameters.push_back(offThreshold);
-        parameters.push_back(waitSamples);
-        parameters.push_back(sensitivity);
-        parameters.push_back(drywet);
+        addParameter(onThreshold);
+        addParameter(offThreshold);
+        addParameter(waitSamples);
+        addParameter(sensitivity);
+        addParameter(drywet);
     }
 
     void add(juce::AudioProcessor& processor) const
@@ -21,6 +20,17 @@ public:
         processor.addParameter(waitSamples);
         processor.addParameter(sensitivity);
         processor.addParameter(drywet);
+    }
+
+    void addParameter(juce::RangedAudioParameter* param)
+    {
+        parameters.push_back(param);
+        guiRanges.push_back(juce::NormalisableRange<double>(
+            param->getNormalisableRange().start,
+            param->getNormalisableRange().end,
+            param->getNormalisableRange().interval,
+            param->getNormalisableRange().skew,
+            param->getNormalisableRange().symmetricSkew));
     }
 
     // Free parameters -- this is here to support unit testing.
@@ -35,31 +45,27 @@ public:
     // They will be owned by the AudioProcessor in the application.
     juce::AudioParameterFloat* onThreshold =
         new juce::AudioParameterFloat({ "onThreshold", 1 },
-                                      "On Threshold",
+                                      "Trigger Threshold",
                                       0.5f,
-                                      32.f,
+                                      60.f,
                                       16.0f);
     juce::AudioParameterFloat* offThreshold =
         new juce::AudioParameterFloat({ "offThreshold", 1 },
-                                      "Off Threshold",
+                                      "Retrigger Threshold",
                                       0.0f,
-                                      32.f,
+                                      50.f,
                                       4.66f);
     juce::AudioParameterInt* waitSamples =
-        new juce::AudioParameterInt({ "waitSamples", 1 },
-                                    "Wait Samples",
-                                    0,
-                                    5000,
-                                    1000);
+        new juce::AudioParameterInt({ "waitSamples", 1 }, "Hold Time", 0, 5000, 1000);
     juce::AudioParameterFloat* sensitivity =
         new juce::AudioParameterFloat({ "sensitivity", 1 },
-                                      "Mapping Sensitivity",
+                                      "Neurality",
                                       0.f,
                                       4.f,
                                       1.0f);
     juce::AudioParameterFloat* drywet =
         new juce::AudioParameterFloat({ "drywet", 1 }, "Dry/Wet", 0.0f, 1.0f, 1.0f);
 
-private:
     std::vector<juce::RangedAudioParameter*> parameters;
+    std::vector<juce::NormalisableRange<double>> guiRanges;
 };

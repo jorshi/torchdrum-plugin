@@ -10,6 +10,7 @@
 
 #include "Biquad.h"
 #include "EnvelopeFollower.h"
+#include "WaveformFIFO.h"
 
 class OnsetDetection
 {
@@ -23,6 +24,9 @@ public:
 
     // Parameter Updates
     void updateParameters(float onThresh, float offThresh, int wait);
+
+    // Set the waveform FIFO buffer
+    void setWaveformFIFO(WaveformFIFO* wf) { waveformFIFO = wf; }
 
     // Destructor
     ~OnsetDetection() {}
@@ -42,4 +46,6 @@ private:
     float offThreshold;
     int waitSamples;
     float minAmplitude;
+
+    WaveformFIFO* waveformFIFO;
 };

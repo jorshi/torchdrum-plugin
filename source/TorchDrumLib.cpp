@@ -10,3 +10,4 @@
 #include "Synth/Modules/Tonal.cpp"
 #include "SynthController.cpp"
 #include "Utils/NeuralNetworkMock.cpp"
+#include "WaveformFIFO.cpp"

@@ -1,40 +1,37 @@
 #include "PluginEditor.h"
+#include "GUI/TorchDrumStyle.h"
 #include "PluginProcessor.h"
 
 TorchDrumEditor::TorchDrumEditor(TorchDrumProcessor& p)
-    : AudioProcessorEditor(&p), drumProcessor(p)
+    : AudioProcessorEditor(&p), drumProcessor(p), pluginInterface(p)
 {
-    fileChooser = std::make_unique<juce::FileChooser>(
-        "File Browser",
-        getPresetFolder(),
-        "*.pt");
-
-    addAndMakeVisible(editor);
-    addAndMakeVisible(loadModelButton);
-    addAndMakeVisible(resetNormButton);
-
-    // Setup the load model button
-    int flags = juce::FileBrowserComponent::openMode;
-    flags |= juce::FileBrowserComponent::canSelectFiles;
-    loadModelButton.onClick = [this, flags]
-    {
-        fileChooser->launchAsync(flags,
-                                 [this](const juce::FileChooser& chooser)
-                                 {
-                                     chooserCallback(chooser);
-                                 });
-    };
-
-    // Setup the reset normalizer button
-    resetNormButton.onClick = [this]
-    {
-        drumProcessor.getSynthController().resetFeatureNormalizers();
-    };
+    fileChooser =
+        std::make_unique<juce::FileChooser>("File Browser", getPresetFolder(), "*.pt");
 
     // Add the action listener to the SynthController
     drumProcessor.getSynthController().getBroadcaster().addActionListener(this);
 
-    setSize(400, 600);
+    // Plugin window size and resizable settings
+    setSize((int) fullPluginWidth, (int) fullPluginHeight);
+    setResizable(true, true);
+    setResizeLimits((int) fullPluginWidth,
+                    (int) fullPluginHeight,
+                    (int) (fullPluginWidth * 2.0f),
+                    (int) (fullPluginHeight * 2.0f));
+
+    // Set the constrainer aspect ratio
+    auto* constrainer = getConstrainer();
+    constrainer->setFixedAspectRatio(fullPluginWidth / fullPluginHeight);
+
+    // Load the background image
+    backgroundImage = juce::ImageCache::getFromMemory(BinaryData::background2x_png,
+                                                      BinaryData::background2x_pngSize);
+
+    backgroundOverlay = juce::ImageCache::getFromMemory(
+        BinaryData::backgroundOverlay2x_png, BinaryData::backgroundOverlay2x_pngSize);
+
+    pluginInterface.setBounds(0, 0, (int) fullPluginWidth, (int) fullPluginHeight);
+    addAndMakeVisible(pluginInterface);
 }
 
 TorchDrumEditor::~TorchDrumEditor()
@@ -51,40 +48,23 @@ void TorchDrumEditor::chooserCallback(const juce::FileChooser& chooser)
 
 void TorchDrumEditor::paint(juce::Graphics& g)
 {
-    g.fillAll(
-        getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-
-    auto& results = drumProcessor.getSynthController().getFeatures();
-    float rms = results.rmsMean.getNormalized();
-    float sc = results.spectralCentroidMean.getNormalized();
-    float sf = results.spectralFlatnessMean.getNormalized();
-    juce::String rmsString = juce::String(rms, 2);
-    juce::String scString = juce::String(sc, 2);
-    juce::String sfString = juce::String(sf, 2);
-
-    g.setFont(15.0f);
-    g.setColour(juce::Colours::white);
-
-    int width = getWidth();
-    g.drawText("RMS: " + rmsString, 25, 70, width, 50, juce::Justification::left, true);
-    g.drawText("Spectral Centroid: " + scString, 25, 100, width, 50, juce::Justification::left, true);
-    g.drawText("Spectral Flatness: " + sfString, 25, 130, width, 50, juce::Justification::left, true);
+    auto backgroundImageScaled = backgroundImage.rescaled(getWidth(), getHeight());
+    auto backgroundOverlayScaled = backgroundOverlay.rescaled(getWidth(), getHeight());
+    g.drawImageAt(backgroundImageScaled, 0, 0);
+    g.drawImageAt(backgroundOverlayScaled, 0, 0);
 }
 
 void TorchDrumEditor::resized()
 {
-    auto area = getLocalBounds();
-    area = area.withTrimmedTop(180);
-    editor.setBounds(area);
-
-    loadModelButton.setBounds(25, 20, 100, 50);
-    resetNormButton.setBounds(150, 20, 150, 50);
+    float scale = getWidth() / fullPluginWidth;
+    pluginInterface.setTransform(juce::AffineTransform::scale(scale));
 }
 
 juce::File TorchDrumEditor::getPresetFolder()
 {
     auto appDir = juce::File::commonApplicationDataDirectory;
-    juce::String presetFolder = juce::File::getSpecialLocation(appDir).getFullPathName();
+    juce::String presetFolder =
+        juce::File::getSpecialLocation(appDir).getFullPathName();
 
     presetFolder += juce::File::getSeparatorString() + SupportFolder;
     presetFolder += juce::File::getSeparatorString() + AppFolder;

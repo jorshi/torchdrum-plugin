@@ -1,12 +1,5 @@
 #pragma once
 
-#include "BinaryData.h"
-#include "GUI/ButtonControlComponent.h"
-#include "GUI/GlobalControlComponent.h"
-#include "GUI/OnsetControlComponent.h"
-#include "GUI/SynthControlComponent.h"
-#include "GUI/TorchDrumInterface.h"
-#include "GUI/VisualizerComponent.h"
 #include "PluginProcessor.h"
 
 class TorchDrumEditor : public juce::AudioProcessorEditor, juce::ActionListener
@@ -36,12 +29,8 @@ private:
     juce::File getPresetFolder();
 
     TorchDrumProcessor& drumProcessor;
+    juce::GenericAudioProcessorEditor editor { drumProcessor };
+    juce::TextButton loadModelButton { "Load Model" };
+    juce::TextButton resetNormButton { "Reset Normalizer" };
     std::unique_ptr<juce::FileChooser> fileChooser;
-
-    // Background image
-    juce::Image backgroundImage;
-    juce::Image backgroundOverlay;
-
-    // Main plugin interface
-    TorchDrumInterface pluginInterface;
 };
