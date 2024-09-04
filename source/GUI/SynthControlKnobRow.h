@@ -17,6 +17,8 @@ public:
                       juce::NormalisableRange<double> range,
                       int index);
 
+    std::vector<std::unique_ptr<DualKnobComponent>>& getKnobs() { return knobs; }
+
 private:
     int numKnobs = 0;
 

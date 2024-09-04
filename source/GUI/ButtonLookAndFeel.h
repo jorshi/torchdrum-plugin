@@ -18,7 +18,12 @@ public:
                         bool isMouseOverButton,
                         bool isButtonDown) override;
 
+    void setUseBackgroundImage(bool newValue) { useBackgroundImage = newValue; }
+    void setUseBorder(bool newValue) { useBorder = newValue; }
+
 private:
     juce::Image backgroundImage;
     juce::FontOptions fontOptions;
+    bool useBackgroundImage = true;
+    bool useBorder = true;
 };

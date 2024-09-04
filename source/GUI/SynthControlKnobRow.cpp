@@ -67,10 +67,8 @@ void SynthControlKnobRow::addParameter(juce::RangedAudioParameter* parameter,
                                        juce::NormalisableRange<double> range,
                                        int index)
 {
-    if (index < numKnobs)
-    {
-        knobs[(size_t) index] = std::make_unique<DualKnobComponent>(parameter, range);
-        addAndMakeVisible(knobs[(size_t) index].get());
-        resized();
-    }
+    jassert(index < numKnobs); // Must setNumKnobs first
+    knobs[(size_t) index] = std::make_unique<DualKnobComponent>(parameter, range);
+    addAndMakeVisible(knobs[(size_t) index].get());
+    resized();
 }

@@ -33,12 +33,18 @@ public:
                           float rotaryStartAngle,
                           float rotaryEndAngle,
                           juce::Slider& slider) override;
+
     void drawFineTuneKnob(juce::Graphics& g,
                           juce::Rectangle<float>& bounds,
                           float sliderPos,
                           float rotaryStartAngle,
                           float rotaryEndAngle,
                           juce::Slider& slider);
+
+    void drawModulation(juce::Graphics& g,
+                        juce::Rectangle<float>& bounds,
+                        float rotaryStartAngle,
+                        float rotaryEndAngle);
 
     void setOffset(float newValue) { offset = newValue; }
     void setModulatedValue(float newValue) { modulatedValue = newValue; }

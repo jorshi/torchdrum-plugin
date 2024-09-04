@@ -25,9 +25,9 @@ ButtonControlComponent::ButtonControlComponent(TorchDrumProcessor& processor)
     };
 
     addAndMakeVisible(loadButton);
-    addAndMakeVisible(saveButton);
-    addAndMakeVisible(fineTuneButton);
-    addAndMakeVisible(aboutButton);
+    // addAndMakeVisible(saveButton);
+    // addAndMakeVisible(fineTuneButton);
+    // addAndMakeVisible(aboutButton);
 }
 
 void ButtonControlComponent::resized()
