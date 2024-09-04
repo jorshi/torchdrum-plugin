@@ -88,7 +88,7 @@ struct SynthParameterBase
 
     void removeAllGUICallbacks()
     {
-        for (auto i = 0; i < guiCallbacks.size(); ++i)
+        for (size_t i = 0; i < guiCallbacks.size(); ++i)
             removeGUICallback(i);
     }
 

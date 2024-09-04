@@ -7,7 +7,7 @@ class SynthControlComponent : public juce::Component, juce::ActionListener
 {
 public:
     SynthControlComponent(TorchDrumProcessor& processor);
-    ~SynthControlComponent();
+    ~SynthControlComponent() override;
 
     void paint([[maybe_unused]] juce::Graphics& g) override {}
     void resized() override;

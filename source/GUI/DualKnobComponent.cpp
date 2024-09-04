@@ -2,9 +2,9 @@
 
 //==============================================================================
 DualKnobComponent::DualKnobComponent(juce::RangedAudioParameter* p,
-                                     juce::NormalisableRange<double> range,
+                                     juce::NormalisableRange<double> r,
                                      KnobType knobType)
-    : parameter(p), range(range), innerKnob(p, range)
+    : parameter(p), range(r), innerKnob(p, r)
 {
     if (knobType == KnobType::Dual)
     {

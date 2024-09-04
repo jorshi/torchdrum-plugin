@@ -31,7 +31,8 @@ void SynthControlComponent::resized()
     int rowHeight = (int) getKnobRowComponentHeight(getWidth());
     int padding = (int) getKnobRowPadding(rowHeight);
     for (size_t i = 0; i < knobRows.size(); ++i)
-        knobRows[i]->setBounds(0, (rowHeight + padding) * i, getWidth(), rowHeight);
+        knobRows[i]->setBounds(
+            0, (rowHeight + padding) * (int) i, getWidth(), rowHeight);
 }
 
 void SynthControlComponent::actionListenerCallback(const juce::String& message)
@@ -53,7 +54,7 @@ void SynthControlComponent::connectParameters(
     for (size_t i = 0; i < connections.size(); ++i)
     {
         knobRows.emplace_back(std::make_unique<SynthControlKnobRow>());
-        knobRows[i]->setNumKnobs(connections[i].size());
+        knobRows[i]->setNumKnobs((int) connections[i].size());
         knobRows[i]->setLabelText(labels[i]);
         addAndMakeVisible(*knobRows[i]);
 
@@ -62,11 +63,12 @@ void SynthControlComponent::connectParameters(
             if (connections[i][j] < 0)
                 continue;
 
-            knobRows[i]->addParameter(synthParameters.parameters[connections[i][j]],
-                                      synthParameters.guiRanges[connections[i][j]],
-                                      j);
+            knobRows[i]->addParameter(
+                synthParameters.parameters[(size_t) connections[i][j]],
+                synthParameters.guiRanges[(size_t) connections[i][j]],
+                (int) j);
             synthParameters.addGUICallback(
-                connections[i][j],
+                (size_t) connections[i][j],
                 [i, j, this](float value)
                 { knobRows[i]->getKnobs()[j]->setModulatedValue(value); });
         }
