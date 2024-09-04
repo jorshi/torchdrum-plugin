@@ -10,6 +10,9 @@ TorchDrumInterface::TorchDrumInterface(TorchDrumProcessor& p)
       visualizerComponent(p)
 {
     buttonControlComponent.setLookAndFeel(&buttonLookAndFeel);
+    resetButtonLookAndFeel.setUseBackgroundImage(false);
+    resetButtonLookAndFeel.setUseBorder(false);
+    visualizerComponent.setLookAndFeel(&resetButtonLookAndFeel);
     addAndMakeVisible(buttonControlComponent);
     addAndMakeVisible(globalControlComponent);
     addAndMakeVisible(onsetControlComponent);
@@ -19,9 +22,10 @@ TorchDrumInterface::TorchDrumInterface(TorchDrumProcessor& p)
 
 void TorchDrumInterface::resized()
 {
+    jassert(getWidth() == 960); // The interface should always be a constant size
     buttonControlComponent.setBounds(buttonControlComponentBounds);
     globalControlComponent.setBounds(globalControlComponentBounds);
     onsetControlComponent.setBounds(getOnsetControlComponentBounds(getWidth()));
     synthControlComponent.setBounds(getSynthControlComponentBounds(getWidth()));
-    visualizerComponent.setBounds(getVisualizerBounds(getWidth()));
+    visualizerComponent.setBounds(visualizerBounds);
 }

@@ -27,6 +27,7 @@ private:
 
     // Look and feel for the buttons
     ButtonLookAndFeel buttonLookAndFeel;
+    ButtonLookAndFeel resetButtonLookAndFeel;
 
     // GUI Components
     ButtonControlComponent buttonControlComponent;

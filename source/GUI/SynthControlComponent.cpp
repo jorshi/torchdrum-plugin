@@ -4,62 +4,73 @@
 SynthControlComponent::SynthControlComponent(TorchDrumProcessor& processor)
     : drumProcessor(processor)
 {
-    knobRow1.setNumKnobs(4);
-    knobRow1.setLabelText("Oscillator 1");
-    addAndMakeVisible(knobRow1);
+    std::vector<std::vector<int>> knobRowConnections = {
+        { 0, 1, 5, 10 }, { 2, 3, 6, 11 }, { 8, 9, 7, 12 }, { -1, 4, 13, -1 }
+    };
 
-    knobRow2.setNumKnobs(4);
-    knobRow2.setLabelText("Oscillator 2");
-    addAndMakeVisible(knobRow2);
+    std::vector<std::string> labels = {
+        "Oscillator 1", "Oscillator 2", "Filtered Noise", "Global Controls"
+    };
 
-    knobRow3.setNumKnobs(4);
-    knobRow3.setLabelText("Filtered Noise");
-    addAndMakeVisible(knobRow3);
+    connectParameters(knobRowConnections, labels);
 
-    knobRow4.setNumKnobs(4);
-    knobRow4.setLabelText("Global Controls");
-    addAndMakeVisible(knobRow4);
+    // Add action listener
+    // TODO: Probably don't need this any more
+    drumProcessor.getSynthController().getBroadcaster().addActionListener(this);
+}
 
-    auto& synthParameters = processor.getSynthParameters();
-    knobRow1.addParameter(
-        synthParameters.parameters[0], synthParameters.guiRanges[0], 0);
-    knobRow1.addParameter(
-        synthParameters.parameters[1], synthParameters.guiRanges[1], 1);
-    knobRow1.addParameter(
-        synthParameters.parameters[5], synthParameters.guiRanges[5], 2);
-    knobRow1.addParameter(
-        synthParameters.parameters[10], synthParameters.guiRanges[10], 3);
-
-    knobRow2.addParameter(
-        synthParameters.parameters[2], synthParameters.guiRanges[2], 0);
-    knobRow2.addParameter(
-        synthParameters.parameters[3], synthParameters.guiRanges[3], 1);
-    knobRow2.addParameter(
-        synthParameters.parameters[6], synthParameters.guiRanges[6], 2);
-    knobRow2.addParameter(
-        synthParameters.parameters[11], synthParameters.guiRanges[11], 3);
-
-    knobRow3.addParameter(
-        synthParameters.parameters[8], synthParameters.guiRanges[8], 0);
-    knobRow3.addParameter(
-        synthParameters.parameters[9], synthParameters.guiRanges[9], 1);
-    knobRow3.addParameter(
-        synthParameters.parameters[7], synthParameters.guiRanges[7], 2);
-    knobRow3.addParameter(
-        synthParameters.parameters[12], synthParameters.guiRanges[12], 3);
-
-    knobRow4.addParameter(
-        synthParameters.parameters[4], synthParameters.guiRanges[4], 1);
-    knobRow4.addParameter(
-        synthParameters.parameters[13], synthParameters.guiRanges[13], 2);
+SynthControlComponent::~SynthControlComponent()
+{
+    drumProcessor.getSynthController().getBroadcaster().removeActionListener(this);
+    auto& synthParameters = drumProcessor.getSynthParameters();
+    synthParameters.removeAllGUICallbacks();
 }
 
 void SynthControlComponent::resized()
 {
     int rowHeight = (int) getKnobRowComponentHeight(getWidth());
     int padding = (int) getKnobRowPadding(rowHeight);
-    knobRow1.setBounds(0, 0, getWidth(), rowHeight);
-    knobRow2.setBounds(0, rowHeight + padding, getWidth(), rowHeight);
-    knobRow3.setBounds(0, (rowHeight + padding) * 2, getWidth(), rowHeight);
-    knobRow4.setBounds(0, (rowHeight + padding) * 3, getWidth(), rowHeight);
+    for (size_t i = 0; i < knobRows.size(); ++i)
+        knobRows[i]->setBounds(
+            0, (rowHeight + padding) * (int) i, getWidth(), rowHeight);
+}
+
+void SynthControlComponent::actionListenerCallback(const juce::String& message)
+{
+    if (message == "trigger")
+    {
+        repaint();
+    }
+}
+
+void SynthControlComponent::connectParameters(
+    std::vector<std::vector<int>>& connections,
+    std::vector<std::string>& labels)
+{
+    jassert(connections.size() == labels.size()); // Rows and labels must match!
+
+    auto& synthParameters = drumProcessor.getSynthParameters();
+    knobRows.clear();
+    for (size_t i = 0; i < connections.size(); ++i)
+    {
+        knobRows.emplace_back(std::make_unique<SynthControlKnobRow>());
+        knobRows[i]->setNumKnobs((int) connections[i].size());
+        knobRows[i]->setLabelText(labels[i]);
+        addAndMakeVisible(*knobRows[i]);
+
+        for (size_t j = 0; j < connections[i].size(); ++j)
+        {
+            if (connections[i][j] < 0)
+                continue;
+
+            knobRows[i]->addParameter(
+                synthParameters.parameters[(size_t) connections[i][j]],
+                synthParameters.guiRanges[(size_t) connections[i][j]],
+                (int) j);
+            synthParameters.addGUICallback(
+                (size_t) connections[i][j],
+                [i, j, this](float value)
+                { knobRows[i]->getKnobs()[j]->setModulatedValue(value); });
+        }
+    }
 }

@@ -21,9 +21,12 @@ void ButtonLookAndFeel::drawButtonBackground(
     auto buttonArea = button.getLocalBounds();
 
     // Draw background image
-    auto backgroundImageScaled =
-        backgroundImage.rescaled(buttonArea.getWidth(), buttonArea.getHeight());
-    g.drawImageAt(backgroundImageScaled, buttonArea.getX(), buttonArea.getY());
+    if (useBackgroundImage)
+    {
+        auto backgroundImageScaled =
+            backgroundImage.rescaled(buttonArea.getWidth(), buttonArea.getHeight());
+        g.drawImageAt(backgroundImageScaled, buttonArea.getX(), buttonArea.getY());
+    }
 
     juce::Point<float> top(buttonArea.getX(), buttonArea.getY());
     juce::Point<float> bottom(buttonArea.getX(),
@@ -52,9 +55,12 @@ void ButtonLookAndFeel::drawButtonBackground(
     g.fillRect(buttonArea);
 
     // Draw the border -- two rectangles on either side
-    g.setColour(borderColourTransparent);
-    g.fillRect(buttonArea.removeFromLeft(2));
-    g.fillRect(buttonArea.removeFromRight(2));
+    if (useBorder)
+    {
+        g.setColour(borderColourTransparent);
+        g.fillRect(buttonArea.removeFromLeft(2));
+        g.fillRect(buttonArea.removeFromRight(2));
+    }
 }
 
 void ButtonLookAndFeel::drawButtonText(juce::Graphics& g,

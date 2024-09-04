@@ -1,7 +1,7 @@
 #include "OnsetDetection.h"
 #include <cmath>
 
-OnsetDetection::OnsetDetection() : sampleRate(44100.0)
+OnsetDetection::OnsetDetection() : sampleRate(44100.0), waveformFIFO(nullptr)
 {
     // Default internal state
     justTriggered = false;
@@ -43,7 +43,11 @@ void OnsetDetection::prepare(double sr)
 bool OnsetDetection::process(float x)
 {
     float diff = onsetSignal(x);
-    if (diff >= onThreshold && ! justTriggered && prevValue < onThreshold && debounce == 0)
+    if (waveformFIFO != nullptr)
+        waveformFIFO->addSample(diff);
+
+    if (diff >= onThreshold && ! justTriggered && prevValue < onThreshold
+        && debounce == 0)
     {
         justTriggered = true;
         debounce = waitSamples;

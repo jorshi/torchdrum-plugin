@@ -21,15 +21,6 @@ const juce::FontOptions getRegularPluginFont()
     return juce::FontOptions(typeface);
 }
 
-juce::Rectangle<int> getVisualizerBounds(float pluginWidth)
-{
-    auto widthRatio = getPluginWidthRatio(pluginWidth);
-    return juce::Rectangle<int>((int) (widthRatio * visualizerComponentX),
-                                (int) (widthRatio * visualizerComponentY),
-                                (int) (widthRatio * visualizerComponentWidth),
-                                (int) (widthRatio * visualizerComponentHeight));
-}
-
 juce::Rectangle<int> getOnsetControlComponentBounds(float pluginWidth)
 {
     auto widthRatio = getPluginWidthRatio(pluginWidth);

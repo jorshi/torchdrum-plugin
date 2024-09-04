@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "Minimum OS X deployment target")
 set(CMAKE_CXX_STANDARD 17)
-project(TorchDrum VERSION 0.0.5)
+project(TorchDrum VERSION 0.0.6)
 
 # Adding submodules
 add_subdirectory(modules)

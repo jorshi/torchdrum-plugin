@@ -13,6 +13,7 @@
 #include "OnsetDetection.h"
 #include "Parameters.h"
 #include "Synth/SynthBase.h"
+#include "WaveformFIFO.h"
 #include <juce_audio_utils/juce_audio_utils.h>
 
 // Buffer size for the circular audio buffer
@@ -55,6 +56,9 @@ public:
     // Get the onset detection object
     OnsetDetection& getOnsetDetection() { return onsetDetection; }
 
+    // Get the waveform fifo object
+    WaveformFIFO& getWaveformFIFO() { return onsetFIFO; }
+
     std::string& getModelPath() { return modelPath; }
 
 private:
@@ -66,6 +70,7 @@ private:
     SynthBase& synth;
     Parameters& parameters;
 
+    WaveformFIFO onsetFIFO;
     OnsetDetection onsetDetection;
     bool isOnset = false;
     int elapsedSamples = 0;
