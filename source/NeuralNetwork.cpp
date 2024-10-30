@@ -17,7 +17,8 @@ bool NeuralNetwork::loadModel(const std::string& path)
     return modelLoaded;
 }
 
-void NeuralNetwork::process(const std::vector<double>& input, std::vector<double>& output)
+void NeuralNetwork::process(const std::vector<double>& input,
+                            std::vector<double>& output)
 {
     const juce::ScopedTryReadLock readLock(modelLock);
     if (! modelLoaded || ! readLock.isLocked())
@@ -29,7 +30,7 @@ void NeuralNetwork::process(const std::vector<double>& input, std::vector<double
 
     // Run prediction with model
     auto& inputTensor = inputs[0].toTensor();
-    for (size_t i = 0; i < input.size(); ++i)
+    for (int64_t i = 0; i < static_cast<int64_t>(input.size()); ++i)
     {
         inputTensor[0][(int64_t) i] = input[i];
     }
@@ -38,7 +39,7 @@ void NeuralNetwork::process(const std::vector<double>& input, std::vector<double
     jassert(outputTensor.sizes().size() == 2);
     jassert(outputTensor.sizes()[1] == (int64_t) output.size());
 
-    for (size_t i = 0; i < output.size(); ++i)
+    for (int i = 0; i < static_cast<int>(output.size()); ++i)
     {
         output[i] = outputTensor[0][(int64_t) i].item<double>();
     }
@@ -54,7 +55,7 @@ void NeuralNetwork::getCurrentPatch(std::vector<juce::RangedAudioParameter*> par
     }
 
     jassert(currentPatch.size() == parameters.size());
-    for (size_t i = 0; i < parameters.size(); ++i)
+    for (size_t i = 0; i < static_cast<int>(parameters.size()); ++i)
     {
         parameters[i]->setValueNotifyingHost((float) currentPatch[i]);
     }
@@ -95,10 +96,10 @@ void NeuralNetwork::_testModel()
 
         // Update the current patch from network output
         currentPatch.clear();
-        currentPatch.resize((size_t) outputFeatures);
-        for (size_t i = 0; i < (size_t) outputFeatures; ++i)
+        currentPatch.resize(outputFeatures);
+        for (size_t i = 0; i < static_cast<size_t>(outputFeatures); ++i)
         {
-            currentPatch[i] = output[1][(int64_t) i].item<double>();
+            currentPatch[i] = static_cast<float>(output[1][i].item<double>());
         }
     }
     catch (const c10::Error& e)
@@ -110,7 +111,8 @@ void NeuralNetwork::_testModel()
     }
     catch (const std::runtime_error& e)
     {
-        juce::Logger::outputDebugString("Unexpected output size from model" + std::string(e.what()));
+        juce::Logger::outputDebugString("Unexpected output size from model"
+                                        + std::string(e.what()));
 
         // Reset the model
         modelLoaded = false;

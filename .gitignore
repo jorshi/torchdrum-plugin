@@ -50,11 +50,16 @@ notebooks/
 # libtorch module
 modules/libtorch/
 
+
+# venv
+venv/*
+
 # OS X
 .DS_Store
 
 # Files related to release packaging
 Presets/
+Old_Presets/
 remove_library_presets.sh
 SignedPlugins/
 

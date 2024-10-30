@@ -17,8 +17,8 @@
             "osx": {
                 "MIMode": "lldb"
             },
-            "preLaunchTask": "build-debug"
-        },        
+            "preLaunchTask": "build-debug-standalone"
+        },
         {
             "name": "AbletonDebug",
             "type": "cppdbg",
