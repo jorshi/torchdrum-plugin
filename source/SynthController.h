@@ -13,6 +13,7 @@
 #include "OnsetDetection.h"
 #include "Parameters.h"
 #include "Synth/SynthBase.h"
+#include "WaveformFIFO.h"
 #include <juce_audio_utils/juce_audio_utils.h>
 
 // Buffer size for the circular audio buffer
@@ -33,7 +34,7 @@ public:
     void process(float x);
 
     // Update the neural network model
-    void updateModel(const std::string& path);
+    void updateModel(const std::string& path, bool updateParameters = true);
 
     // Getters for audio buffers
     const juce::AudioBuffer<float>& getBuffer() const { return buffer; }
@@ -52,6 +53,14 @@ public:
     // Get the action broadcaster
     juce::ActionBroadcaster& getBroadcaster() { return broadcaster; }
 
+    // Get the onset detection object
+    OnsetDetection& getOnsetDetection() { return onsetDetection; }
+
+    // Get the waveform fifo object
+    WaveformFIFO& getWaveformFIFO() { return onsetFIFO; }
+
+    std::string& getModelPath() { return modelPath; }
+
 private:
     // Add a sample to the circular audio buffer
     void addSampleToBuffer(float x);
@@ -61,6 +70,7 @@ private:
     SynthBase& synth;
     Parameters& parameters;
 
+    WaveformFIFO onsetFIFO;
     OnsetDetection onsetDetection;
     bool isOnset = false;
     int elapsedSamples = 0;
@@ -77,6 +87,7 @@ private:
     NeuralNetwork neuralMapper;
     std::vector<double> neuralInput;
     std::vector<double> neuralOutput;
+    std::string modelPath;
     juce::Random random;
 
     // ActionBroadcaster for sending messages to the GUI

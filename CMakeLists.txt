@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment target")
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "Minimum OS X deployment target")
 set(CMAKE_CXX_STANDARD 17)
-project(TorchDrum VERSION 0.0.4)
+project(TorchDrum VERSION 0.0.6)
 
 # Adding submodules
 add_subdirectory(modules)
@@ -45,6 +45,9 @@ juce_add_plugin("${BaseTargetName}"
 # Adding source code
 add_subdirectory(source)
 
+# Adding binary data
+add_subdirectory(assets)
+
 target_compile_definitions(${BaseTargetName}
     PUBLIC
         JUCE_WEB_BROWSER=0
@@ -53,6 +56,7 @@ target_compile_definitions(${BaseTargetName}
         DONT_SET_USING_JUCE_NAMESPACE=1)
 
 target_link_libraries(${BaseTargetName} PRIVATE
+        torchdrum_binary_data
         shared_plugin_helpers
         juce_dsp
         juce_recommended_config_flags

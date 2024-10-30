@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "TorchDrum",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/TorchDrum_artefacts/Debug/Standalone/TorchDrum.app/Contents/MacOS/TorchDrum",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "osx": {
+                "MIMode": "lldb"
+            },
+            "preLaunchTask": "build-debug-standalone"
+        },
+        {
+            "name": "AbletonDebug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/Applications/Ableton Live 11 Suite.app/Contents/MacOS/Live",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "/Users/jordanm/Library/Audio/Plug-Ins/VST3/TorchDrum.vst3",
+            "environment": [],
+            "externalConsole": false,
+            "osx": {
+                "MIMode": "lldb"
+            },
+            "preLaunchTask": "build-debug"
+        }
+    ]
+}

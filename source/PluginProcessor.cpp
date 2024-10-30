@@ -1,10 +1,11 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-TorchDrumProcessor::TorchDrumProcessor() : synthController(drumSynth, parameters)
+TorchDrumProcessor::TorchDrumProcessor() : synthController(snare808, parameters)
 {
     // Add synthesizer parameters
-    drumSynth.getParameters().add(*this);
+    //drumSynth.getParameters().add(*this);
+    snare808.getParameters().add(*this);
 
     // Add controller parameters
     parameters.add(*this);
@@ -12,7 +13,8 @@ TorchDrumProcessor::TorchDrumProcessor() : synthController(drumSynth, parameters
 
 void TorchDrumProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    drumSynth.prepare(sampleRate, samplesPerBlock);
+    //drumSynth.prepare(sampleRate, samplesPerBlock);
+    snare808.prepare(sampleRate, samplesPerBlock);
     synthController.prepare(sampleRate, samplesPerBlock);
     juce::ignoreUnused(samplesPerBlock);
 }
@@ -22,6 +24,17 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
 {
     juce::ignoreUnused(midiMessages);
+
+    // Parameters to update once per block
+    auto& onsetDetection = synthController.getOnsetDetection();
+    onsetDetection.updateParameters(parameters.onThreshold->get(),
+                                    parameters.offThreshold->get(),
+                                    parameters.waitSamples->get());
+
+    // Square Root 3dB Dry/Wet Mix
+    auto drywet = parameters.drywet->get();
+    float dry = std::sqrt(1.0f - drywet);
+    float wet = std::sqrt(drywet);
 
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
@@ -41,11 +54,11 @@ void TorchDrumProcessor::processBlock(juce::AudioBuffer<float>& buffer,
         synthController.process(inputSample);
 
         // Process the synthesizer
-        float synthSample = drumSynth.process();
+        float synthSample = snare808.process();
         for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
         {
             auto* channelData = buffer.getWritePointer(channel);
-            channelData[sample] = synthSample;
+            channelData[sample] = synthSample * wet + channelData[sample] * dry;
         }
     }
 }
@@ -70,13 +83,17 @@ void TorchDrumProcessor::getStateInformation(juce::MemoryBlock& destData)
 
     juce::ValueTree pluginPreset("TorchDrum");
     pluginPreset.appendChild(params, nullptr);
-    // This a good place to add any non-parameters to your preset
+
+    // Save model path and feature normalizers
+    juce::ValueTree modelPath("ModelPath");
+    modelPath.setProperty(
+        "Path", juce::String(synthController.getModelPath()), nullptr);
+    pluginPreset.appendChild(modelPath, nullptr);
 
     copyXmlToBinary(*pluginPreset.createXml(), destData);
 }
 
-void TorchDrumProcessor::setStateInformation(const void* data,
-                                             int sizeInBytes)
+void TorchDrumProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
     // Loads your parameters, and any other potential data from an XML:
 
@@ -89,14 +106,20 @@ void TorchDrumProcessor::setStateInformation(const void* data,
 
         for (auto& param : getParameters())
         {
-            auto paramTree =
-                params.getChildWithName(PluginHelpers::getParamID(param));
+            auto paramTree = params.getChildWithName(PluginHelpers::getParamID(param));
 
             if (paramTree.isValid())
                 param->setValueNotifyingHost(paramTree["Value"]);
         }
 
         // Load your non-parameter data now
+        auto modelPath = preset.getChildWithName("ModelPath");
+        if (modelPath.isValid())
+        {
+            // Load the model, but don't overwrite the parameters
+            std::string path = modelPath["Path"].toString().toStdString();
+            synthController.updateModel(path, false);
+        }
     }
 }
 

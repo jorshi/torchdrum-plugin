@@ -2,7 +2,9 @@
 
 #include "Parameters.h"
 #include "Synth/DrumSynth.h"
+#include "Synth/Snare808.h"
 #include "SynthController.h"
+#include "WaveformFIFO.h"
 #include <shared_plugin_helpers/shared_plugin_helpers.h>
 
 class TorchDrumProcessor : public PluginHelpers::ProcessorBase
@@ -19,9 +21,13 @@ public:
     void setStateInformation(const void* data, int sizeInBytes) override;
 
     SynthController& getSynthController() { return synthController; }
+    SynthParameterBase& getSynthParameters() { return snare808.getParameters(); }
+    Parameters& getGlobalParameters() { return parameters; }
+    WaveformFIFO& getWaveformFIFO() { return synthController.getWaveformFIFO(); }
 
 private:
     Parameters parameters;
-    DrumSynth drumSynth;
+    //DrumSynth drumSynth;
+    Snare808 snare808;
     SynthController synthController;
 };

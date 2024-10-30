@@ -35,7 +35,7 @@
 build/
 
 # VS Code Files
-.vscode/
+#.vscode/
 *.code-workspace
 
 # Python
@@ -59,6 +59,6 @@ venv/*
 
 # Files related to release packaging
 Presets/
-prepare_plugin_release.sh
+Old_Presets/
 remove_library_presets.sh
 SignedPlugins/

@@ -14,6 +14,6 @@ public:
 
     float process()
     {
-        return 2.0 * ((float) rand() / (float) RAND_MAX) - 1.0;
+        return (float) 2 * rand() / RAND_MAX - 1;
     }
 };

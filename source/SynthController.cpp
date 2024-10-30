@@ -1,8 +1,15 @@
 #include "SynthController.h"
 
-SynthController::SynthController(SynthBase& synth, Parameters& params)
-    : synth(synth), parameters(params)
+SynthController::SynthController(SynthBase& synthesizer, Parameters& params)
+    : synth(synthesizer), parameters(params), modelPath("")
 {
+    // Prepare input and output features for NN
+    size_t numSynthParams = synth.getParameters().parameters.size();
+    neuralInput.resize(3);
+    neuralOutput.resize(numSynthParams);
+
+    // Update input and output features for the neural network
+    neuralMapper.setInOutFeatures(3, (int) numSynthParams);
 }
 
 void SynthController::prepare(double sr, int samplesPerBlock)
@@ -19,22 +26,14 @@ void SynthController::prepare(double sr, int samplesPerBlock)
     isOnset = false;
     elapsedSamples = 0;
 
+    // FIFO Buffer for sending onset function to GUI
+    onsetFIFO.prepare(sampleRate, 1024);
+    onsetDetection.setWaveformFIFO(&onsetFIFO);
+
     // Prepare feature extraction
     featureExtraction.prepare(sampleRate, ONSET_WINDOW_SIZE, ONSET_WINDOW_SIZE / 4);
     featureBuffer.clear();
     featureBuffer.setSize(1, ONSET_WINDOW_SIZE);
-
-    // Prepare input and output features for NN
-    size_t numSynthParams = synth.getParameters().parameters.size();
-    neuralInput.resize(3);
-    neuralOutput.resize(numSynthParams);
-
-    // Load the neural network model
-    neuralMapper.setInOutFeatures(3, numSynthParams);
-
-    // Update synth parameters with the current patch
-    neuralMapper.getCurrentPatch(synth.getParameters().parameters);
-    synth.getParameters().updateAllParameters();
 }
 
 void SynthController::process(float x)
@@ -70,7 +69,8 @@ void SynthController::process(float x)
         neuralMapper.process(neuralInput, neuralOutput);
 
         // Calculate synth parameters, and trigger synth
-        synth.getParameters().updateAllParametersWithModulation(neuralOutput, parameters.sensitivity->get());
+        synth.getParameters().updateAllParametersWithModulation(
+            neuralOutput, parameters.sensitivity->get());
         synth.trigger();
 
         // Notify listeners that an onset was detected
@@ -78,11 +78,19 @@ void SynthController::process(float x)
     }
 }
 
-void SynthController::updateModel(const std::string& path)
+void SynthController::updateModel(const std::string& path, bool updateParameters)
 {
-    neuralMapper.loadModel(path);
-    neuralMapper.getCurrentPatch(synth.getParameters().parameters);
-    synth.getParameters().updateAllParameters();
+    if (neuralMapper.loadModel(path))
+    {
+        modelPath = path;
+
+        // Update synth parameters with the preset stored in the model file
+        if (updateParameters)
+        {
+            neuralMapper.getCurrentPatch(synth.getParameters().parameters);
+            synth.getParameters().updateAllParameters();
+        }
+    }
 }
 
 void SynthController::addSampleToBuffer(float x)

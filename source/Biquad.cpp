@@ -26,8 +26,9 @@ template <typename T>
 void BiquadCoeffT<T>::calc()
 {
     sample_t norm;
-    sample_t V = pow(10, fabs(peakGain) / 20.0);
-    sample_t K = tan(M_PI * Fc);
+    sample_t V = (sample_t) pow(10, fabs(peakGain) / 20.0);
+    sample_t K = (sample_t) tan(M_PI * Fc);
+    sample_t sqrt2 = (sample_t) sqrt(2.0);
     switch (this->type)
     {
         case lowpass:
@@ -85,19 +86,19 @@ void BiquadCoeffT<T>::calc()
         case lowshelf:
             if (peakGain >= 0)
             { // boost
-                norm = 1 / (1 + sqrt(2) * K + K * K);
+                norm = 1 / (1 + sqrt2 * K + K * K);
                 a0 = (1 + sqrt(2 * V) * K + V * K * K) * norm;
                 a1 = 2 * (V * K * K - 1) * norm;
                 a2 = (1 - sqrt(2 * V) * K + V * K * K) * norm;
                 b1 = 2 * (K * K - 1) * norm;
-                b2 = (1 - sqrt(2) * K + K * K) * norm;
+                b2 = (1 - sqrt2 * K + K * K) * norm;
             }
             else
             { // cut
                 norm = 1 / (1 + sqrt(2 * V) * K + V * K * K);
-                a0 = (1 + sqrt(2) * K + K * K) * norm;
+                a0 = (1 + sqrt2 * K + K * K) * norm;
                 a1 = 2 * (K * K - 1) * norm;
-                a2 = (1 - sqrt(2) * K + K * K) * norm;
+                a2 = (1 - sqrt2 * K + K * K) * norm;
                 b1 = 2 * (V * K * K - 1) * norm;
                 b2 = (1 - sqrt(2 * V) * K + V * K * K) * norm;
             }
@@ -105,19 +106,19 @@ void BiquadCoeffT<T>::calc()
         case highshelf:
             if (peakGain >= 0)
             { // boost
-                norm = 1 / (1 + sqrt(2) * K + K * K);
+                norm = 1 / (1 + sqrt2 * K + K * K);
                 a0 = (V + sqrt(2 * V) * K + K * K) * norm;
                 a1 = 2 * (K * K - V) * norm;
                 a2 = (V - sqrt(2 * V) * K + K * K) * norm;
                 b1 = 2 * (K * K - 1) * norm;
-                b2 = (1 - sqrt(2) * K + K * K) * norm;
+                b2 = (1 - sqrt2 * K + K * K) * norm;
             }
             else
             { // cut
                 norm = 1 / (V + sqrt(2 * V) * K + K * K);
-                a0 = (1 + sqrt(2) * K + K * K) * norm;
+                a0 = (1 + sqrt2 * K + K * K) * norm;
                 a1 = 2 * (K * K - 1) * norm;
-                a2 = (1 - sqrt(2) * K + K * K) * norm;
+                a2 = (1 - sqrt2 * K + K * K) * norm;
                 b1 = 2 * (K * K - V) * norm;
                 b2 = (V - sqrt(2 * V) * K + K * K) * norm;
             }

@@ -11,14 +11,13 @@
 
 #include <vector>
 
-
 class NeuralNetwork
 {
 public:
     NeuralNetwork() = default;
     ~NeuralNetwork() = default;
 
-    void loadModel(const std::string& path);
+    bool loadModel(const std::string& path);
     void process(const std::vector<double>& input, std::vector<double>& output);
     void getCurrentPatch(std::vector<juce::RangedAudioParameter*> parameters);
 

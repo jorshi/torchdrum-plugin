@@ -1,6 +1,6 @@
 #include "NeuralNetwork.h"
 
-void NeuralNetwork::loadModel(const std::string& path)
+bool NeuralNetwork::loadModel(const std::string& path)
 {
     // Obtain the write lock - this will block until the lock is acquired
     const juce::ScopedWriteLock writeLock(modelLock);
@@ -12,9 +12,13 @@ void NeuralNetwork::loadModel(const std::string& path)
     {
         _testModel();
     }
+
+    // Return the model loaded status
+    return modelLoaded;
 }
 
-void NeuralNetwork::process(const std::vector<double>& input, std::vector<double>& output)
+void NeuralNetwork::process(const std::vector<double>& input,
+                            std::vector<double>& output)
 {
     const juce::ScopedTryReadLock readLock(modelLock);
     if (! modelLoaded || ! readLock.isLocked())
@@ -28,16 +32,16 @@ void NeuralNetwork::process(const std::vector<double>& input, std::vector<double
     auto& inputTensor = inputs[0].toTensor();
     for (int64_t i = 0; i < static_cast<int64_t>(input.size()); ++i)
     {
-        inputTensor[0][i] = input[i];
+        inputTensor[0][(int64_t) i] = input[i];
     }
 
     auto outputTensor = model.forward(inputs).toTensor();
     jassert(outputTensor.sizes().size() == 2);
-    jassert(outputTensor.sizes()[1] == output.size());
+    jassert(outputTensor.sizes()[1] == (int64_t) output.size());
 
     for (int i = 0; i < static_cast<int>(output.size()); ++i)
     {
-        output[i] = outputTensor[0][i].item<double>();
+        output[i] = outputTensor[0][(int64_t) i].item<double>();
     }
 }
 
@@ -51,9 +55,9 @@ void NeuralNetwork::getCurrentPatch(std::vector<juce::RangedAudioParameter*> par
     }
 
     jassert(currentPatch.size() == parameters.size());
-    for (size_t i = 0; i <  static_cast<int>(parameters.size()); ++i)
+    for (size_t i = 0; i < static_cast<int>(parameters.size()); ++i)
     {
-        parameters[i]->setValueNotifyingHost(currentPatch[i]);
+        parameters[i]->setValueNotifyingHost((float) currentPatch[i]);
     }
 }
 
@@ -107,7 +111,8 @@ void NeuralNetwork::_testModel()
     }
     catch (const std::runtime_error& e)
     {
-        juce::Logger::outputDebugString("Unexpected output size from model" + std::string(e.what()));
+        juce::Logger::outputDebugString("Unexpected output size from model"
+                                        + std::string(e.what()));
 
         // Reset the model
         modelLoaded = false;
