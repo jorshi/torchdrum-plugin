@@ -9,6 +9,8 @@
 #include <juce_core/juce_core.h>
 #include <torch/script.h>
 
+#include <vector>
+
 class NeuralNetwork
 {
 public:
@@ -38,7 +40,7 @@ private:
     int outputFeatures = 0;
     std::vector<torch::jit::IValue> inputs;
 
-    std::vector<double> currentPatch;
+    std::vector<float> currentPatch;
 
     // Lock for when we are loading the model
     juce::ReadWriteLock modelLock;
