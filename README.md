@@ -2,7 +2,9 @@
 
 torchdrum is an audio plugin that has audio input and output. It is a real-time drum synthesizer that receives audio as input, which is used to trigger and control the synthesizer.
 
-The development of torchdrum is based on research on [Real-time Timbre Remapping with Differentiable DSP](https://arxiv.org/abs/2407.04547). For more information on this research please visit the [accompanying website](https://jordieshier.com/projects/nime2024/), which includes links code for training new mapping models that can be played within this plug-in.
+The development of torchdrum is based on research on [Real-time Timbre Remapping with Differentiable DSP](https://arxiv.org/abs/2407.04547). For more information on this research please visit the [accompanying website](https://jordieshier.com/projects/nime2024/).
+
+To train new models to run in this plugin see the [accompanying repo](https://github.com/jorshi/ddsp-timbre-remap).
 
 ## Pre-Built Plugins
 See the [releases for pre-built plugin installers](https://github.com/jorshi/torchdrum-plugin/releases) which include some pre-trained models. Currently only includes Apple Silicon builds. 
